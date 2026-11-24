@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 5 — Pass or Fail Is a Weighted Coin — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 5 &mdash; Pass or Fail Is a Weighted Coin</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 5 &middot; Module 1 &mdash; Foundations: What a Number Means &middot; 6:40 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-05.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">A firm&rsquo;s legal innovation team is piloting a contract intelligence platform &mdash; the tool that extracts clauses from commercial agreements and flags deviations from the company&rsquo;s approved legal playbook. Ten clauses go through the platform&rsquo;s clause extraction. Seven come out right. The vendor&rsquo;s report says one number: 70%. In this episode, Sera and Ben ask the question a lawyer would actually ask: we got seven out of ten &mdash; is that good?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question</h2>
+
+<p class="leading-relaxed mb-4">Seven out of ten. The report calls it a 70% pass rate. But a pass rate from ten items is a count &mdash; seven passes, three failures &mdash; and counts wobble. Run the same ten clauses through a build that is truly 50% right, and you can still get seven passes. Run them through a build that is truly 80% right, and you can still get seven passes. The same count can come from two very different builds. The count alone cannot tell them apart.</p>
+
+<p class="leading-relaxed mb-4">That is what this episode teaches: the binomial distribution, the mathematics of pass-or-fail counts. It answers three questions. What count should you expect from a build with a given true pass rate? How much does the count vary by chance? And what does a count of seven out of ten actually rule out?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">One Clause at a Time: Pass or Fail</h2>
+
+<p class="leading-relaxed mb-4">Start with one clause. The platform either extracts it correctly &mdash; a pass &mdash; or it does not &mdash; a fail. There is no partial credit here. That is a simplification, stated plainly: real extraction can be partly right, a clause can be found but with the wrong date attached. For this episode, each clause is scored pass or fail, nothing in between. The simplification is what makes the mathematics tractable, and the lesson is about the count, not the grading rubric.</p>
+
+<p class="leading-relaxed mb-4">Now ten clauses. Each one is a trial: pass or fail. The build has a true pass rate, written <em>p</em> &mdash; the proportion of clauses it would get right if you ran it on a very large number of similar clauses. The number of passes out of ten, written <em>X</em>, is the count. The question is how <em>X</em> behaves for a given <em>p</em>.</p>
+
+<p class="leading-relaxed mb-4">Two assumptions sit underneath everything that follows, and both need stating. First, each clause is an independent trial: whether the platform gets one clause right does not change its chance on the next. Second, every clause has the same true pass rate <em>p</em>. In real contract work both assumptions are approximations &mdash; clauses in the same agreement share context, and a hard indemnity clause is not the same difficulty as a standard governing-law clause. For this episode, assume independence and a single <em>p</em>, and keep in mind that the assumption is doing work. Episode 13 returns to it: questions from the same document travel together, and the headline count of items overstates how much independent evidence you have.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Binomial Distribution</h2>
+
+<p class="leading-relaxed mb-4">When you have <em>n</em> independent trials, each with the same probability <em>p</em> of passing, the count of passes <em>X</em> follows the binomial distribution. The probability of getting exactly <em>k</em> passes out of <em>n</em> trials is:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">P(<em>X</em> = <em>k</em>) = C(<em>n</em>, <em>k</em>) &times; <em>p</em><sup><em>k</em></sup> &times; (1 &minus; <em>p</em>)<sup><em>n</em> &minus; <em>k</em></sup></p>
+
+<p class="leading-relaxed mb-4">Every symbol in that formula has a job. C(<em>n</em>, <em>k</em>) counts the ways to choose which <em>k</em> of the <em>n</em> trials pass &mdash; for 7 passes out of 10, C(10, 7) = 120 ways. <em>p</em><sup><em>k</em></sup> is the probability that those <em>k</em> trials all pass. (1 &minus; <em>p</em>)<sup><em>n</em> &minus; <em>k</em></sup> is the probability that the other <em>n</em> &minus; <em>k</em> trials all fail. Multiply them and you get the probability of exactly <em>k</em> passes.</p>
+
+<p class="leading-relaxed mb-4">Two summaries of the distribution matter before any worked example. The expected count &mdash; the count you would average over many runs of ten clauses &mdash; is <em>n</em> &times; <em>p</em>. A build that is truly 50% right is expected to pass 10 &times; 0.5 = 5 clauses out of ten. A build that is truly 80% right is expected to pass 10 &times; 0.8 = 8. The standard deviation of the count, written &sigma;, measures how much the count varies from run to run: &sigma; = &radic;(<em>n</em> &times; <em>p</em> &times; (1 &minus; <em>p</em>)). For the 50% build, &sigma; = &radic;(10 &times; 0.5 &times; 0.5) = &radic;2.5 &asymp; 1.58. For the 80% build, &sigma; = &radic;(10 &times; 0.8 &times; 0.2) = &radic;1.6 &asymp; 1.26. A count that lands one standard deviation from its expected value is ordinary. A count two standard deviations away is unusual, not impossible.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Two Builds, One Count</h2>
+
+<p class="leading-relaxed mb-4">Here is the worked example. Two builds, both tested on ten clauses. Build A is truly 50% right. Build B is truly 80% right. Both produce the same observed count: 7 passes out of 10. How likely is that count under each build?</p>
+
+<p class="leading-relaxed mb-4">Under Build A (<em>p</em> = 0.5), the probability of exactly 7 passes is C(10, 7) &times; 0.5<sup>7</sup> &times; 0.5<sup>3</sup> = 120 &times; 0.5<sup>10</sup> = 120 &divide; 1,024 &asymp; 0.117, about 12%. Under Build B (<em>p</em> = 0.8), the probability of exactly 7 passes is C(10, 7) &times; 0.8<sup>7</sup> &times; 0.2<sup>3</sup> = 120 &times; 0.2097 &times; 0.008 &asymp; 0.201, about 20%. Seven out of ten is more likely under the 80% build than under the 50% build &mdash; about 1.7 times more likely (0.201 &divide; 0.117 &asymp; 1.7) &mdash; but it is a perfectly ordinary outcome under either one. A coin that lands heads half the time produces seven heads out of ten about one run in eight.</p>
+
+<p class="leading-relaxed mb-4">The full distributions make the point visible. Each bar is the probability of that exact count:</p>
+
+<svg viewBox="0 0 640 240" class="w-full mb-2" role="img" aria-label="Binomial distribution for ten trials at a true pass rate of 50 percent">
+<text x="320" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Ten trials, true pass rate 50% &mdash; expected count 5</text>
+<g font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">
+<rect x="46" y="189" width="44" height="1" fill="#991B1B"/><text x="68" y="205" text-anchor="middle">0</text>
+<rect x="100" y="184" width="44" height="6" fill="#991B1B"/><text x="122" y="205" text-anchor="middle">1</text>
+<rect x="154" y="162" width="44" height="28" fill="#991B1B"/><text x="176" y="205" text-anchor="middle">2</text>
+<rect x="208" y="115" width="44" height="75" fill="#991B1B"/><text x="230" y="205" text-anchor="middle">3</text>
+<rect x="262" y="59" width="44" height="131" fill="#991B1B"/><text x="284" y="205" text-anchor="middle">4</text>
+<rect x="316" y="32" width="44" height="158" fill="#991B1B"/><text x="338" y="205" text-anchor="middle">5</text>
+<rect x="370" y="59" width="44" height="131" fill="#991B1B"/><text x="392" y="205" text-anchor="middle">6</text>
+<rect x="424" y="115" width="44" height="75" fill="#991B1B"/><text x="446" y="205" text-anchor="middle">7</text>
+<rect x="478" y="162" width="44" height="28" fill="#991B1B"/><text x="500" y="205" text-anchor="middle">8</text>
+<rect x="532" y="184" width="44" height="6" fill="#991B1B"/><text x="554" y="205" text-anchor="middle">9</text>
+<rect x="586" y="189" width="44" height="1" fill="#991B1B"/><text x="608" y="205" text-anchor="middle">10</text>
+</g>
+<line x1="40" y1="190" x2="630" y2="190" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="40" y="230" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Passes out of 10 &mdash; bar height is the probability of that exact count.</text>
+</svg>
+
+<svg viewBox="0 0 640 240" class="w-full mb-4" role="img" aria-label="Binomial distribution for ten trials at a true pass rate of 80 percent">
+<text x="320" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Ten trials, true pass rate 80% &mdash; expected count 8</text>
+<g font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">
+<rect x="46" y="190" width="44" height="0" fill="#991B1B"/><text x="68" y="205" text-anchor="middle">0</text>
+<rect x="100" y="190" width="44" height="0" fill="#991B1B"/><text x="122" y="205" text-anchor="middle">1</text>
+<rect x="154" y="190" width="44" height="0" fill="#991B1B"/><text x="176" y="205" text-anchor="middle">2</text>
+<rect x="208" y="190" width="44" height="0" fill="#991B1B"/><text x="230" y="205" text-anchor="middle">3</text>
+<rect x="262" y="187" width="44" height="3" fill="#991B1B"/><text x="284" y="205" text-anchor="middle">4</text>
+<rect x="316" y="177" width="44" height="13" fill="#991B1B"/><text x="338" y="205" text-anchor="middle">5</text>
+<rect x="370" y="146" width="44" height="44" fill="#991B1B"/><text x="392" y="205" text-anchor="middle">6</text>
+<rect x="424" y="89" width="44" height="101" fill="#991B1B"/><text x="446" y="205" text-anchor="middle">7</text>
+<rect x="478" y="39" width="44" height="151" fill="#991B1B"/><text x="500" y="205" text-anchor="middle">8</text>
+<rect x="532" y="56" width="44" height="134" fill="#991B1B"/><text x="554" y="205" text-anchor="middle">9</text>
+<rect x="586" y="136" width="44" height="54" fill="#991B1B"/><text x="608" y="205" text-anchor="middle">10</text>
+</g>
+<line x1="40" y1="190" x2="630" y2="190" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="40" y="230" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Passes out of 10 &mdash; bar height is the probability of that exact count.</text>
+</svg>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Passes out of 10</th>
+<th class="py-2 pr-4">Probability if truly 50% right</th>
+<th class="py-2 pr-4">Probability if truly 80% right</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">0&ndash;2</td><td class="py-2 pr-4">5.5%</td><td class="py-2 pr-4">0.0%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">3</td><td class="py-2 pr-4">11.7%</td><td class="py-2 pr-4">0.1%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">4</td><td class="py-2 pr-4">20.5%</td><td class="py-2 pr-4">0.6%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">5</td><td class="py-2 pr-4">24.6%</td><td class="py-2 pr-4">2.6%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">6</td><td class="py-2 pr-4">20.5%</td><td class="py-2 pr-4">8.8%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">7</td><td class="py-2 pr-4">11.7%</td><td class="py-2 pr-4">20.1%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">8</td><td class="py-2 pr-4">4.4%</td><td class="py-2 pr-4">30.2%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">9</td><td class="py-2 pr-4">1.0%</td><td class="py-2 pr-4">26.8%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">10</td><td class="py-2 pr-4">0.1%</td><td class="py-2 pr-4">10.7%</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Read the two columns at the row for 7 passes: 11.7% under the 50% build, 20.1% under the 80% build. The count of seven sits near the middle of the 50% build&rsquo;s distribution &mdash; its expected count is five, and seven is about one and a quarter standard deviations above it (7 &minus; 5 = 2, divided by &sigma; = 1.58, is about 1.3). Under the 80% build, seven is just below the expected count of eight. Neither build finds seven surprising.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What Seven Out of Ten Makes Unlikely &mdash; and What It Does Not</h2>
+
+<p class="leading-relaxed mb-4">A count does more than sit in the middle of two distributions. It also rules things out. Ask how often each build would produce seven <em>or more</em> passes, not exactly seven. Under the 50% build, the probability of seven or more is 11.7% + 4.4% + 1.0% + 0.1% &asymp; 17%. Under the 80% build it is 20.1% + 30.2% + 26.8% + 10.7% &asymp; 88%. So seven or more passes is an ordinary day for the 80% build and a roughly one-in-six day for the 50% build. That asymmetry is evidence &mdash; it points toward the 80% build &mdash; but one-in-six is not rare enough to dismiss the 50% build.</p>
+
+<p class="leading-relaxed mb-4">Now test a weaker build. If the true pass rate were 30%, the probability of exactly seven passes is C(10, 7) &times; 0.3<sup>7</sup> &times; 0.7<sup>3</sup> = 120 &times; 0.000219 &times; 0.343 &asymp; 0.009, about 0.9%. Seven or more out of ten is strong evidence against a 30% build: it would happen about one run in a hundred (1.1%). Under the weak build this count is very unlikely; the count leans toward the strong one, and cannot separate the 50% build from the 80% build. That is the lesson in one sentence: a count from ten trials is evidence with a wide margin, and the margin is the point.</p>
+
+<p class="leading-relaxed mb-4">The expected counts and their wobble, side by side:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Build&rsquo;s true pass rate</th>
+<th class="py-2 pr-4">Expected passes out of 10</th>
+<th class="py-2 pr-4">Standard deviation &sigma;</th>
+<th class="py-2 pr-4">P(exactly 7)</th>
+<th class="py-2">P(7 or more)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">30%</td><td class="py-2 pr-4">3</td><td class="py-2 pr-4">1.45</td><td class="py-2 pr-4">0.9%</td><td class="py-2">1.1%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">50%</td><td class="py-2 pr-4">5</td><td class="py-2 pr-4">1.58</td><td class="py-2 pr-4">11.7%</td><td class="py-2">17.2%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">80%</td><td class="py-2 pr-4">8</td><td class="py-2 pr-4">1.26</td><td class="py-2 pr-4">20.1%</td><td class="py-2">87.9%</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">One more property of the binomial distribution is worth carrying forward. The wobble is largest when <em>p</em> is near 50% &mdash; that is where <em>p</em> &times; (1 &minus; <em>p</em>) is largest &mdash; and it shrinks as <em>p</em> moves toward 0% or 100%. A build that is truly 95% right rarely surprises you on ten clauses; a build that is truly 50% right surprises you constantly. And the wobble shrinks with more trials: the standard deviation of the <em>proportion</em> is &radic;(<em>p</em>(1 &minus; <em>p</em>) &divide; <em>n</em>), so four times the trials halves the wobble in the pass rate. That square-root rule is Episode 4&rsquo;s lesson, applied here to the pass rate rather than the count. The wobble in the count itself, &radic;(<em>n</em> &times; <em>p</em> &times; (1 &minus; <em>p</em>)), grows with more trials.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The legal innovation team reports the pilot to the head of the department: seven out of ten clauses extracted correctly. The binomial distribution says what that report can and cannot claim. It can claim that a 30% build is unlikely &mdash; seven passes would be a one-in-a-hundred fluke for such a build. It cannot claim the build is 70% right, or 80% right, or 50% right. All three are live possibilities after ten clauses, and the 50% and 80% builds both produce seven passes routinely.</p>
+
+<p class="leading-relaxed mb-4">So the report that states what the evidence supports reads like this: seven passes out of ten clauses; consistent with a true pass rate anywhere from roughly 50% to roughly 80%; not enough evidence to separate those two. The next step is not a better argument about seven out of ten. It is more clauses. Episode 6 puts a number on the range the truth sits in. Episode 9 works out how many clauses that takes.</p>
+
+<p class="leading-relaxed mb-4">A short checklist for reading any pass rate from a small test set:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Ask for <em>n</em> first. Seven out of ten and seventy out of a hundred are not the same evidence, even though both read as 70%.</li>
+<li>Ask what counts as a pass, and who decided. A pass rate is meaningless until the pass rule is stated.</li>
+<li>Ask whether the trials are independent. Ten clauses from one agreement are not ten independent pieces of evidence.</li>
+<li>Ask what the count makes unlikely, not what it proves. A count from ten trials is unlikely under the very weak builds and leaves the rest open.</li>
+<li>Never report the percentage without the count. &ldquo;70%&rdquo; hides whether it was 7 out of 10 or 700 out of 1,000.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Counts wobble. Seven out of ten is evidence, not a verdict. The binomial distribution tells you how much a count can wobble by chance alone &mdash; and on ten trials, it wobbles a lot. A build that is truly 50% right and a build that is truly 80% right both produce seven passes regularly. The count leans toward the stronger build and rules out the weak one, and that is all it can do.</p>
+
+<p class="leading-relaxed mb-4">Next episode: how sure are you? Seven out of ten is really a range of forty to eighty-nine percent &mdash; and the width is the news.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 4 &mdash; the binomial distribution, expected value and standard deviation of a count, the standard undergraduate treatment.</li>
+<li>The worked example in this episode is the series&rsquo; own: 7 passes out of 10 clauses under true pass rates of 50% and 80%. P(X = 7) = 120 &times; 0.5<sup>10</sup> &asymp; 0.117 under the 50% build; 120 &times; 0.8<sup>7</sup> &times; 0.2<sup>3</sup> &asymp; 0.201 under the 80% build. P(X &ge; 7) &asymp; 0.172 and 0.879 respectively; P(X = 7) under a 30% build &asymp; 0.009.</li>
+<li>Feller, W., <em>An Introduction to Probability Theory and Its Applications</em>, vol. 1, 3rd ed., ch. 6 &mdash; the binomial distribution and its approximations.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

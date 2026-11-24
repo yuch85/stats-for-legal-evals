@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 16 — Did the Triage Check Work? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 16 &mdash; Did the Triage Check Work?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 16 &middot; Module 4 &mdash; Scoring and Agreement &middot; 6:43 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-16.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">Your build has a sufficiency check: before it answers, it decides whether the question has enough facts to answer at all. The vendor reports one number for the check &mdash; 69.4% balanced gate accuracy (Opus). In this episode, Sera and Ben open that number up and show why a check has two error rates, not one &mdash; and why reporting only one of them hides the decision a lawyer actually has to make.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Today&rsquo;s Lesson</h2>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question</h2>
+
+<p class="leading-relaxed mb-4">&ldquo;The model asks for more facts when it should &mdash; and when it shouldn&rsquo;t?&rdquo; That is two questions, and a check can fail either one. It can miss a question that genuinely needs more facts and answer on thin air. Or it can demand more facts for a question that was already answerable, wasting a turn and the user&rsquo;s time. A single accuracy number blends those two failures together, and the blend hides which one is happening.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Setting: The Sufficiency Check</h2>
+
+<p class="leading-relaxed mb-4">The sufficiency check is a step in the model pipeline, not a person. Given a legal question, it decides whether the question carries enough facts to answer, or whether the model must ask the user for more facts first. When it asks, the model gathers the missing facts &mdash; by putting a question to the user, or by searching &mdash; and then answers. SG-LegalClarify calls this step the &ldquo;sufficiency gate&rdquo;; this series calls it the sufficiency check, and uses that term from here on.</p>
+
+<p class="leading-relaxed mb-4">SG-LegalClarify is a benchmark of Singapore-law legal reasoning: 1,100 lawyer-authored questions across ten domains (340 fully specified, 760 underspecified, giving 1,860 instances), testing whether a model can reason about the law and whether it recognises when a question is underspecified. In the multi-turn pipeline the model decides whether to answer or ask for more facts, and a user simulator reveals hidden facts only when asked. Two models carry this episode: Luna, a ChatGPT-family model, and Mistral, another model tested in the benchmark. Its findings are discussed here and its questions are not reproduced.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Two Error Rates, Not One</h2>
+
+<p class="leading-relaxed mb-4">A check sorts questions into two piles: needs more facts, or answerable as it stands. Against the truth, there are four outcomes. A true positive (TP) is a question that needs facts and the check catches. A false negative (FN) is a question that needs facts and the check misses &mdash; it answers anyway. A false positive (FP) is a question that was answerable and the check wrongly sends for fact-gathering. A true negative (TN) is a question that was answerable and the check correctly lets through.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4"></th>
+<th class="py-2 pr-4">Question needs facts</th>
+<th class="py-2">Question is answerable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Check says: needs facts</td>
+<td class="py-2 pr-4">True positive (TP) &mdash; caught</td>
+<td class="py-2">False positive (FP) &mdash; cried wolf</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Check says: answerable</td>
+<td class="py-2 pr-4">False negative (FN) &mdash; missed</td>
+<td class="py-2">True negative (TN) &mdash; correctly left alone</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Two rates describe the check, one for each kind of error:</p>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li><strong>True positive rate (TPR)</strong>, also called sensitivity or recall: TPR = TP / (TP + FN). Of the questions that genuinely need more facts, how many did the check catch?</li>
+<li><strong>False positive rate (FPR)</strong>: FPR = FP / (FP + TN). Of the questions that were already answerable, how many did the check wrongly send for fact-gathering?</li>
+<li><strong>Specificity</strong>, also called the true negative rate (TNR): TNR = 1 &minus; FPR. Of the answerable questions, how many did the check correctly leave alone?</li>
+<li><strong>Balanced accuracy</strong> is the average of the two correct rates: balanced accuracy = (TPR + TNR) / 2, which is the same as (TPR + (1 &minus; FPR)) / 2. Unlike raw accuracy, it does not depend on the mix of answerable and unanswerable questions in the test set. A check tested on a set that is mostly answerable questions can look accurate by simply saying &ldquo;answerable&rdquo; to everything; balanced accuracy does not reward that, because it averages the two rates separately instead of pooling the counts.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: Luna vs Mistral</h2>
+
+<p class="leading-relaxed mb-4">SG-LegalClarify reports its headline number &mdash; 69.4% &mdash; as a balanced gate accuracy (Opus, the best check in the paper): how well it correctly decides whether a question is answerable. But the paper also reports the two rates for individual models, and the pair tells a different story from the single number. Luna catches 89.3% of underspecified questions and cries wolf 64.1% of the time. Mistral catches 16.2% and cries wolf 3.5% of the time.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Model</th>
+<th class="py-2 pr-4">TPR (catches)</th>
+<th class="py-2 pr-4">FPR (cries wolf)</th>
+<th class="py-2 pr-4">TNR (1 &minus; FPR)</th>
+<th class="py-2">Balanced accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Luna</td>
+<td class="py-2 pr-4">89.3%</td>
+<td class="py-2 pr-4">64.1%</td>
+<td class="py-2 pr-4">35.9%</td>
+<td class="py-2">62.6%</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Mistral</td>
+<td class="py-2 pr-4">16.2%</td>
+<td class="py-2 pr-4">3.5%</td>
+<td class="py-2 pr-4">96.5%</td>
+<td class="py-2">56.4%</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Best check in the paper</td>
+<td class="py-2 pr-4">&mdash;</td>
+<td class="py-2 pr-4">&mdash;</td>
+<td class="py-2 pr-4">&mdash;</td>
+<td class="py-2">69.4% (Opus, balanced gate accuracy)</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The arithmetic, step by step. Luna: balanced accuracy = (0.893 + (1 &minus; 0.641)) / 2 = (0.893 + 0.359) / 2 = 1.252 / 2 = 0.626, or 62.6%. Mistral: (0.162 + (1 &minus; 0.035)) / 2 = (0.162 + 0.965) / 2 = 1.127 / 2 = 0.5635, or 56.4%. The best check in the paper, Opus, reaches 69.4% balanced gate accuracy.</p>
+
+<p class="leading-relaxed mb-4">Put Luna on a concrete test set to see what those rates mean in practice: 100 questions that need facts, 100 that do not. Luna correctly gathers facts on 89 of the 100 that need them, but wrongly gathers facts on 64 of the 100 that do not &mdash; leaving only 36 of the answerable questions untouched. Overall accuracy on this 50/50 mix is (89 + 36) / 200 = 125 / 200 = 62.5%, matching the balanced accuracy of 62.6% up to rounding in the reported rates. Luna catches almost everything and cries wolf about two-thirds of the time. Mistral almost never cries wolf &mdash; and misses 84% of the cases that need facts, catching only about 16 of 100.</p>
+
+<p class="leading-relaxed mb-4">Neither is better in the abstract. Which error costs more depends on the use. A check that wrongly asks costs a turn of the user&rsquo;s time. A check that wrongly answers costs a memo written on the wrong facts. In a law firm, the second error is the expensive one &mdash; which is why the check&rsquo;s misses matter more than its false alarms, and why the TPR/FPR pair is the diagnosis and the single accuracy is not. A check that reports 69.4% without its two rates has told you nothing about which error you are buying.</p>
+
+<p class="leading-relaxed mb-4">One point of language, because it decides how the numbers are read. &ldquo;Cries wolf 64.1% of the time&rdquo; means 64.1% of the questions that did <em>not</em> need facts. The denominator is answerable questions, not all questions, and not all alarms. On the 100-and-100 set above, Luna raises the alarm 89 + 64 = 153 times, and 64 of those 153 alarms are false &mdash; a different fraction, 41.8%, answering a different question (Episode 2 worked that question out as a Bayesian update).</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">One Threshold Being Moved</h2>
+
+<p class="leading-relaxed mb-4">The paper reports one more correlation, and it belongs here: across the 19 models, TPR and FPR correlate at r = 0.90. Models that catch more also cry wolf more, almost in lockstep. That is consistent with a single threshold being moved &mdash; models differ in how trigger-happy their check is, not in how well it discriminates. It does not establish that only thresholds differ: a correlation of 0.90 is consistent with that explanation, and it is also consistent with other differences between the models that happen to move both rates together. A genuinely better check would raise TPR without raising FPR: it would catch more of the questions that need facts while leaving the answerable ones alone. When you compare two checks, ask whether the better one moved the trade-off or just moved along it. A higher TPR with a matching higher FPR is a different threshold, not a better check.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Threshold Trade-Off, Drawn Out: ROC and Precision&ndash;Recall Curves</h2>
+
+<p class="leading-relaxed mb-4">The ROC curve is the threshold trade-off drawn out (defined in Episode 14, used here). Each point on the curve is one threshold: its horizontal position is the false positive rate at that threshold, its vertical position is the true positive rate. Moving the threshold slides the operating point along the curve &mdash; catching more and crying wolf more, or the reverse. The diagonal is a check that cannot discriminate at all: at every threshold, it catches the same share of questions that need facts as it wrongly flags among answerable ones.</p>
+
+<svg viewBox="0 0 640 360" class="w-full mb-2" role="img" aria-label="ROC diagram: diagonal for a non-discriminating check, an illustrative curve above it, and the Luna and Mistral operating points">
+  <rect x="0" y="0" width="640" height="360" fill="#FAFAF8"/>
+  <text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">ROC space: each point is one threshold of one check.</text>
+  <line x1="90" y1="300" x2="90" y2="60" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="580" y2="300" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="580" y2="60" stroke="#7a7a7a" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <path d="M 90 300 C 200 170, 320 95, 580 62" fill="none" stroke="#991B1B" stroke-width="2.5"/>
+  <text x="330" y="80" font-family="Inter, sans-serif" font-size="12" fill="#991B1B">an illustrative curve (not measured data)</text>
+  <circle cx="404" cy="86" r="8" fill="#991B1B"/>
+  <text x="415" y="80" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Luna: FPR 0.64, TPR 0.89</text>
+  <circle cx="107" cy="261" r="8" fill="#4a4a4a"/>
+  <text x="120" y="255" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Mistral: FPR 0.04, TPR 0.16</text>
+  <text x="90" y="325" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">0</text>
+  <text x="560" y="325" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">1.0 false positive rate</text>
+  <text x="20" y="70" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">1.0</text>
+  <text x="20" y="305" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">0</text>
+  <text x="20" y="185" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">true positive rate</text>
+</svg>
+
+<p class="leading-relaxed mb-4">Luna sits high and to the right: it catches most of what needs facts and cries wolf most of the time. Mistral sits low and to the left: it rarely cries wolf and rarely catches. The two points are two operating points of two different checks, not two points on one curve &mdash; each check has its own curve, and the diagram shows where each one currently operates. The precision&ndash;recall curve draws the same trade-off from the other side: precision (of the alarms raised, how many were real) against recall (the same TPR). It is the more informative curve when the positive outcome is rare, because its baseline is the prevalence, not the diagonal (Episode 14).</p>
+
+<p class="leading-relaxed mb-4">Prevalence and positive predictive value were taught in Episode 8 and are referred back to here, not re-taught. The privilege-review example from that episode: a review with 95% sensitivity, 90% specificity and 3% prevalence gives a positive predictive value of about 23%. The arithmetic, in brief: of 1,000 documents, 30 are privileged and 970 are not. The review catches 0.95 &times; 30 = 28.5 privileged documents and wrongly flags 0.10 &times; 970 = 97 harmless ones. PPV = 28.5 / (28.5 + 97) = 28.5 / 125.5 &asymp; 0.23. When the thing that matters is rare, most flags are false alarms &mdash; and the same arithmetic applies to any triage check whose positive class is rare.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Cost: Price the Errors, Then Choose the Threshold</h2>
+
+<p class="leading-relaxed mb-4">A missed privileged document, an unnecessary escalation, a missed material clause, and lawyer verification time carry different costs. The costs below are explicit teaching assumptions, not objective values supplied by statistics. They are stated so the arithmetic can be followed; a real department would set its own costs, in its own units, before choosing a threshold.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Error</th>
+<th class="py-2 pr-4">Assumed cost (units)</th>
+<th class="py-2">What the cost stands for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Missed question that needed facts (FN)</td>
+<td class="py-2 pr-4">10</td>
+<td class="py-2">A memo written on the wrong facts</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Unnecessary escalation (FP)</td>
+<td class="py-2 pr-4">1</td>
+<td class="py-2">A wasted turn of the user&rsquo;s time</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Expected cost per 100 questions that need facts and 100 that do not: Luna misses 10.7 and wrongly escalates 64.1, so 10.7 &times; 10 + 64.1 &times; 1 = 107 + 64.1 = 171.1. Mistral misses 83.8 and wrongly escalates 3.5, so 83.8 &times; 10 + 3.5 &times; 1 = 838 + 3.5 = 841.5. At these assumed costs, Luna is far cheaper despite crying wolf, because a miss costs ten times a false alarm.</p>
+
+<p class="leading-relaxed mb-4">Now change the costs and watch the ranking change. Suppose a false alarm is expensive &mdash; a client waiting while the system asks questions it did not need &mdash; and costs 20 units against a miss at 10: Luna costs 10.7 &times; 10 + 64.1 &times; 20 = 107 + 1,282 = 1,389, and Mistral costs 83.8 &times; 10 + 3.5 &times; 20 = 838 + 70 = 908. Mistral wins. The threshold is chosen by expected cost, not by accuracy: the same two checks, the same rates, a different answer once the costs change. The costs are the department&rsquo;s to set, and the report must state them.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">A Third Outcome: Abstention and Non-Conclusions</h2>
+
+<p class="leading-relaxed mb-4">Legal tools frequently abstain, hedge, or fail to parse. In SG-LegalClarify, 23.2% of complete-coverage trials ended in no conclusion at all: the model gathered all the facts and still gave up. That is a third outcome, not a zero &mdash; report it separately, as its own rate, or it will silently inflate either the pass rate or the fail rate depending on how you code it. Count it as a fail and the check looks worse than it is; count it as a pass and the check looks better than it is; drop it from the denominator and the sample quietly shrinks. A check that gives up on nearly a quarter of its hardest trials is telling you something about its limits, and the report should say so in the open, with the 23.2% beside the TPR and FPR.</p>
+
+<p class="leading-relaxed mb-4"><strong>The scoring rule used in this episode, stated explicitly:</strong> unanswered items are reported as a separate non-conclusion rate and excluded from the TPR and FPR denominators. The TPR and FPR describe the check on the items where it reached a decision; the non-conclusion rate describes how often it reached no decision. Any report that uses a different rule &mdash; counting unanswered items as failures, for instance &mdash; must state that rule beside its numbers, because the choice can swing rankings dramatically.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The sufficiency check is the use case, and the same logic covers any triage step that routes work. In privilege review in e-discovery, the check routes documents to human review or clears them: a missed privileged document is the expensive error, and the review&rsquo;s TPR and FPR are the diagnosis. In client intake, the check routes a matter to the right team: a matter sent to the wrong team costs a handover and a delay, and a matter held for clarification costs the client&rsquo;s time. In each case, the step makes two kinds of error, and the two errors cost different amounts. Before adopting a triage step, run it over a labelled set &mdash; questions you already know need facts, and questions you already know do not &mdash; and compute both rates. Then ask which error the workflow can absorb. If a missed underspecified question means a memo written on the wrong facts, set the threshold to catch more and accept the false alarms. If a false alarm means a client waiting while the system asks questions it did not need, set it the other way. The threshold is a policy choice about which error costs more, and the TPR/FPR pair is what lets you make it deliberately instead of by accident.</p>
+
+<p class="leading-relaxed mb-4"><strong>Practice exercise (a simplified teaching exercise).</strong> Take ten underspecified questions and ten fully specified ones, run the check, and count. A check that asks a clarifying question on 9 of 10 underspecified questions but also on 6 of 10 fully specified ones has TPR 90%, FPR 60%, and balanced accuracy (0.90 + 0.40) / 2 = 65%. Then ask which error you would fix first, and what fixing it would cost in the other rate.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">A check has two error rates, not one. Report both, or the number is a lie by omission &mdash; and price the errors, or the threshold is a guess. Balanced accuracy &mdash; (TPR + (1 &minus; FPR)) / 2 &mdash; is a fairer single summary than raw accuracy, because it does not depend on the mix of questions in the test set. But even balanced accuracy is a summary: Luna at 62.6% and Mistral at 56.4% look close, and they are opposite checks &mdash; one that catches almost everything and cries wolf two-thirds of the time, one that almost never cries wolf and misses 84% of what matters. Keep the pair beside the summary, keep non-conclusions as their own rate, and check whether a better check moved the trade-off or just moved along it.</p>
+
+<p class="leading-relaxed mb-4">Next episode: what the model asks matters more than how often it asks &mdash; Pearson&rsquo;s r, and why a correlation is not a cause.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>SG-LegalClarify &mdash; Gu et al., <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">arXiv:2611.19643</a>. 1,100 lawyer-authored Singapore-law questions (340 fully specified, 760 underspecified, 1,860 instances); the Luna and Mistral TPR/FPR figures; the best balanced gate accuracy of 69.4% (Opus); TPR and FPR correlating at r = 0.90 across 19 models; the 23.2% non-conclusion rate on complete-coverage trials. Findings discussed; questions not reproduced.</li>
+<li>Fawcett, T. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1016/j.patrec.2005.10.010">&ldquo;An Introduction to ROC Analysis,&rdquo;</a> <em>Pattern Recognition Letters</em> 27(8), 861&ndash;874 &mdash; ROC curves, operating points, and AUC.</li>
+<li>Davis, J. &amp; Goadrich, M. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1145/1143844.1143874">&ldquo;The Relationship Between Precision-Recall and ROC Curves,&rdquo;</a> <em>Proceedings of ICML 2006</em> &mdash; precision&ndash;recall curves and their baseline.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

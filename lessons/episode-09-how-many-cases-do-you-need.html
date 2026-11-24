@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 9 — How Many Cases Do You Need? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 9 &mdash; How Many Cases Do You Need?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 9 &middot; Module 2 &mdash; The Inference Toolkit &middot; 6:37 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-09.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The legal department is about to run the next test round on its contract intelligence platform &mdash; the tool that reviews commercial agreements against the company playbook, extracts clauses, flags deviations, and recommends items for human review. Before a single contract goes through the platform, the team asks the obvious question: how many test cases before we can believe the result? This episode answers that question, and the first thing it shows is that the question, as asked, has no single answer.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Three Questions, Not One</h2>
+
+<p class="leading-relaxed mb-4">&ldquo;How many cases?&rdquo; is three different questions wearing one sentence. Each one has its own formula, its own inputs, and its own answer. Answering the wrong one gives a number that is useless for the decision in front of you.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Question</th>
+<th class="py-2 pr-4">What you want</th>
+<th class="py-2">What decides the number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">1. Estimate a score</td>
+<td class="py-2 pr-4">How close the measured score sits to the true score</td>
+<td class="py-2">How narrow the interval must be</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">2. Detect a difference</td>
+<td class="py-2 pr-4">A real improvement shows up as a significant result</td>
+<td class="py-2">How big the improvement is, and how often you want to catch it</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">3. Compare two builds</td>
+<td class="py-2 pr-4">Which build is better, and by how much</td>
+<td class="py-2">The smallest difference worth caring about</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Questions 2 and 3 overlap: comparing two builds <em>is</em> detecting a difference. They are kept separate here because the team usually asks them at different moments &mdash; question 2 when a fix has been made and the team wants to know whether it helped, question 3 when two builds sit side by side and one must be chosen. The worked numbers below cover questions 1 and 2; question 3 uses the same machinery, with the minimum important difference (Episode 10) in place of the improvement to be detected.</p>
+
+<p class="leading-relaxed mb-4">Two terms appear throughout this episode, so they are defined here before any formula uses them.</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Significance level, &alpha;.</strong> The probability of calling a difference real when there is none &mdash; a false alarm. The conventional value used in this episode is &alpha; = 0.05, two-sided, meaning a 5% false-alarm rate split across both directions.</li>
+<li><strong>Power, 1 &minus; &beta;.</strong> The probability of detecting a difference of a stated size when it really exists. The conventional value used in this episode is 80% power, meaning that if the true improvement is the stated size, the test finds it four times out of five &mdash; and misses it once in five.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">Power is a statement about a <em>stated</em> difference. A test with 80% power to detect a 5-point improvement has much less power to detect a 2-point improvement, and much more power to detect a 10-point improvement. There is no such thing as the power of a test set on its own. There is only power against a particular difference.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Question 1: Estimating a Score</h2>
+
+<p class="leading-relaxed mb-4">The team wants to report the platform&rsquo;s pass rate &mdash; the proportion of test items it gets right &mdash; and wants the estimate to sit within a stated distance of the truth. Call that distance the margin of error, E. The formula for the number of cases, n, at 95% confidence is:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">n = z&sup2; &times; p &times; (1 &minus; p) &divide; E&sup2;</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>z</strong> is the multiplier for the confidence level. For 95% confidence, z = 1.96.</li>
+<li><strong>p</strong> is the true pass rate, as a proportion. Since p is unknown before the test, the calculation uses either a best guess or the worst case.</li>
+<li><strong>E</strong> is the margin of error, as a proportion. E = 0.10 means &plusmn;10 points; E = 0.05 means &plusmn;5 points.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">The product p &times; (1 &minus; p) is largest when p = 0.50, so p = 0.50 gives the largest n &mdash; the cautious answer, used when nothing is known about the rate. When the rate is near 0.80 (or, symmetrically, near 0.20), p &times; (1 &minus; p) = 0.80 &times; 0.20 = 0.16, and n is smaller. The table shows both ends of that range.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Margin of error</th>
+<th class="py-2 pr-4">Rate near 50% (worst case)</th>
+<th class="py-2 pr-4">Rate near 80% (or 20%)</th>
+<th class="py-2">Working (worst case)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">&plusmn;10 points</td>
+<td class="py-2 pr-4">97 cases</td>
+<td class="py-2 pr-4">62 cases</td>
+<td class="py-2">1.96&sup2; &times; 0.25 &divide; 0.01 = 96.04, rounded up to 97</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">&plusmn;5 points</td>
+<td class="py-2 pr-4">385 cases</td>
+<td class="py-2 pr-4">246 cases</td>
+<td class="py-2">1.96&sup2; &times; 0.25 &divide; 0.0025 = 384.16</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The working for the &plusmn;10-point row at the low end: 1.96&sup2; = 3.8416; 3.8416 &times; 0.16 = 0.6147; 0.6147 &divide; 0.01 = 61.47, which rounds up to 62 cases. For the &plusmn;5-point row at the low end: 0.6147 &divide; 0.0025 = 245.86, which rounds up to 246 cases.</p>
+
+<p class="leading-relaxed mb-4">The pattern in the table is the whole point of Episode 4, restated as a cost: halving the margin of error quadruples the number of cases. Going from &plusmn;10 points to &plusmn;5 points costs four times the test set, because E is squared in the denominator. A team that asks for &plusmn;2 points should expect roughly 2,400 cases at the worst-case rate (1.96&sup2; &times; 0.25 &divide; 0.0004 = 2,401) &mdash; a number that usually ends the conversation about precision, and starts a conversation about what precision the decision actually needs.</p>
+
+<p class="leading-relaxed mb-4">One simplification is stated here because the formula hides it: this calculation treats every test item as independent. Items drawn from the same contract travel together, so a test set of 100 questions from 10 contracts behaves like fewer than 100 independent items. Episode 13 works through that correction. Until then, treat every n in this episode as a count of <em>independent</em> items.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Question 2: Detecting a Difference</h2>
+
+<p class="leading-relaxed mb-4">Now the team has changed the platform &mdash; a new prompt for clause extraction &mdash; and wants to know whether the new version is better than the old one. Both versions run on the same test items, so each item gives a pair of results: old and new. Most pairs agree. The pairs that disagree are the <strong>discordant pairs</strong>: items the old version got wrong and the new one got right, or the reverse. The comparison turns on those pairs alone, which is why the paired test in Episode 12 is called McNemar&rsquo;s test, and why its sample-size formula is built from the discordant rate.</p>
+
+<p class="leading-relaxed mb-4">The worked example uses these assumptions, stated in full so the number can be re-derived:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Baseline:</strong> the old version&rsquo;s pass rate is not needed for this formula &mdash; only the difference and the discordant rate matter. The calculation below is for a marginal improvement of 5 points.</li>
+<li><strong>Effect, &delta;:</strong> a 5-point improvement, &delta; = 0.05. That is the difference between the two versions&rsquo; pass rates.</li>
+<li><strong>Discordant rate:</strong> 20% of paired items disagree, so p<sub>disc</sub> = 0.20. Of every 100 paired items, about 20 give different answers from the two versions.</li>
+<li><strong>Power:</strong> 80%, so z<sub>&beta;</sub> = 0.84 (more precisely 0.842).</li>
+<li><strong>Significance level:</strong> two-sided &alpha; = 0.05, so z<sub>&alpha;/2</sub> = 1.96.</li>
+<li><strong>Design:</strong> paired &mdash; both versions scored on the same items.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">The standard normal approximation for the paired comparison (Connor, 1987) gives the total number of paired cases as:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">n = [z<sub>&alpha;/2</sub> &times; &radic;p<sub>disc</sub> + z<sub>&beta;</sub> &times; &radic;(p<sub>disc</sub> &minus; &delta;&sup2;)]&sup2; &divide; &delta;&sup2;</p>
+
+<p class="leading-relaxed mb-4">Working, step by step:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>&radic;0.20 = 0.447; 1.96 &times; 0.447 = 0.877.</li>
+<li>&radic;(0.20 &minus; 0.0025) = &radic;0.1975 = 0.444; 0.84 &times; 0.444 = 0.373.</li>
+<li>0.877 + 0.373 = 1.250; 1.250&sup2; = 1.563.</li>
+<li>&delta;&sup2; = 0.05&sup2; = 0.0025; n = 1.563 &divide; 0.0025 = 625.2, which the series reports as about <strong>625 total paired cases</strong>.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">At a 20% discordant rate, about 125 of those 625 pairs are discordant (625 &times; 0.20 = 125). The other 500 pairs agree, and contribute nothing to the comparison &mdash; they still have to be run, because the team cannot know in advance which pairs will disagree. That is the sense in which pairing is expensive in total items and cheap in informative ones: the test set must be large enough to contain enough disagreements.</p>
+
+<p class="leading-relaxed mb-4">The normal approximation is an approximation. The <strong>exact conditional calculation</strong> &mdash; the calculation that conditions on the number of discordant pairs actually observed and uses the exact binomial distribution instead of the normal curve &mdash; needs somewhat more: about <strong>650&ndash;660 total pairs</strong>. The gap between 625 and 650&ndash;660 is the price of the approximation, and it grows as the numbers get smaller. A team planning a test set should budget the exact figure, not the approximation.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Effect Size Beats Sample Size</h2>
+
+<p class="leading-relaxed mb-4">The formula has &delta;&sup2; in the denominator. Halve the improvement you want to detect, and the required n quadruples. Double it, and n falls to a quarter. The table below holds every other assumption fixed (80% power, two-sided &alpha; = 0.05, 20% discordant rate) and varies only the improvement:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Improvement to detect</th>
+<th class="py-2 pr-4">Total paired cases</th>
+<th class="py-2">Discordant pairs (20%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">10 points</td>
+<td class="py-2 pr-4">About 155</td>
+<td class="py-2">About 31</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">5 points</td>
+<td class="py-2 pr-4">About 625</td>
+<td class="py-2">About 125</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">2.5 points</td>
+<td class="py-2 pr-4">About 2,509</td>
+<td class="py-2">About 502</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Working for the 10-point row: [1.96 &times; &radic;0.20 + 0.84 &times; &radic;(0.20 &minus; 0.01)]&sup2; &divide; 0.01 = [0.877 + 0.366]&sup2; &divide; 0.01 = 1.545 &divide; 0.01 = 154.5. For the 2.5-point row: [0.877 + 0.375]&sup2; &divide; 0.000625 = 1.568 &divide; 0.000625 = 2,508.8.</p>
+
+<svg viewBox="0 0 640 300" class="w-full mb-4" role="img" aria-label="Bar chart: total paired cases needed falls steeply as the improvement to detect grows">
+<rect x="0" y="0" width="640" height="300" fill="#FAFAF8"/>
+<text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Total paired cases needed (80% power, 20% discordant)</text>
+<line x1="60" y1="250" x2="620" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="60" y1="40" x2="60" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<rect x="110" y="235" width="90" height="15" fill="#991B1B"/><text x="155" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">10 points</text><text x="155" y="228" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">155</text>
+<rect x="290" y="190" width="90" height="60" fill="#991B1B"/><text x="335" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">5 points</text><text x="335" y="183" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">625</text>
+<rect x="470" y="55" width="90" height="195" fill="#991B1B"/><text x="515" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">2.5 points</text><text x="515" y="48" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">2,509</text>
+<text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Bar heights are illustrative, not to scale: the 2.5-point bar would be sixteen times the 10-point bar.</text>
+</svg>
+
+<p class="leading-relaxed mb-4">The chart&rsquo;s bars are drawn out of scale on purpose &mdash; at true scale the 10-point bar would be invisible next to the 2.5-point bar, which is itself the point. The practical lesson runs in the other direction from how teams usually think about it. A team that wants to detect a small improvement does not need a slightly bigger test set. It needs a test set several times larger. And a team that can state a large improvement worth detecting &mdash; ten points, say &mdash; can run a test set a quarter the size. The cheapest way to shrink a test set is to decide what size of difference matters, and stop chasing differences smaller than that. That decision belongs to the department, not to the formula: Episode 10 takes it up as the minimum important difference.</p>
+
+<p class="leading-relaxed mb-4">The discordant rate matters just as much, and teams control it less directly. The discordant rate and the improvement are not independent inputs: a 5-point marginal improvement with a 20% discordant rate means the disagreements split 12.5% in favour of the new version against 7.5% in favour of the old one (12.5 &minus; 7.5 = 5). With a 10% discordant rate, the same 5-point improvement means a 7.5% to 2.5% split &mdash; a sharper split, so each discordant pair carries more evidence and fewer total pairs are needed. The formula already accounts for that through the two square-root terms. The practical point stands: the number depends on the discordant rate, so a team that guesses it wrong sizes the test set wrong. Pilot data &mdash; a small run of both versions on the same items &mdash; is the way to estimate it before committing to the full test set.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Correction: Significance Is the Wrong Goal for a Ten-Question Teaching Eval</h2>
+
+<p class="leading-relaxed mb-4">Everything above assumes the team wants a significance test. For a production decision &mdash; ship the new prompt or keep the old one &mdash; that is a reasonable goal. For a ten-question teaching eval, it is the wrong one, and the numbers show why.</p>
+
+<p class="leading-relaxed mb-4">Ten questions cannot detect a 5-point improvement. The estimation table says ten items estimate a score to roughly &plusmn;31 points at worst case (1.96 &times; &radic;(0.25 &divide; 10) = 1.96 &times; 0.158 = 0.31). A teaching eval with ten questions is not a measurement instrument. It is a worked example: the team runs ten items to learn how the tool behaves, where it fails, and what the rubric catches &mdash; not to produce a p-value. Demanding significance from ten questions forces one of two bad outcomes: either the team declares the eval a failure because nothing was significant, or it keeps adding questions until something crosses a threshold, which is testing until a result appears rather than testing a stated question.</p>
+
+<p class="leading-relaxed mb-4">What a ten-question eval should do instead:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Report the score with its interval attached (Episode 6), so the width of the uncertainty is visible.</li>
+<li>Describe the failures item by item &mdash; which clauses were missed, and what the misses have in common.</li>
+<li>State the minimum important difference the department would act on (Episode 10), and say plainly that ten questions cannot resolve it.</li>
+<li>Use the ten questions to estimate the discordant rate for the <em>next</em> test set, so the sizing calculation in this episode has a real input instead of a guess.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Sizing a Test Set Before Running It</h2>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Write down which of the three questions you are asking. If it is estimation, state the margin of error. If it is detection, state the improvement and the power.</li>
+<li>State the significance level (&alpha; = 0.05, two-sided, is the convention used here) and the power (80% is the convention used here). If you use different values, say so &mdash; the number changes with them.</li>
+<li>For a paired comparison, estimate the discordant rate from pilot data. Do not guess it silently.</li>
+<li>Budget the exact calculation (650&ndash;660 pairs for the worked example), not the normal approximation (about 625).</li>
+<li>Check clustering: if items come from a small number of documents, the effective sample size is smaller than the headline n (Episode 13).</li>
+<li>If the required n is larger than the test set you can build, change the question &mdash; accept a wider margin, or a larger minimum difference &mdash; and record that change. Do not run the small test set and report the result as if it answered the large question.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The legal department sizes the contract platform&rsquo;s next test round before running it. The team wants to know whether the new clause-extraction prompt is 5 points better than the current one, at 80% power. The sizing calculation says about 625 paired cases by approximation, 650&ndash;660 by the exact calculation. The department has 200 contracts available. The department should not run 200 and hope. It should say that 200 cases can estimate the score to about &plusmn;7 points at worst case (1.96 &times; &radic;(0.25 &divide; 200) = 1.96 &times; 0.0354 = 0.069), and to run the 200 as an estimation exercise with a reported interval &mdash; or to widen the difference worth detecting, and test for that instead.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">&ldquo;How many cases?&rdquo; is three questions, not one. Answer the wrong one and the number is useless. Estimate a score, and the margin of error decides the number. Detect a difference, and the effect size decides it &mdash; halve the effect and the test set quadruples. And for a ten-question teaching eval, significance is the wrong goal altogether: report the interval, describe the failures, and use the small run to size the real one.</p>
+
+<p class="leading-relaxed mb-4">Next episode: how big is the difference? A 2-point gain on 2,000 cases can be significant and worthless.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Connor, R. J. (1987). <a class="underline hover:text-red" href="https://doi.org/10.2307/2531961">Sample size for testing differences in proportions for the paired-sample design</a>. <em>Biometrics</em>, 43(1), 207&ndash;211 &mdash; the normal approximation for the paired comparison used in this episode; the source of the about-625 total paired cases figure at 80% power, two-sided &alpha; = 0.05, 20% discordant rate, 5-point difference.</li>
+<li>Cohen, J. (1988). <em>Statistical Power Analysis for the Behavioral Sciences</em>, 2nd ed. &mdash; power, effect size, and the conventions (&alpha; = 0.05, power 0.80) used throughout this episode.</li>
+<li>Chow, S.-C., Shao, J., Wang, H., &amp; Lokhnygina, Y. (2017). <em>Sample Size Calculations in Clinical Research</em>, 3rd ed. &mdash; sample-size formulas for estimation and for paired proportions, including the exact conditional calculation.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 8 &mdash; the estimation formula n = z&sup2; p(1 &minus; p) &divide; E&sup2; and the &plusmn;10-point / &plusmn;5-point worked values.</li>
+<li>The estimation ranges (62&ndash;97 cases for &plusmn;10 points; 246&ndash;385 cases for &plusmn;5 points) and the effect-size table are the series&rsquo; own worked calculations from the formulas above, at 95% confidence.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

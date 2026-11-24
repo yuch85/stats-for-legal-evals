@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 7 — What Does p Mean? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 7 &mdash; What Does <em>p</em> Mean?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 7 &middot; Module 2 &mdash; The Inference Toolkit &middot; 6:38 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-07.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The vendor sells the contract platform with a claim: its clause extraction passes at least 75% of test items. The legal innovation team runs its own pilot &mdash; one hundred test items through the platform&rsquo;s clause extraction &mdash; and 68 pass. The vendor&rsquo;s report answers with a single number: p = 0.069. In this episode, Sera and Ben ask the question a lawyer would actually ask: the vendor says p = 0.03, or p = 0.069 &mdash; what are they actually claiming?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question</h2>
+
+<p class="leading-relaxed mb-4">Sixty-eight passes out of a hundred, against a claim of at least 75%. The pilot is below the claim. The question is whether it is far enough below to reject the claim &mdash; or whether a build that really does pass 75% of items could produce 68 out of 100 by chance alone. That is the question the p-value answers. It does not answer whether the claim is true. It does not answer whether a fix worked. It answers one narrow question: if the claim were true, how surprising are these data?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Null Hypothesis</h2>
+
+<p class="leading-relaxed mb-4">Every p-value starts with a null hypothesis, written H<sub>0</sub> &mdash; a precise statement assumed true for the sake of the calculation. Here the vendor&rsquo;s claim is that the true pass rate is at least 75%. The test takes the boundary of that claim as the null hypothesis: H<sub>0</sub> is that the true pass rate is exactly 75%. The boundary is the right choice, because it is the hardest case for the pilot to beat: if the data are surprising even when the true rate is 75%, they are more surprising still if the true rate is higher.</p>
+
+<p class="leading-relaxed mb-4">Under H<sub>0</sub>, the count of passes out of 100 follows the binomial distribution from Episode 5, with <em>n</em> = 100 and <em>p</em> = 0.75. The expected count is 100 &times; 0.75 = 75 passes. The standard deviation of the count is &sigma; = &radic;(100 &times; 0.75 &times; 0.25) = &radic;18.75 &asymp; 4.33. The pilot observed 68 passes &mdash; that is 75 &minus; 68 = 7 passes below the expected count, or 7 &divide; 4.33 &asymp; 1.6 standard deviations below the mean. Below average, clearly. The question is how far below average counts as surprising.</p>
+
+<p class="leading-relaxed mb-4">The same assumptions from Episode 5 apply here, and they need restating: each test item is an independent trial with the same true pass rate. Items drawn from the same agreement share context, so independence is an approximation. Episode 13 returns to it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The p-Value, Worked</h2>
+
+<p class="leading-relaxed mb-4">The p-value is the probability of seeing data at least this extreme, if the null hypothesis were true. &ldquo;At least this extreme&rdquo; means 68 passes or fewer &mdash; every outcome as far below the claim as the one observed, or further. Written out, it is a sum over the binomial distribution:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg"><em>p</em> = P(<em>X</em> &le; 68 | H<sub>0</sub>) = &Sigma;<sub><em>k</em>=0</sub><sup>68</sup> C(100, <em>k</em>) &times; 0.75<sup><em>k</em></sup> &times; 0.25<sup>100&minus;<em>k</em></sup> &asymp; 0.069</p>
+
+<p class="leading-relaxed mb-4">Every symbol: <em>X</em> is the count of passes out of 100; C(100, <em>k</em>) counts the ways to choose which <em>k</em> items pass; 0.75<sup><em>k</em></sup> is the probability that those <em>k</em> pass under H<sub>0</sub>; 0.25<sup>100&minus;<em>k</em></sup> is the probability that the rest fail. The sum runs from 0 up to 68 &mdash; all the outcomes at least as low as the one observed. The exact sum is about 0.069. It is computed by software, not by hand: sixty-nine binomial terms is nobody&rsquo;s idea of a hand calculation, and the page says so rather than pretending otherwise.</p>
+
+<p class="leading-relaxed mb-4">A normal approximation gives a check on the exact figure, and it is close enough to show the working. Under H<sub>0</sub>, the count is approximately normal with mean 75 and standard deviation 4.33. With a continuity correction &mdash; counting 68 as the range up to 68.5, because the count is discrete and the curve is continuous &mdash; the standardised score is (68.5 &minus; 75) &divide; 4.33 &asymp; &minus;1.50, and the area below &minus;1.50 on the standard normal curve is about 0.067. The exact 0.069 and the approximate 0.067 agree. The picture is the distribution under H<sub>0</sub>, with the observed result and everything below it shaded:</p>
+
+<svg viewBox="0 0 640 260" class="w-full mb-4" role="img" aria-label="Distribution of passes out of 100 if the true pass rate were 75 percent, with the region at 68 or fewer shaded">
+<text x="320" y="16" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Passes out of 100, if the true rate were 75%</text>
+<g font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">
+<path d="M 40.0 190.0 L 54.0 190.0 L 68.0 190.0 L 82.0 189.9 L 96.0 189.8 L 110.0 189.6 L 124.0 189.2 L 138.0 188.3 L 152.0 186.8 L 166.0 184.0 L 180.0 179.6 L 194.0 172.7 L 208.0 162.8 L 222.0 149.4 L 236.0 132.5 L 250.0 113.0 L 264.0 92.1 L 278.0 72.0 L 292.0 55.1 L 306.0 43.9 L 320.0 39.9 L 334.0 43.9 L 348.0 55.1 L 362.0 72.0 L 376.0 92.1 L 390.0 113.0 L 404.0 132.5 L 418.0 149.4 L 432.0 162.8 L 446.0 172.7 L 460.0 179.6 L 474.0 184.0 L 488.0 186.8 L 502.0 188.3 L 516.0 189.2 L 530.0 189.6 L 544.0 189.8 L 558.0 189.9 L 572.0 190.0 L 586.0 190.0 L 600.0 190.0 L 600.0 190.0 L 40.0 190.0 Z" fill="#e5e5e5"/>
+<path d="M 40.0 190.0 L 54.0 190.0 L 68.0 190.0 L 82.0 189.9 L 96.0 189.8 L 110.0 189.6 L 124.0 189.2 L 138.0 188.3 L 152.0 186.8 L 166.0 184.0 L 180.0 179.6 L 194.0 172.7 L 208.0 162.8 L 222.0 149.4 L 222.0 190.0 Z" fill="#991B1B" opacity="0.75"/>
+<path d="M 40.0 190.0 L 54.0 190.0 L 68.0 190.0 L 82.0 189.9 L 96.0 189.8 L 110.0 189.6 L 124.0 189.2 L 138.0 188.3 L 152.0 186.8 L 166.0 184.0 L 180.0 179.6 L 194.0 172.7 L 208.0 162.8 L 222.0 149.4 L 236.0 132.5 L 250.0 113.0 L 264.0 92.1 L 278.0 72.0 L 292.0 55.1 L 306.0 43.9 L 320.0 39.9 L 334.0 43.9 L 348.0 55.1 L 362.0 72.0 L 376.0 92.1 L 390.0 113.0 L 404.0 132.5 L 418.0 149.4 L 432.0 162.8 L 446.0 172.7 L 460.0 179.6 L 474.0 184.0 L 488.0 186.8 L 502.0 188.3 L 516.0 189.2 L 530.0 189.6 L 544.0 189.8 L 558.0 189.9 L 572.0 190.0 L 586.0 190.0 L 600.0 190.0" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="222" y1="146" x2="222" y2="196" stroke="#991B1B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="320" y1="36" x2="320" y2="196" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="222" y="212" text-anchor="middle">68 observed</text>
+<text x="320" y="212" text-anchor="middle">75 expected</text>
+<text x="40" y="240" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Shaded area = 6.9% of the distribution. That shaded area is the p-value.</text>
+<line x1="40" y1="196" x2="600" y2="196" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+</svg>
+
+<p class="leading-relaxed mb-4">In plain English: if the build really passed 75% of items, then a pilot of 100 items would come in at 68 passes or fewer about 6.9% of the time &mdash; roughly one pilot in fourteen. That is the p-value. It is a statement about the data under an assumption, not about the truth of the claim.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What 0.069 Does and Does Not Mean</h2>
+
+<p class="leading-relaxed mb-4">The conventional threshold for rejecting a null hypothesis is 5%: reject H<sub>0</sub> when <em>p</em> &lt; 0.05. Here <em>p</em> &asymp; 0.069 is above that line, so the pilot does not reject the vendor&rsquo;s claim at the conventional threshold. The careful sentence is: 68 out of 100 is some evidence against the claim, not enough to reject it. The evidence points downward &mdash; the observed rate is below the claim, and 6.9% is not a large probability &mdash; but it does not cross the line the field conventionally uses.</p>
+
+<p class="leading-relaxed mb-4">The 5% line is a convention, not a law of nature. It comes from R. A. Fisher&rsquo;s <em>Statistical Methods for Research Workers</em> (1925), and it has been the default ever since &mdash; which is a historical fact, not a justification. Nothing in the mathematics changes at 0.05. A p-value of 0.049 and a p-value of 0.051 are nearly the same evidence, and treating one as a discovery and the other as nothing is a habit, not a deduction. Report the p-value itself, not only whether it crossed the line.</p>
+
+<p class="leading-relaxed mb-4">The interval from Episode 6 tells the same story from the other side, and the two agree. The 95% Wilson interval for 68 out of 100 is about 58&ndash;76%: the centre is (0.68 + 3.84 &divide; 200) &divide; (1 + 3.84 &divide; 100) = 0.699 &divide; 1.038 &asymp; 0.673, and the half-width is 1.96 &times; &radic;(0.68 &times; 0.32 &divide; 100 + 3.84 &divide; 40,000) &divide; 1.038 &asymp; 0.090, giving 0.583 to 0.763. The claimed 75% sits inside that interval, near its top end. The interval shows why 68 out of 100 is not enough evidence to reject the claim: the truth could be 75%, and it could also be 60%. The p-value and the interval are two views of the same uncertainty, and they point the same way.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What the Data Rule Out</h2>
+
+<p class="leading-relaxed mb-4">The p-value is computed against one null hypothesis at a time, and the same data can be tested against other values. That is how you find out what the pilot actually rules out. Run the same calculation with different assumed true rates:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Assumed true pass rate</th>
+<th class="py-2 pr-4">Expected passes out of 100</th>
+<th class="py-2">P(68 or fewer passes)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">70%</td><td class="py-2 pr-4">70</td><td class="py-2">about 37%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">75% (the vendor&rsquo;s claim)</td><td class="py-2 pr-4">75</td><td class="py-2">about 6.9%</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">80%</td><td class="py-2 pr-4">80</td><td class="py-2">about 0.3%</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Read the table from the top. If the true rate were 70%, then 68 or fewer passes would happen about 37% of the time &mdash; utterly ordinary. If it were 75%, about 6.9% of the time &mdash; uncommon, not enough to reject at the 5% line. If it were 80%, about 0.3% of the time &mdash; that the data do rule out. So the pilot says: the build could be a 70% build, it could just about be a 75% build, and it is very unlikely to be an 80% build. That is a more useful sentence than any single p-value on its own, and it is the same information the Wilson interval carries: 58&ndash;76%.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Misreadings</h2>
+
+<p class="leading-relaxed mb-4">The p-value is the most misread number in statistics, and the misreadings are specific enough to list. The American Statistical Association&rsquo;s 2016 statement on p-values (Wasserstein and Lazar, <em>The American Statistician</em>) is the source for the corrections below.</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>It is not the probability the null hypothesis is true.</strong> p = 0.069 does not mean there is a 6.9% chance the vendor&rsquo;s claim is true, or a 93.1% chance it is false. The p-value assumes the null is true and asks about the data. The probability that the claim is true given the data is a different question &mdash; it needs a prior probability for the claim, which is Bayesian territory (Episode 2), not a p-value.</li>
+<li><strong>It is not the probability your fix worked.</strong> A small p-value after a prompt change does not measure the probability that the change caused the improvement. It measures how surprising the data would be if nothing had changed. The size of the improvement is a separate question &mdash; effect size, Episode 10 &mdash; and a before/after comparison on the same items is a paired design, Episode 12, not a single proportion against a threshold.</li>
+<li><strong>It is not the probability the result is due to chance.</strong> Every p-value is computed under the assumption that chance alone produced the data. It cannot then turn around and report the probability of that assumption.</li>
+<li><strong>Failing to reject is not accepting.</strong> p = 0.069 does not confirm the vendor&rsquo;s claim. It says the pilot cannot rule it out. Absence of evidence against the claim is not evidence for it &mdash; the interval shows the truth could be 60% as easily as 75%.</li>
+<li><strong>&ldquo;Significant&rdquo; is a technical term.</strong> In statistics it means only that the p-value crossed the chosen threshold. It says nothing about whether the difference matters &mdash; a 2-point gain on 2,000 cases can be significant and worthless, which is Episode 10&rsquo;s lesson.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">One more point about the number itself. The p-value here is one-sided: it counts only outcomes below the claim, because the question is whether the build falls short of 75%. A two-sided p-value would also count outcomes equally far above 75% &mdash; 82 or more passes &mdash; and would be about 0.13. Which one to use is decided by the question, before looking at the data: if the department only cares about falling short, one-sided is the right test. Deciding after seeing the result is choosing the test that gives the answer you want, and Episode 18 has more to say about that.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The department&rsquo;s decision is about the vendor&rsquo;s claim, and the p-value frames it without settling it. The pilot shows 68 out of 100 against a claimed 75%. The p-value of about 0.069 is some evidence against the claim, not enough to reject it at the conventional 5% threshold. The Wilson interval, 58&ndash;76%, contains the claim. So the department cannot tell the vendor the claim is false &mdash; and it also cannot accept the claim as established. The defensible next step is more evidence: a larger test set, sized so that the interval narrows enough to separate 70% from 75% (Episode 9), or a renegotiated claim the vendor is willing to stand behind with a stated test.</p>
+
+<p class="leading-relaxed mb-4">The same reasoning applies whenever a vendor quotes a p-value. &ldquo;The vendor says p = 0.03&rdquo; means: if there were no difference &mdash; if the new prompt performed exactly like the old one, or the build exactly met the claimed threshold &mdash; then data this extreme would occur about 3% of the time. That is the claim, and it is all the claim is. It is not a 3% chance the null is true. It is not a 97% chance the fix worked. Ask what the null hypothesis was, whether the test was one-sided or two-sided, and what the interval says alongside it. A p-value without its null hypothesis is a number without a sentence.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">p is a statement about the data under an assumption, not about the truth of your claim. Sixty-eight out of a hundred against a claimed 75% gives a one-sided exact p-value of about 0.069 &mdash; some evidence against the claim, not enough to reject it at the conventional 5% threshold. The Wilson interval, about 58&ndash;76%, contains 75%, and the interval shows why. The data rule out an 80% build, leave a 70% build entirely plausible, and leave the vendor&rsquo;s 75% claim standing &mdash; unproven, and unrefuted.</p>
+
+<p class="leading-relaxed mb-4">Next episode: what did the tool miss? Seventy percent accurate &mdash; but what did it miss, and what did it flag for nothing?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Wasserstein, R. L., &amp; Lazar, N. A. (2016). <a class="underline hover:text-red" href="https://doi.org/10.1080/00031305.2016.1154108">&ldquo;The ASA statement on statistical significance and p-values.&rdquo;</a> <em>The American Statistician</em> 70(2), 129&ndash;133 &mdash; the p-value&rsquo;s definition and its common misreadings.</li>
+<li>Fisher, R. A. (1925). <em>Statistical Methods for Research Workers</em>. Oliver &amp; Boyd &mdash; the origin of the 5% threshold as a convention.</li>
+<li>The worked example in this episode is the series&rsquo; own: 68 passes out of 100 against a claimed true rate of 75%. The one-sided exact binomial p-value is P(X &le; 68) &asymp; 0.069; the Wilson 95% interval for 68/100 is 58.3&ndash;76.3%. P(X &le; 68) is about 0.367 if the true rate were 70%, and about 0.003 if it were 80%.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 9 &mdash; hypothesis testing for a single proportion, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

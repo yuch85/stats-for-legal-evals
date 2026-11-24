@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 18 — How Not to Fool Yourself — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 18 &mdash; How Not to Fool Yourself</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 18 &middot; Module 5 &mdash; Reporting Your Results &middot; 7:08 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-18.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The pilot report is in. The team tested the contract platform on five document types, and three of the five tests came out significant at 5% before any correction. Did they find something? In this episode, Sera and Ben show why five tests at 5% give you about a one-in-four chance of a false alarm &mdash; and what to do about it before you look at the results.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Setting: Five Tests, One Hit</h2>
+
+<p class="leading-relaxed mb-4">The legal department has been piloting the contract platform from Episode 1. The pilot report splits the results by document type &mdash; NDAs, MSAs, SaaS agreements, data processing agreements (DPAs), and vendor contracts &mdash; and runs a significance test on each split, at the conventional 5% threshold, asking whether the platform beats the department&rsquo;s current process on that document type. Three tests come out significant at 5% before any correction: NDAs (p = 0.008), MSAs (p = 0.021) and SaaS agreements (p = 0.045). DPAs and vendor contracts do not. After correction, only NDAs survives. The report&rsquo;s draft conclusion is that the platform works for NDAs.</p>
+
+<p class="leading-relaxed mb-4">That conclusion may be right. The NDAs in Episode 1 did score 9 and 10 while the MSAs scored 4 and 5. But the draft conclusion is drawn from a procedure &mdash; test five things, report the one that passes &mdash; that produces false alarms at a rate far above 5%. This episode is about that procedure, and about the discipline that replaces it: decide the tests before you look.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Multiple Comparisons: Five Tests at 5%</h2>
+
+<p class="leading-relaxed mb-4">A p-value (Episode 7) is the probability of seeing data at least this extreme if the null hypothesis were true. Testing at the 5% threshold means: if the null is true &mdash; if the platform is no better than the current process on that document type &mdash; there is a 5% chance the test still comes out significant. That is the false-positive rate of one test. With five tests, the chance that <em>at least one</em> of them gives a false positive is larger, because there are five chances for it to happen.</p>
+
+<p class="leading-relaxed mb-4">Assume the five tests are independent, and assume every null is true &mdash; the platform is no better on any document type. Then the chance that one particular test does <em>not</em> give a false positive is 1 &minus; 0.05 = 0.95. The chance that none of the five gives a false positive is 0.95 &times; 0.95 &times; 0.95 &times; 0.95 &times; 0.95 = 0.95<sup>5</sup>. Worked out: 0.95<sup>2</sup> = 0.9025; 0.95<sup>4</sup> = 0.9025 &times; 0.9025 &asymp; 0.8145; 0.95<sup>5</sup> = 0.8145 &times; 0.95 &asymp; 0.7738. So the chance that at least one test gives a false positive is 1 &minus; 0.7738 = 0.2262, about 23%.</p>
+
+<p class="leading-relaxed mb-4">Two numbers to carry from this. First, 23%: with five tests and nothing real going on, you will see at least one &ldquo;significant&rdquo; result nearly a quarter of the time. Second, the expected number of false positives is 5 &times; 0.05 = 0.25 &mdash; on average one false alarm in every four such five-test reports. The assumptions matter and must be stated alongside the number: the tests are independent, and each null is true. Real tests on the same pilot are usually not independent &mdash; the document types share the same platform, the same prompts, and the same graders &mdash; so 23% is an illustration under a stated simplification, not a measurement of this pilot. The direction of the lesson survives the simplification: more tests, more chances for a false alarm.</p>
+
+<p class="leading-relaxed mb-4">The same arithmetic scales badly. Ten tests at 5% give 1 &minus; 0.95<sup>10</sup> &asymp; 1 &minus; 0.5987 &asymp; 0.40, about a 40% chance of at least one false positive. Twenty tests give 1 &minus; 0.95<sup>20</sup> &asymp; 1 &minus; 0.3585 &asymp; 0.64, about 64%. A report that tests twenty things and reports the one hit has most likely reported chance.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">P-Hacking: The Ways a Hit Gets Manufactured</h2>
+
+<p class="leading-relaxed mb-4">P-hacking is the name for the collection of practices that raise the false-positive rate above the stated threshold by exploiting the freedom to choose the analysis after seeing the data. The practices below are all versions of the same move: try more things than you report, and report the one that passes.</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Testing many subgroups and reporting one.</strong> Split the pilot by document type, by jurisdiction, by contract value, by drafter &mdash; and report only the split that passes. Every split tested is a test run, whether or not it appears in the report.</li>
+<li><strong>Trying many metrics and reporting one.</strong> Accuracy, precision, recall, F1, mean rubric score, median rubric score &mdash; test them all, report the one that passes. Each metric is a test.</li>
+<li><strong>Optional stopping.</strong> Check the result after every ten documents and stop the pilot the first time it passes. Checking repeatedly is testing repeatedly.</li>
+<li><strong>Removing outliers or items after seeing the result.</strong> Dropping the documents the platform failed on, and re-running the test, is choosing the data to fit the conclusion.</li>
+<li><strong>Tuning the prompt on the test set.</strong> Adjusting the prompt until the test score passes, then reporting that score as if the test set were untouched, is the same error at the level of the whole eval (Episode 3).</li>
+</ul>
+
+<p class="leading-relaxed mb-4">None of these practices needs bad faith. A team that explores its pilot data, finds something interesting, and reports it has done ordinary exploratory work &mdash; the error is presenting the exploratory result as if it had been tested once, at 5%, with no other tests run. The correction is not to stop exploring. It is to label exploration as exploration, and to confirm an exploratory finding on fresh data, or with a correction, before acting on it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Bonferroni Correction</h2>
+
+<p class="leading-relaxed mb-4">The Bonferroni correction is the simplest fix: divide the threshold by the number of tests. With five tests and an overall 5% threshold, each test is judged against 0.05 &divide; 5 = 0.01. A test passes only if its p-value is below 0.01. The reasoning: if each of five tests has at most a 1% chance of a false positive, the chance that any of them gives a false positive is at most 5 &times; 1% = 5%. That bound holds whatever the dependence between the tests &mdash; Bonferroni needs no independence assumption, which is why it is the safe default when the tests share data.</p>
+
+<p class="leading-relaxed mb-4">Apply it to the pilot&rsquo;s five subgroup tests. The p-values below are illustrative values chosen to show how the three corrections differ, not the pilot&rsquo;s actual results:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Document type</th>
+<th class="py-2 pr-4">p-value</th>
+<th class="py-2 pr-4">Bonferroni threshold</th>
+<th class="py-2">Passes?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">NDAs</td><td class="py-2 pr-4">0.008</td><td class="py-2 pr-4">0.01</td><td class="py-2">Yes</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">MSAs</td><td class="py-2 pr-4">0.021</td><td class="py-2 pr-4">0.01</td><td class="py-2">No</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">SaaS agreements</td><td class="py-2 pr-4">0.045</td><td class="py-2 pr-4">0.01</td><td class="py-2">No</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">DPAs</td><td class="py-2 pr-4">0.12</td><td class="py-2 pr-4">0.01</td><td class="py-2">No</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Vendor contracts</td><td class="py-2 pr-4">0.31</td><td class="py-2 pr-4">0.01</td><td class="py-2">No</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Only the NDA result survives: 0.008 is below 0.01. The MSA result (p = 0.021) and the SaaS result (p = 0.045) would each have passed a single uncorrected test at 5% &mdash; and both fail here. The cost of Bonferroni is power: with many tests, the per-test threshold gets so small that real effects fail to pass. With twenty tests the threshold is 0.0025, and a pilot of fifty contracts will rarely produce a p-value that small even when the platform genuinely helps. That cost is why the less conservative alternatives exist.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Holm and Benjamini&ndash;Hochberg: Less Conservative Alternatives</h2>
+
+<p class="leading-relaxed mb-4"><strong>The Holm correction</strong> is a step-down procedure. Sort the p-values from smallest to largest, then compare each against a threshold that gets easier as you go: the smallest against 0.05 &divide; 5 = 0.01, the next against 0.05 &divide; 4 = 0.0125, the next against 0.05 &divide; 3 &asymp; 0.0167, then 0.05 &divide; 2 = 0.025, then 0.05 &divide; 1 = 0.05. Stop at the first failure: everything from that point on fails, even if a later p-value would pass its own threshold.</p>
+
+<p class="leading-relaxed mb-4">On the pilot&rsquo;s values: 0.008 against 0.01 passes. Next, 0.021 against 0.0125 fails &mdash; so stop. Only the NDA result is rejected. Holm controls the same error rate as Bonferroni (the chance of any false positive, the family-wise error rate) and is never worse than Bonferroni: whenever Bonferroni rejects something, Holm rejects it too, and sometimes Holm rejects more. Use Holm instead of Bonferroni whenever you are controlling the family-wise error rate.</p>
+
+<p class="leading-relaxed mb-4"><strong>The Benjamini&ndash;Hochberg procedure</strong> controls a different error rate: the false discovery rate, the expected share of false positives among the results you call significant. That is a weaker guarantee than controlling the chance of any false positive, and it buys more power when many tests are run. Sort the p-values from smallest to largest, and compare the k-th smallest against (k &divide; 5) &times; 0.05: thresholds 0.01, 0.02, 0.03, 0.04, 0.05. Find the largest k whose p-value is at or below its threshold, and reject that test and all smaller ones.</p>
+
+<p class="leading-relaxed mb-4">On the pilot&rsquo;s values: k = 1, 0.008 against 0.01, passes; k = 2, 0.021 against 0.02, fails; k = 3, 0.045 against 0.03, fails. The largest passing k is 1, so only the NDA result is rejected &mdash; the same answer as Bonferroni and Holm on these values. The procedures diverge on other data: with p-values 0.008 and 0.018, Benjamini&ndash;Hochberg rejects both (0.018 &le; 0.02) while Holm rejects only the first (0.018 &gt; 0.0125). The choice between them is a choice about which error rate matters: use Holm when any false positive would mislead the decision; use Benjamini&ndash;Hochberg when you are screening many candidates and can tolerate some false leads among the hits, provided you confirm them afterwards.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Pre-Specification: Decide the Tests Before You Look</h2>
+
+<p class="leading-relaxed mb-4">Corrections adjust the threshold after the fact. Pre-specification prevents the problem at the source: write down, before seeing any results, which tests will be run, on which subgroups, with which metric, at which threshold. The evaluation-design worksheet from Episode 3 is the place to do it: intended user, workflow, subgroups, definition of success, and the analysis plan, completed before any results are examined.</p>
+
+<p class="leading-relaxed mb-4">Pre-specification does three things a correction cannot. First, it fixes the number of tests, so the correction has a definite denominator &mdash; a Bonferroni correction over &ldquo;however many tests we happened to run&rdquo; is not a correction. Second, it separates the confirmatory claim from the exploratory findings: the pre-specified tests are the ones the decision rests on, and anything found while exploring is labelled as a lead for the next round. Third, it makes the report auditable: a reader can check whether the reported tests are the ones that were planned.</p>
+
+<p class="leading-relaxed mb-4">In practice, pre-specification for a pilot means one primary test, named in advance &mdash; for example, the platform&rsquo;s mean rubric score against the current process on the full test set, tested once &mdash; plus a short list of pre-specified subgroup tests, each corrected. Everything else the team notices while exploring goes in a separate section of the report, headed as exploratory, with no significance claim attached. If an exploratory finding matters enough to act on, the team runs a fresh test on new data.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Subgroup Analysis Multiplies the Comparisons</h2>
+
+<p class="leading-relaxed mb-4">The Episode 1 NDA/MSA split is itself a subgroup finding: the team looked at the ten scores, split them by document type, and found that NDAs scored 9.4 on average and MSAs 4.6. That split was discovered by looking at the data, not specified before the pilot. It is a real pattern in those ten documents &mdash; every NDA scored 9 or 10, every MSA 4 or 5 &mdash; but it rests on five documents per group, and it was one of many splits the team could have tried (by document type, by length, by drafter, by value). Treat it as the provisional conclusion Episode 1 called it: roll out AI-assisted first-pass review for NDAs under human verification, keep MSAs under closer supervision, and confirm the split on the next round of documents before treating it as settled.</p>
+
+<p class="leading-relaxed mb-4">The general rule: every subgroup you examine is a comparison, and the comparisons multiply. Splitting by five document types and three jurisdictions is fifteen comparisons, not five. Two protections apply. One, pre-specify the subgroups that matter legally &mdash; document type matters because the playbook differs by type; an arbitrary split does not. Two, report all the subgroups tested, not only the one that passed: a reader who sees five tests and one hit can apply the correction themselves, while a reader who sees one test has no way of knowing four others were run.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Overlapping Intervals Do Not Settle a Difference</h2>
+
+<p class="leading-relaxed mb-4">A common shortcut in pilot reports is to draw two confidence intervals, one per build, and declare the difference insignificant if the intervals overlap. That shortcut is wrong. Two intervals can overlap while the difference between the builds is still statistically distinguishable, because the two scores are not independent: they come from the same documents, scored by the same graders.</p>
+
+<p class="leading-relaxed mb-4">Take the paired comparison from Episode 11. Two builds scored on the same 25 contracts. Build A&rsquo;s mean rubric score is 0.82 with a 95% interval of roughly 0.76 to 0.88; Build B&rsquo;s mean is 0.76 with an interval of roughly 0.70 to 0.82. The intervals overlap across 0.76 to 0.82 &mdash; a wide shared region. Judging by the overlap, a reader would call the difference insignificant. But the paired differences &mdash; Build A minus Build B on each contract &mdash; average 0.06, and the 95% interval for that mean difference is about 0.02 to 0.10, which excludes zero. The difference is distinguishable; the overlap hid it.</p>
+
+<svg viewBox="0 0 560 220" class="w-full mb-2" role="img" aria-label="Diagram of two overlapping confidence intervals and the interval on the paired difference">
+<line x1="60" y1="30" x2="540" y2="30" stroke="#e5e5e5" stroke-width="1"/>
+<line x1="60" y1="90" x2="540" y2="90" stroke="#e5e5e5" stroke-width="1"/>
+<line x1="60" y1="150" x2="540" y2="150" stroke="#e5e5e5" stroke-width="1"/>
+<text x="52" y="64" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Build A</text>
+<line x1="180" y1="60" x2="420" y2="60" stroke="#991B1B" stroke-width="6"/>
+<circle cx="300" cy="60" r="5" fill="#991B1B"/>
+<text x="300" y="48" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">0.82</text>
+<text x="180" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.76</text>
+<text x="420" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.88</text>
+<text x="52" y="124" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Build B</text>
+<line x1="120" y1="120" x2="360" y2="120" stroke="#4a4a4a" stroke-width="6"/>
+<circle cx="240" cy="120" r="5" fill="#4a4a4a"/>
+<text x="240" y="108" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">0.76</text>
+<text x="120" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.70</text>
+<text x="360" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.82</text>
+<text x="52" y="184" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Paired difference</text>
+<line x1="300" y1="180" x2="420" y2="180" stroke="#991B1B" stroke-width="6"/>
+<circle cx="360" cy="180" r="5" fill="#991B1B"/>
+<text x="360" y="168" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">0.06</text>
+<text x="300" y="200" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.02</text>
+<text x="420" y="200" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">0.10</text>
+<text x="60" y="214" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Zero sits outside the paired-difference interval, even though the two separate intervals overlap.</text>
+</svg>
+<p class="font-sans text-sm text-ink-muted mb-4">The two builds&rsquo; intervals overlap across 0.76 to 0.82. The interval on the paired difference, 0.02 to 0.10, excludes zero. Same data, different answer &mdash; the paired interval is the one that matches the design.</p>
+
+<p class="leading-relaxed mb-4">The reason is pairing (Episodes 11 and 12). When the same contracts are scored by both builds, the variation between contracts cancels out of the difference: a hard contract lowers both scores together. The separate intervals each carry that between-contract variation, so they are wide; the paired interval does not, so it is narrow. Teach an interval on the paired difference instead of judging significance through the overlap of separate intervals. The same warning runs the other way: non-overlapping intervals do not by themselves establish a difference of a given size &mdash; report the interval on the difference and its size (Episode 10).</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Reading a vendor report: count the tests. A report that tested five subgroups, six metrics, and three prompt versions has run far more tests than the one p-value it prints. Ask for the full list of tests run, the pre-specified primary test, and the correction applied. If the report cannot produce the list, treat the single significant result as exploratory, not as evidence.</p>
+
+<p class="leading-relaxed mb-4">Running your own pilot: write the analysis plan before the results exist. Name one primary test. Name the subgroups in advance, and no others. Apply Holm to the subgroup tests. Put everything else found while exploring under an exploratory heading, and confirm it on fresh data before it changes a decision. The discipline costs an hour of writing before the pilot and saves the department from shipping a conclusion that a second look would undo.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">If you test enough things, something will look real. Decide the tests before you look. Five tests at 5% give about a 23% chance of at least one false positive when the tests are independent and every null is true. Bonferroni, Holm, and Benjamini&ndash;Hochberg each buy that rate back down, at different prices in power and in the error rate they control. And when two builds are compared on the same documents, judge the difference by the interval on the paired difference, not by whether two separate intervals overlap.</p>
+
+<p class="leading-relaxed mb-4">Next episode: the series finale. Reporting your results &mdash; the one-page eval report, and everything it must carry.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Holm, S. (1979), <a class="underline hover:text-red" href="https://www.jstor.org/stable/4615733">&ldquo;A simple sequentially rejective multiple test procedure&rdquo;</a>, <em>Scandinavian Journal of Statistics</em> 6(2), 65&ndash;70 &mdash; the Holm step-down correction.</li>
+<li>Benjamini, Y. and Hochberg, Y. (1995), <a class="underline hover:text-red" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x">&ldquo;Controlling the false discovery rate: a practical and powerful approach to multiple testing&rdquo;</a>, <em>Journal of the Royal Statistical Society, Series B</em> 57(1), 289&ndash;300 &mdash; the Benjamini&ndash;Hochberg procedure and the false discovery rate.</li>
+<li>Bonferroni, C. E. (1936), &ldquo;Teoria statistica delle classi e calcolo delle probabilit&agrave;&rdquo;, <em>Pubblicazioni del R. Istituto Superiore di Scienze Economiche e Commerciali di Firenze</em> 8, 3&ndash;62 &mdash; the Bonferroni correction.</li>
+<li>The five-test calculation (1 &minus; 0.95<sup>5</sup> &asymp; 0.23) and the pilot p-values in the corrections table (0.008, 0.021, 0.045, 0.12, 0.31) are the series&rsquo; own illustrative teaching values, computed by the method shown. The paired-difference interval (mean difference 0.06, 95% interval about 0.02&ndash;0.10 on 25 contracts) is the Episode 11 worked example, carried forward.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 9&ndash;10 &mdash; p-values, multiple comparisons, and paired versus unpaired intervals.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

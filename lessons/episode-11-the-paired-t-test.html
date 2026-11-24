@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 11 — The Paired t-Test — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 11 &mdash; The Paired t-Test</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 11 &middot; Module 3 &mdash; Comparing Builds &middot; 6:51 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-11.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The legal department has two builds of its contract intelligence platform &mdash; the tool that reviews commercial agreements against the company playbook &mdash; and both have been scored on the same 25 contracts, on a ten-point rubric checked by human lawyers. Build A averages 0.82. Build B averages 0.76. The gap is 0.06. The question is whether that gap is real, or whether it is the kind of gap that 25 contracts produce by chance. This episode answers it with the paired t-test.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Premise: Two Builds, the Same Contracts</h2>
+
+<p class="leading-relaxed mb-4">The rubric is the ten-point assessment framework from Episode 1: accuracy of clause identification, accuracy of key-term extraction, detection of deviations from the legal playbook, identification of missing or problematic provisions, and quality of supporting explanations and source references. Each contract gets one rubric score per build, on a scale from 0 to 1 in this episode (the ten-point scores divided by ten). Build A averages 0.82 across the 25 contracts; Build B averages 0.76.</p>
+
+<p class="leading-relaxed mb-4">The pairing matters. The same 25 contracts go through both builds, so each contract produces a pair of scores, and the comparison is made contract by contract. A contract that is hard for both builds &mdash; a dense MSA with unusual indemnity language &mdash; drags both scores down together, and the difference between the two scores on that contract is unaffected. That is why the paired test is more sensitive than comparing two separate groups of contracts (Episode 12 explains the same point for pass/fail outcomes). The unit of the analysis is the <em>difference</em> on each contract, not the two averages.</p>
+
+<p class="leading-relaxed mb-4">One simplification is stated here: rubric scores are bounded between 0 and 1, and the t-test treats the differences as continuous quantities that could in principle take any value. With differences mostly between &minus;0.11 and +0.23, the bound is not binding in this example, but a rubric that piles scores up at 0 or 1 would need a different treatment.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: 25 Differences</h2>
+
+<p class="leading-relaxed mb-4">The per-contract differences, Build A minus Build B, in the order the contracts were scored:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-sm">0.19, 0.03, &minus;0.09, 0.23, &minus;0.04, 0.15, 0.09, &minus;0.11, 0.17, 0.06, &minus;0.01, 0.12, 0.04, &minus;0.07, 0.20, 0.07, &minus;0.03, 0.14, 0.02, &minus;0.06, 0.11, 0.05, 0.16, 0.00, 0.10</p>
+
+<p class="leading-relaxed mb-4">Seventeen differences are positive (Build A scored higher), seven are negative, and one is zero. The picture is already informative: Build A wins on most contracts, but not by much on any single one, and it loses outright on seven.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Difference bin</th>
+<th class="py-2 pr-4">Contracts</th>
+<th class="py-2">Reading</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">&minus;0.12 to &minus;0.06</td>
+<td class="py-2 pr-4">3</td>
+<td class="py-2">Build B clearly ahead</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">&minus;0.06 to 0.00</td>
+<td class="py-2 pr-4">4</td>
+<td class="py-2">Build B slightly ahead, or tied</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.00 to 0.06</td>
+<td class="py-2 pr-4">5</td>
+<td class="py-2">Build A slightly ahead</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.06 to 0.12</td>
+<td class="py-2 pr-4">5</td>
+<td class="py-2">Build A ahead</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.12 to 0.18</td>
+<td class="py-2 pr-4">5</td>
+<td class="py-2">Build A clearly ahead</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.18 to 0.24</td>
+<td class="py-2 pr-4">3</td>
+<td class="py-2">Build A well ahead</td>
+</tr>
+</tbody>
+</table>
+
+<svg viewBox="0 0 640 300" class="w-full mb-4" role="img" aria-label="Histogram of the 25 per-contract differences: counts of 3, 4, 5, 5, 5, 3 across bins from minus 0.12 to 0.24, centred near plus 0.06">
+<rect x="0" y="0" width="640" height="300" fill="#FAFAF8"/>
+<text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Histogram of the 25 differences (Build A − Build B)</text>
+<line x1="60" y1="250" x2="620" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="60" y1="40" x2="60" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<rect x="70" y="130" width="80" height="120" fill="#991B1B"/><text x="110" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">−0.12 to −0.06</text><text x="110" y="122" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">3</text>
+<rect x="160" y="90" width="80" height="160" fill="#991B1B"/><text x="200" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">−0.06 to 0</text><text x="200" y="82" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">4</text>
+<rect x="250" y="50" width="80" height="200" fill="#991B1B"/><text x="290" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">0 to 0.06</text><text x="290" y="42" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">5</text>
+<rect x="340" y="50" width="80" height="200" fill="#991B1B"/><text x="380" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">0.06 to 0.12</text><text x="380" y="42" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">5</text>
+<rect x="430" y="50" width="80" height="200" fill="#991B1B"/><text x="470" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">0.12 to 0.18</text><text x="470" y="42" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">5</text>
+<rect x="520" y="130" width="80" height="120" fill="#991B1B"/><text x="560" y="270" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" fill="#1a1a1a">0.18 to 0.24</text><text x="560" y="122" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">3</text>
+<text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">The bulk of the differences sit just above zero; the mean difference is 0.06.</text>
+</svg>
+
+<p class="leading-relaxed mb-4">The histogram is roughly symmetric around a centre just above zero, with no extreme outlier and no second cluster. That matters for the test below, which assumes the differences are roughly normally distributed.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Step by Step: Mean, Spread, Standard Error, t</h2>
+
+<p class="leading-relaxed mb-4">The paired t-test reduces the 25 differences to one number, t, in four steps. Every step is shown.</p>
+
+<p class="leading-relaxed mb-4"><strong>Step 1 — the mean difference, d&#772;.</strong> Add the 25 differences: the total is 1.52. Divide by 25: d&#772; = 1.52 &divide; 25 = 0.0608, shown as <strong>0.06</strong>. This matches the gap between the two averages (0.82 &minus; 0.76 = 0.06), as it must: the mean of the differences is the difference of the means.</p>
+
+<p class="leading-relaxed mb-4"><strong>Step 2 — the standard deviation of the differences, s.</strong> The symbol for standard deviation is &sigma; for a population and s for a sample. Here the 25 contracts are a sample, so the sample version is used: subtract the mean from each difference, square each result, add the squares, divide by n &minus; 1 = 24, and take the square root.</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">s = &radic;[&Sigma;(d &minus; d&#772;)&sup2; &divide; (n &minus; 1)]</p>
+
+<p class="leading-relaxed mb-4">Working: the sum of the squared deviations, &Sigma;(d &minus; d&#772;)&sup2;, is 0.223. Divide by 24: 0.223 &divide; 24 = 0.00929. Take the square root: s = &radic;0.00929 = 0.096, shown as <strong>0.10</strong>. The divisor is n &minus; 1, not n, because these 25 contracts stand in for the builds&rsquo; future scores &mdash; the sample version (Episode 1). Dividing by 25 instead would give 0.094, a slightly smaller number; the page uses the sample version throughout.</p>
+
+<p class="leading-relaxed mb-4"><strong>Step 3 — the standard error of the mean difference, SE.</strong> The standard error says how much the mean of 25 differences would wobble if the test were repeated on a fresh set of 25 contracts (Episode 4):</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">SE = s &divide; &radic;n = 0.096 &divide; &radic;25 = 0.096 &divide; 5 = 0.019</p>
+
+<p class="leading-relaxed mb-4">Shown as <strong>0.02</strong>. The mean difference is 0.06, and its standard error is about a third of that.</p>
+
+<p class="leading-relaxed mb-4"><strong>Step 4 — the t statistic.</strong> Divide the mean difference by its standard error:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">t = d&#772; &divide; SE = 0.06 &divide; 0.019 = 3.1</p>
+
+<p class="leading-relaxed mb-4">The working uses the mean rounded to 0.06 and the standard error to three decimals, 0.019, which gives 3.1; the unrounded division, 0.0608 &divide; 0.0193, gives 3.15. The t statistic says the observed mean difference is about three standard errors above zero. The <strong>degrees of freedom</strong> are n &minus; 1 = 24: one degree is spent estimating the mean, leaving 24 to judge the spread.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The t-Distribution, and Why Small Samples Need It</h2>
+
+<p class="leading-relaxed mb-4">If the true mean difference were zero &mdash; the null hypothesis &mdash; the t statistic would follow the <strong>t-distribution</strong> with 24 degrees of freedom. The t-distribution is the sampling distribution of t when the standard deviation is estimated from the same small sample: it looks like the normal curve, but with heavier tails, because estimating s from 25 differences adds uncertainty of its own. With 24 degrees of freedom the tails are only slightly heavier than normal; with 5 degrees of freedom they are much heavier, which is why small samples need the t-distribution and large samples can use the normal curve. As the degrees of freedom grow, the t-distribution approaches the normal curve.</p>
+
+<p class="leading-relaxed mb-4">For t = 3.1 on 24 degrees of freedom, the two-sided p-value is about <strong>0.005</strong>: if the two builds were truly equal, a mean difference this far from zero, in either direction, would occur about five times in a thousand. That is evidence against the null hypothesis. It is not a probability that the null is true, and it is not a probability that Build A is better (Episode 7).</p>
+
+<svg viewBox="0 0 640 300" class="w-full mb-4" role="img" aria-label="t-distribution curve with 24 degrees of freedom, centred at zero, with the observed t of 3.1 marked in the right tail">
+<rect x="0" y="0" width="640" height="300" fill="#FAFAF8"/>
+<text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">t-distribution, 24 degrees of freedom — observed t = 3.1</text>
+<path d="M 70 250 C 180 250, 220 70, 320 60 C 420 70, 460 250, 570 250" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+<line x1="320" y1="60" x2="320" y2="250" stroke="#e5e5e5" stroke-width="1"/>
+<text x="320" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0</text>
+<line x1="70" y1="250" x2="570" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<circle cx="520" cy="215" r="5" fill="#991B1B"/>
+<text x="520" y="200" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#991B1B">t = 3.1</text>
+<text x="520" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">3.1</text>
+<text x="120" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">−3.1</text>
+<text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Two-sided p ≈ 0.005: the area beyond ±3.1 in both tails combined.</text>
+</svg>
+
+<p class="leading-relaxed mb-4">The 95% confidence interval for the mean difference uses the t critical value for 24 degrees of freedom, 2.064: 0.0608 &plusmn; 2.064 &times; 0.0193 = 0.0608 &plusmn; 0.0398, or about <strong>0.02 to 0.10</strong>. The interval excludes zero, which is the same conclusion as the p-value, stated as a range instead of a probability. Whether 0.06 is big enough to act on is a separate question &mdash; the minimum important difference (Episode 10) &mdash; and a 0.06 gap on a 0-to-1 rubric is 6 points on a hundred-point scale.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Bootstrap Interval Alongside</h2>
+
+<p class="leading-relaxed mb-4">The t interval rests on the assumption that the differences are roughly normal. The <strong>bootstrap interval</strong> does not. It resamples the 25 observed differences with replacement, thousands of times, computes the mean of each resample, and takes the middle 95% of those means. For these differences, the bootstrap 95% interval is about <strong>0.02&ndash;0.10</strong> &mdash; the same range as the t interval, to two decimals. When two intervals built on different assumptions agree, the conclusion is sturdier than either one alone. When they disagree, the disagreement is information: it says an assumption is doing work. Check the differences for skew and outliers, check the sample size, and report both intervals instead of picking one. A <strong>permutation interval</strong> works the same way by a different route: it shuffles the signs of the differences (which is what the null hypothesis of no difference would produce) and asks how often a mean as large as 0.06 appears. The lesson page reports the bootstrap interval because it is the more commonly used of the two; the permutation version answers the same question.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">When to Use the t-Test Instead of McNemar</h2>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">The metric</th>
+<th class="py-2 pr-4">The test</th>
+<th class="py-2">Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Pass or fail per item</td>
+<td class="py-2 pr-4">McNemar&rsquo;s exact test (Episode 12)</td>
+<td class="py-2">Each item gives a yes or no; only the disagreements carry the comparison</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">A mean over items</td>
+<td class="py-2 pr-4">Paired t-test (this episode)</td>
+<td class="py-2">Each item gives a score; the mean of the differences is the quantity of interest</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The choice follows the metric, not the preference of the analyst. Turning rubric scores into pass/fail &mdash; say, counting a contract as a pass above 0.7 &mdash; and running McNemar would throw away the information in how far above or below the line each score sits. Turning pass/fail outcomes into a mean and running a t-test would treat a 0/1 outcome as if it were a continuous score. Use the test that matches the metric.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Wilcoxon Signed-Rank Fallback</h2>
+
+<p class="leading-relaxed mb-4">When the differences are not roughly normal &mdash; a long tail on one side, a few extreme values, a pile-up at a bound &mdash; the t-test&rsquo;s p-value is unreliable, and the fallback is the <strong>Wilcoxon signed-rank test</strong>. It ranks the absolute values of the differences, then adds the ranks of the positive differences and compares that sum with what chance would produce. It is not an assumption-free substitute, and it is not simply another test of the mean: it tests the <strong>median of the differences</strong>, and it assumes the differences are <strong>symmetric</strong> around that median. If the differences are skewed, Wilcoxon is not the repair &mdash; try the bootstrap interval, check it against the t interval, and if they still disagree, report both and say so.</p>
+
+<p class="leading-relaxed mb-4">Wilcoxon also needs enough pairs to say anything at all. With 5 non-tied pairs, the smallest possible two-sided p-value is 0.0625: even if all five differences point the same way, the chance of that under the null is 2 &times; (1/2)<sup>5</sup> = 2 &divide; 32 = 0.0625, which never crosses the conventional 0.05 threshold. With one zero difference among five pairs, only four pairs carry information, and the smallest possible two-sided p-value is 2 &times; (1/2)<sup>4</sup> = 0.125. As a rule of thumb, the fallback needs about <strong>6 or more non-tied pairs</strong> before it can return a significant result at all. A five-contract pilot cannot produce a significant Wilcoxon result, however large the differences look.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Assumptions, Stated Plainly</h2>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Paired items.</strong> Each contract is scored by both builds. If the two builds were scored on different contracts, the paired test does not apply.</li>
+<li><strong>Independent pairs.</strong> One contract&rsquo;s difference does not predict another&rsquo;s. Contracts drawn from the same matter, or near-duplicate contracts, break this (Episode 13).</li>
+<li><strong>Differences roughly normal.</strong> The histogram above is the check. A skewed or heavy-tailed set of differences calls for the bootstrap interval, or the Wilcoxon test if symmetry holds.</li>
+<li><strong>Scores treated as continuous.</strong> The rubric runs 0 to 1 in this episode. Scores piled at the bounds need a different treatment.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The paired t-test is the test for any metric that is a mean over items: mean rubric scores (this episode), mean Brier scores for a model that gives dismissal probabilities &mdash; LegalForecastBench reports a micro-Brier score per model, and two models&rsquo; mean Brier scores over the same claim&ndash;defendant units can be compared the same way &mdash; and mean cost or latency per task. The pattern is the same in each case: same items, two builds, one difference per item, and the question is whether the mean difference is far enough from zero, relative to its standard error, to count as evidence.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Pass/fail is McNemar&rsquo;s territory. Means are the t-test&rsquo;s. Use the test that matches the metric. On the same 25 contracts, Build A beats Build B by a mean of 0.06, with a standard error of 0.02, t = 3.1 on 24 degrees of freedom, p &asymp; 0.005, and a 95% interval of about 0.02 to 0.10 &mdash; confirmed by a bootstrap interval of the same range. Whether 0.06 is worth shipping is the next episode&rsquo;s question, not this one&rsquo;s.</p>
+
+<p class="leading-relaxed mb-4">Next episode: did the fix help? Same questions, new prompt &mdash; McNemar&rsquo;s exact test and the paired bootstrap.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Student [W. S. Gosset] (1908). <a class="underline hover:text-red" href="https://doi.org/10.1093/biomet/6.1.1">The probable error of a mean</a>. <em>Biometrika</em>, 6(1), 1&ndash;25 &mdash; the t-distribution and the t-test.</li>
+<li>Wilcoxon, F. (1945). <a class="underline hover:text-red" href="https://doi.org/10.2307/3001968">Individual comparisons by ranking methods</a>. <em>Biometrics Bulletin</em>, 1(6), 80&ndash;83 &mdash; the signed-rank test.</li>
+<li>Efron, B., &amp; Tibshirani, R. J. (1993). <em>An Introduction to the Bootstrap</em>. Chapman &amp; Hall &mdash; the bootstrap interval reported alongside the t interval.</li>
+<li>LegalForecastBench, GitHub repository, <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">https://github.com/johnhughes3/LegalForecastBench</a> (code Apache 2.0, data CC BY 4.0) &mdash; the source for the benchmark&rsquo;s design, the claim&ndash;defendant unit definition, the 91 cases / 387 units, and the micro-Brier metric. The repository links to the working paper and results site for the figures.</li>
+<li>The worked example (25 differences, mean 0.06, SD 0.10, SE 0.02, t = 3.1, p &asymp; 0.005, bootstrap interval about 0.02&ndash;0.10) is the series&rsquo; own calculation from the differences listed above.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

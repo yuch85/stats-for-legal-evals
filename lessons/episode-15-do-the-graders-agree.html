@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 15 — Do the Graders Agree? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 15 &mdash; Do the Graders Agree?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 15 &middot; Module 4 &mdash; Scoring and Agreement &middot; 7:12 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-15.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">Two partners graded the same outputs. They agreed 80% of the time. That sounds settled &mdash; until you ask how much of that agreement chance alone would have produced. In this episode, Sera and Ben work out why 80% raw agreement can mean a kappa of 0.375, and how to pick an AI judge panel by kappa instead of trusting one model to check another.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Today&rsquo;s Lesson</h2>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question: Two Partners Graded the Same Outputs. Did They Agree?</h2>
+
+<p class="leading-relaxed mb-4">Every eval in this series rests on grading: a human reads the build&rsquo;s output, checks it against the source, and marks it pass or fail. If two lawyers grading the same work disagree 20% of the time, no automated score can be more precise than that disagreement allows. The grading is the ceiling. So before you argue about the build&rsquo;s score, ask whether the graders agree with each other &mdash; and ask it in a way that chance cannot flatter.</p>
+
+<p class="leading-relaxed mb-4">Raw agreement flatters, because some agreement happens by chance alone. If nearly every item is a pass, two graders who barely read the work will still agree most of the time &mdash; they both say pass, and they are both right by luck. Cohen&rsquo;s kappa and Fleiss&rsquo; kappa correct for that: they measure how much agreement survives after chance is taken out.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Cohen&rsquo;s Kappa: Two Raters</h2>
+
+<p class="leading-relaxed mb-4">For two raters, &kappa; = (P<sub>o</sub> &minus; P<sub>e</sub>) / (1 &minus; P<sub>e</sub>), where P<sub>o</sub> is observed agreement &mdash; the share of items both raters scored the same &mdash; and P<sub>e</sub> is the agreement you would expect by chance, computed from how often each rater uses each category. The numerator is the agreement above chance. The denominator is the agreement above chance that was possible. Kappa is the share of the possible improvement over chance that the raters actually achieved.</p>
+
+<p class="leading-relaxed mb-4">The Landis &amp; Koch scale gives the numbers words: below 0 poor, 0&ndash;0.2 slight, 0.21&ndash;0.4 fair, 0.41&ndash;0.6 moderate, 0.61&ndash;0.8 substantial, 0.81&ndash;1 almost perfect. These labels are conventions, not thresholds set by statistics. A kappa of 0.61 is not good in any absolute sense; it is substantial on one published scale, and the scale itself is a choice. Report the number, and treat the label as a label.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: 80% Agreement That Is Only Fair</h2>
+
+<p class="leading-relaxed mb-4">Two lawyers grade 100 rubric items as pass or fail. Both say pass on 70, both say fail on 10, and they disagree on 20 &mdash; 10 each way.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4"></th>
+<th class="py-2 pr-4">Lawyer B: pass</th>
+<th class="py-2 pr-4">Lawyer B: fail</th>
+<th class="py-2">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Lawyer A: pass</td>
+<td class="py-2 pr-4">70</td>
+<td class="py-2 pr-4">10</td>
+<td class="py-2">80</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Lawyer A: fail</td>
+<td class="py-2 pr-4">10</td>
+<td class="py-2 pr-4">10</td>
+<td class="py-2">20</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Total</td>
+<td class="py-2 pr-4">80</td>
+<td class="py-2 pr-4">20</td>
+<td class="py-2">100</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Observed agreement P<sub>o</sub> = (70 + 10) / 100 = 0.80. Each lawyer passes 80% and fails 20%, so chance agreement P<sub>e</sub> = 0.8 &times; 0.8 + 0.2 &times; 0.2 = 0.64 + 0.04 = 0.68. Then &kappa; = (0.80 &minus; 0.68) / (1 &minus; 0.68) = 0.12 / 0.32 = <strong>0.375</strong> &mdash; &ldquo;fair&rdquo; on the Landis &amp; Koch scale.</p>
+
+<p class="leading-relaxed mb-4">Read that again: 80% raw agreement is only fair here, because most items are passes, and chance alone would agree 68% of the time. The graders added 12 points of agreement above chance, out of 32 possible.</p>
+
+<svg viewBox="0 0 640 200" class="w-full mb-2" role="img" aria-label="Bar chart: observed agreement 80 percent, chance agreement 68 percent, leaving 12 points above chance out of 32 possible">
+  <rect x="0" y="0" width="640" height="200" fill="#FAFAF8"/>
+  <text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">80% raw agreement, split into chance and above-chance parts.</text>
+  <rect x="120" y="50" width="326" height="30" fill="#7a7a7a"/>
+  <text x="130" y="70" font-family="Inter, sans-serif" font-size="13" fill="#FAFAF8">Chance agreement: 68 points</text>
+  <rect x="446" y="50" width="58" height="30" fill="#991B1B"/>
+  <text x="120" y="110" font-family="Inter, sans-serif" font-size="13" fill="#1a1a1a">Agreement above chance: 12 points, out of 32 possible (100 &minus; 68).</text>
+  <text x="120" y="140" font-family="Inter, sans-serif" font-size="13" fill="#1a1a1a">&kappa; = 12 / 32 = 0.375. Bars drawn to scale: 480 px = 100 points.</text>
+</svg>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Same 80%, a Different Kappa</h2>
+
+<p class="leading-relaxed mb-4">SG-LegalClarify is a benchmark of Singapore-law legal reasoning: 1,100 lawyer-authored questions across ten domains, testing whether a model can reason about the law and whether it recognises when a question is underspecified. Its two human reviewers also agreed on about 80% of criterion items &mdash; 80.4% &mdash; but their Fleiss &kappa; was 0.607: &ldquo;substantial&rdquo;. Same raw agreement, much higher kappa. Why? Because their marginals were balanced: chance agreement was about 50%, not 68%. Check: P<sub>e</sub> = (P<sub>o</sub> &minus; &kappa;) / (1 &minus; &kappa;) = (0.804 &minus; 0.607) / 0.393 &asymp; 0.50.</p>
+
+<p class="leading-relaxed mb-4">The lesson is twofold. First, never report raw agreement without kappa, and never compare kappa across tasks with different base rates. A kappa of 0.6 on a balanced task and a kappa of 0.4 on a task where 90% of items pass can describe the same quality of grading &mdash; the second task simply leaves less room above chance. Second, the rubric itself affects the number: a rubric where nearly everything passes will produce high raw agreement and low kappa whatever the graders do.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Fleiss&rsquo; Kappa: Three or More Raters</h2>
+
+<p class="leading-relaxed mb-4">Cohen&rsquo;s kappa is for two raters. Fleiss&rsquo; kappa is the same idea for three or more: how much do the raters agree, corrected for the agreement chance alone would produce. SG-LegalClarify&rsquo;s human agreement &mdash; 80.4% raw, Fleiss &kappa; = 0.607 &mdash; is reported as a Fleiss kappa, because the paper pools across its reviewers. With two raters and identical marginals, Fleiss and Cohen agree; they differ when the raters&rsquo; marginals differ, because Fleiss pools the marginals and Cohen keeps them separate.</p>
+
+<p class="leading-relaxed mb-4">For each item i, with n raters and n<sub>ij</sub> of them assigning category j, P<sub>i</sub> = (1 / (n(n &minus; 1))) &middot; &Sigma;<sub>j</sub> n<sub>ij</sub>(n<sub>ij</sub> &minus; 1) &mdash; the share of rater pairs that agree on item i. Average P<sub>i</sub> over items for P&#772;. The chance agreement is P&#772;<sub>e</sub> = &Sigma;<sub>j</sub> p<sub>j</sub>&sup2;, where p<sub>j</sub> is the overall share of assignments in category j. Then &kappa; = (P&#772; &minus; P&#772;<sub>e</sub>) / (1 &minus; P&#772;<sub>e</sub>), the same form as Cohen&rsquo;s.</p>
+
+<p class="leading-relaxed mb-4"><strong>Worked example &mdash; three raters, ten items, pass/fail.</strong> Three lawyers grade ten rubric items:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Item</th>
+<th class="py-2 pr-4">Votes</th>
+<th class="py-2">P<sub>i</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">1</td><td class="py-2 pr-4">P, P, P</td><td class="py-2">1.00</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">2</td><td class="py-2 pr-4">P, P, P</td><td class="py-2">1.00</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">3</td><td class="py-2 pr-4">P, P, F</td><td class="py-2">0.33</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">4</td><td class="py-2 pr-4">P, P, P</td><td class="py-2">1.00</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">5</td><td class="py-2 pr-4">F, F, F</td><td class="py-2">1.00</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">6</td><td class="py-2 pr-4">P, F, F</td><td class="py-2">0.33</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">7</td><td class="py-2 pr-4">P, P, P</td><td class="py-2">1.00</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">8</td><td class="py-2 pr-4">F, F, P</td><td class="py-2">0.33</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">9</td><td class="py-2 pr-4">P, P, F</td><td class="py-2">0.33</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">10</td><td class="py-2 pr-4">F, F, F</td><td class="py-2">1.00</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Six items unanimous, four split 2&ndash;1. For a split item, P<sub>i</sub> = (2 &times; 1 + 1 &times; 0) / 6 = 0.33 &mdash; one agreeing pair out of three. P&#772; = (6 &times; 1.00 + 4 &times; 0.33) / 10 = 7.33 / 10 = <strong>0.733</strong>. Total assignments: 30, of which 18 pass and 12 fail, so p<sub>P</sub> = 0.6, p<sub>F</sub> = 0.4, and P&#772;<sub>e</sub> = 0.36 + 0.16 = <strong>0.52</strong>. &kappa; = (0.733 &minus; 0.52) / (1 &minus; 0.52) = 0.213 / 0.48 = <strong>0.44</strong> &mdash; &ldquo;moderate&rdquo; on the Landis &amp; Koch scale.</p>
+
+<p class="leading-relaxed mb-4">Note what the raw numbers would have told you: all three raters agree on 6 of 10 items (60%), and 73% of rater pairs agree &mdash; yet kappa is only 0.44, because with 60% of assignments being passes, chance alone agrees 52% of the time. Compare with the paper: its reviewers agreed on 80.4% of items with kappa 0.607, because their marginals were near-balanced and chance agreement was about 50%. Same lesson as Cohen&rsquo;s, now for three raters: never report raw agreement without kappa.</p>
+
+<p class="leading-relaxed mb-4">The paper reports its Fleiss &kappa; = 0.607 with a 95% confidence interval of 0.569&ndash;0.643, computed by question-cluster bootstrap: resample whole questions with replacement &mdash; not individual items &mdash; recompute kappa on each resample, and take the 2.5th and 97.5th percentiles. The cluster part matters: items from the same question share the question&rsquo;s difficulty, so resampling items would understate the uncertainty (Episode 13).</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Which Measure Fits Which Grading</h2>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Grading setup</th>
+<th class="py-2 pr-4">Measure</th>
+<th class="py-2">Why this one</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Two raters, pass/fail or named categories</td>
+<td class="py-2 pr-4">Cohen&rsquo;s &kappa;</td>
+<td class="py-2">Chance correction with each rater&rsquo;s own marginals kept separate</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Three or more raters, named categories</td>
+<td class="py-2 pr-4">Fleiss &kappa;</td>
+<td class="py-2">Same idea, marginals pooled across raters</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Two raters, ordered ratings (1&ndash;3, 1&ndash;5)</td>
+<td class="py-2 pr-4">Weighted &kappa;</td>
+<td class="py-2">A near miss counts for more than a far miss</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Two or more raters, continuous scores</td>
+<td class="py-2 pr-4">Intraclass correlation (ICC)</td>
+<td class="py-2">Agreement on a number, not a category</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Several raters, mixed levels, some ratings missing</td>
+<td class="py-2 pr-4">Krippendorff&rsquo;s &alpha;</td>
+<td class="py-2">One coefficient across measurement levels, tolerates gaps</td>
+</tr>
+</tbody>
+</table>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Weighted Kappa: When the Ratings Are Ordered</h2>
+
+<p class="leading-relaxed mb-4">Plain kappa treats every disagreement alike. On an ordinal rubric &mdash; a three-point scale of weak, adequate, strong &mdash; that is the wrong treatment: two raters who differ by one point disagree less than two who differ by two points. Weighted kappa gives partial credit for near misses. With linear weights, a disagreement of one step on a three-point scale earns half credit, and a disagreement of two steps earns none. With quadratic weights, a one-step disagreement earns three-quarters credit, since the weight is 1 &minus; (distance / maximum distance)&sup2; = 1 &minus; (1/2)&sup2; = 0.75. State which weights were used: linear and quadratic weights give different numbers for the same table.</p>
+
+<p class="leading-relaxed mb-4"><strong>Worked example &mdash; the series&rsquo; own teaching numbers.</strong> Two partners grade 60 research memos on a three-point rubric (1 = weak, 2 = adequate, 3 = strong). The table counts memos by Partner A&rsquo;s rating (rows) against Partner B&rsquo;s rating (columns):</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4"></th>
+<th class="py-2 pr-4">B: 1</th>
+<th class="py-2 pr-4">B: 2</th>
+<th class="py-2 pr-4">B: 3</th>
+<th class="py-2">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">A: 1</td><td class="py-2 pr-4">22</td><td class="py-2 pr-4">6</td><td class="py-2 pr-4">1</td><td class="py-2">29</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">A: 2</td><td class="py-2 pr-4">5</td><td class="py-2 pr-4">14</td><td class="py-2 pr-4">2</td><td class="py-2">21</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">A: 3</td><td class="py-2 pr-4">1</td><td class="py-2 pr-4">3</td><td class="py-2 pr-4">6</td><td class="py-2">10</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Total</td><td class="py-2 pr-4">28</td><td class="py-2 pr-4">23</td><td class="py-2 pr-4">9</td><td class="py-2">60</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Unweighted agreement is (22 + 14 + 6) / 60 = 42 / 60 = 0.70, and unweighted &kappa; is 0.51. With linear weights, the weighted observed agreement is (22 &times; 1 + 6 &times; 0.5 + 1 &times; 0 + 5 &times; 0.5 + 14 &times; 1 + 2 &times; 0.5 + 1 &times; 0 + 3 &times; 0.5 + 6 &times; 1) / 60 = 50 / 60 &asymp; 0.833. The weighted chance agreement, from the row and column totals, is 37.03 / 60 &asymp; 0.617. Linear weighted &kappa; = (0.833 &minus; 0.617) / (1 &minus; 0.617) = 0.216 / 0.383 &asymp; <strong>0.56</strong>. Quadratic weights give 0.62 on the same table. The weighting choice moves the number, which is why the report must name it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Rubric Problem: The Ten-Point Rubric Needs a Different Tool</h2>
+
+<p class="leading-relaxed mb-4">Episode 1 scored ten documents on a ten-point rubric. Plain kappa does not fit that rubric: with ten ordered levels, two raters who differ by one point are not disagreeing in the same way as two who differ by eight. The series must teach the right tool for its own running example. For an ordinal or continuous rubric, use weighted kappa, the intraclass correlation, or Krippendorff&rsquo;s alpha &mdash; the three measures in the next two sections. A plain kappa on ten-point scores would treat a 9-versus-8 disagreement as a full miss, and the number it returns would understate how much the raters actually agree.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Intraclass Correlation: When the Scores Are Numbers</h2>
+
+<p class="leading-relaxed mb-4">The intraclass correlation (ICC) is the measure for continuous scores: rubric points, quality scores, time in minutes. It compares the variation between items with the variation within items. ICC = &sigma;&sup2;<sub>between</sub> / (&sigma;&sup2;<sub>between</sub> + &sigma;&sup2;<sub>within</sub>), where &sigma;&sup2;<sub>between</sub> is the variance of the true item scores and &sigma;&sup2;<sub>within</sub> is the variance of raters scoring the same item. If raters agree closely, the within-item variance is small and the ICC is near 1. If raters scatter widely on the same item, the within-item variance dominates and the ICC falls toward 0.</p>
+
+<p class="leading-relaxed mb-4">There are several ICC forms, and they answer different questions: whether the raters are a random sample of all possible raters, whether the same raters grade every item, and whether the absolute scores must agree or only the ranking. The form must be named in the report. The worked example below uses ICC(1,1), the one-way random-effects form: each item is scored by a different set of raters, and the question is how reliable a single rater&rsquo;s score is.</p>
+
+<p class="leading-relaxed mb-4"><strong>Worked example &mdash; the series&rsquo; own teaching numbers.</strong> Four outputs scored on a ten-point rubric by three raters each:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Output</th>
+<th class="py-2 pr-4">Rater 1</th>
+<th class="py-2 pr-4">Rater 2</th>
+<th class="py-2 pr-4">Rater 3</th>
+<th class="py-2">Item mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">1</td><td class="py-2 pr-4">8</td><td class="py-2 pr-4">7</td><td class="py-2 pr-4">8</td><td class="py-2">7.67</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">2</td><td class="py-2 pr-4">5</td><td class="py-2 pr-4">6</td><td class="py-2 pr-4">5</td><td class="py-2">5.33</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">3</td><td class="py-2 pr-4">9</td><td class="py-2 pr-4">9</td><td class="py-2 pr-4">8</td><td class="py-2">8.67</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">4</td><td class="py-2 pr-4">6</td><td class="py-2 pr-4">5</td><td class="py-2 pr-4">6</td><td class="py-2">5.67</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Grand mean: 82 / 12 &asymp; 6.83. Between-item sum of squares: 3 &times; [(7.67 &minus; 6.83)&sup2; + (5.33 &minus; 6.83)&sup2; + (8.67 &minus; 6.83)&sup2; + (5.67 &minus; 6.83)&sup2;] = 3 &times; [0.69 + 2.25 + 3.36 + 1.36] = 3 &times; 7.67 = 23.0. Mean square between: 23.0 / 3 &asymp; 7.67. Within-item sum of squares: each item&rsquo;s three scores sit 0.33, 0.67 and 0.33 from its item mean, so each item contributes 0.11 + 0.44 + 0.11 &asymp; 0.67, and four items give 2.67. Mean square within: 2.67 / 8 &asymp; 0.33. ICC(1,1) = (7.67 &minus; 0.33) / (7.67 + 2 &times; 0.33) = 7.33 / 8.33 &asymp; <strong>0.88</strong>. The raters differ by about a point on the same output, while the outputs differ by about three points from each other &mdash; so most of the variation in the scores is the outputs, not the raters.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Krippendorff&rsquo;s Alpha: Several Raters, Gaps Allowed</h2>
+
+<p class="leading-relaxed mb-4">Krippendorff&rsquo;s &alpha; is &alpha; = 1 &minus; D<sub>o</sub> / D<sub>e</sub>, where D<sub>o</sub> is the observed disagreement and D<sub>e</sub> is the disagreement expected by chance. It handles what the kappas do not: any number of raters, raters who did not all grade the same items, and missing ratings. It also works at every measurement level &mdash; nominal, ordinal, interval, ratio &mdash; because the disagreement is measured with a difference function that fits the level: for nominal categories, any difference counts as 1; for ordinal ratings, the difference grows with the number of steps between ratings; for interval scores, the difference is the squared gap. Choose the difference function that matches the rubric, and state it. As a convention, Krippendorff&rsquo;s own guidance treats &alpha; at or above 0.800 as reliable and 0.667 to 0.800 as tentative &mdash; conventions again, not thresholds set by statistics.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Picking a Judge Panel by Kappa</h2>
+
+<p class="leading-relaxed mb-4">Kappa is not only a check on humans. It is how you pick an AI judge. An LLM judge shares the first model&rsquo;s blind spots and will bless its mistakes, so a single unvalidated judge is a rumour with a confidence interval. SG-LegalClarify did it properly: it enumerated all 969 possible three-judge panels and ranked them by Cohen&rsquo;s kappa against the human reference.</p>
+
+<p class="leading-relaxed mb-4">The best panel &mdash; DeepSeek-V4 Flash, GPT-5.6 Sol, Kimi K3 &mdash; scored &kappa; = 0.697 with 84.8% agreement. Then came the check that matters: grouped five-fold cross-validation gave held-out &kappa; = 0.690 &mdash; barely lower, which is the point. The panel was not overfit to the reference. Single-judge selection scored &kappa; = 0.678 held-out. Three judges beat one, and the held-out check proves it.</p>
+
+<p class="leading-relaxed mb-4">&ldquo;Grouped&rdquo; is the operative word. The questions are split into five groups; the panel is picked on four groups and measured on the held-out fifth, and the process repeats for each fold. All instances of one question stay in the same fold: the paper&rsquo;s design pairs each underspecified question with a fully specified twin sharing one rubric, so if one twin were in the training folds and the other in the test fold, the panel would be tested on questions it had effectively already seen.</p>
+
+<p class="leading-relaxed mb-4">That is the procedure to copy: enumerate, rank by kappa against humans, validate held-out. Anything less is a preference, not a measurement. When you do use a judge, use three of them, and report the held-out kappa alongside the score.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Agreement Is Not Correctness</h2>
+
+<p class="leading-relaxed mb-4">Two AI judges can agree and both be wrong. Agreement measures consistency between graders, not accuracy against the truth. Two models trained on similar data, prompted the same way, will make the same mistakes in the same places &mdash; and their kappa will look strong while both miss the same point of law. Selecting AI judges purely because they agree with one another is not a defensible validation strategy. The panel must be validated against qualified human assessments, not against other models.</p>
+
+<p class="leading-relaxed mb-4">LLM judges carry their own biases, and the panel selection must account for them. Position bias: a judge favours the answer listed first. Length bias: a judge favours the longer answer. Self-preference: a judge favours answers written in its own style, or by its own model family. A panel chosen by kappa alone can still inherit these biases if all three judges share them. The defences are procedural: blinded grading, where the judge does not know which build produced the output; clear rubrics with worked examples; rater calibration, where graders score a shared set and reconcile differences before grading for real; adjudication of disagreements by a senior grader; and validation against qualified human assessments as the final check.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Take any human grading of eval outputs &mdash; two associates marking the same set of contract-review answers, or a panel of reviewers scoring a benchmark&rsquo;s rubric items &mdash; and compute kappa before you quote the score. If the graders sit at 0.375, the eval&rsquo;s ceiling is a fair agreement, and the first fix is the rubric: clearer criteria, worked examples of pass and fail, and a second grading round. No automated score can be more precise than the disagreement it sits on.</p>
+
+<p class="leading-relaxed mb-4">The same check applies the other way round, to a vendor who reports an LLM-judged score. Ask three things: which judges, what kappa against humans, and what held-out kappa. A vendor who cannot answer the second question has not measured their judge.</p>
+
+<p class="leading-relaxed mb-4">Two settings from this series show the ordinal case. On the contract platform, two partners grade clause extractions on an ordinal rubric &mdash; weak, adequate, strong &mdash; and the measure is weighted kappa, since a one-point disagreement is a smaller miss than a two-point one. Partners grading research memos on an ordinal rubric face the same choice: weighted kappa for two raters, ICC or Krippendorff&rsquo;s alpha when the scores are continuous or the raters are several.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Raw agreement flatters. Kappa asks how much agreement survives chance &mdash; and agreement is not correctness. Two raters is Cohen&rsquo;s kappa; three or more is Fleiss&rsquo;. Ordinal ratings take weighted kappa, continuous scores take the intraclass correlation, and mixed or gapped grading takes Krippendorff&rsquo;s alpha. Report kappa beside every raw agreement figure, never compare kappa across tasks with different base rates, and pick an AI judge panel by kappa against humans &mdash; validated held-out &mdash; instead of trusting one model to check another.</p>
+
+<p class="leading-relaxed mb-4">Next episode: did the triage check work? A check has two error rates, not one &mdash; and one model catches 89.3% while crying wolf 64.1% of the time.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Cohen, J. (1960), <a class="underline hover:text-red" href="https://doi.org/10.1177/001316446002000104">&ldquo;A Coefficient of Agreement for Nominal Scales,&rdquo;</a> <em>Educational and Psychological Measurement</em> 20(1), 37&ndash;46 &mdash; Cohen&rsquo;s &kappa; for two raters.</li>
+<li>Fleiss, J. L. (1971), <a class="underline hover:text-red" href="https://doi.org/10.1037/h0031619">&ldquo;Measuring Nominal Scale Agreement Among Many Raters,&rdquo;</a> <em>Psychological Bulletin</em> 76(5), 378&ndash;382 &mdash; Fleiss&rsquo; &kappa; for three or more raters.</li>
+<li>Landis, J. R. &amp; Koch, G. G. (1977), <a class="underline hover:text-red" href="https://doi.org/10.2307/2529310">&ldquo;The Measurement of Observer Agreement for Categorical Data,&rdquo;</a> <em>Biometrics</em> 33(1), 159&ndash;174 &mdash; the &kappa; interpretation scale used in this episode.</li>
+<li>Krippendorff, K. (2018), <em>Content Analysis: An Introduction to Its Methodology</em>, 4th ed. &mdash; Krippendorff&rsquo;s &alpha;, its difference functions, and its reliability conventions.</li>
+<li>Shrout, P. E. &amp; Fleiss, J. L. (1979), <a class="underline hover:text-red" href="https://doi.org/10.1037/0033-2909.86.2.420">&ldquo;Intraclass Correlations: Uses in Assessing Rater Reliability,&rdquo;</a> <em>Psychological Bulletin</em> 86(2), 420&ndash;428 &mdash; the ICC forms, including ICC(1,1).</li>
+<li>SG-LegalClarify &mdash; Gu et al., <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">arXiv:2611.19643</a>. 80.4% human agreement, Fleiss &kappa; 0.607 (95% CI 0.569&ndash;0.643), and the three-judge panel at &kappa; 0.697, held-out 0.690. Findings discussed; questions not reproduced.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 6 — How Sure Are You? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 6 &mdash; How Sure Are You?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 6 &middot; Module 2 &mdash; The Inference Toolkit &middot; 6:56 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-06.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The legal innovation team has its pilot result: the contract platform&rsquo;s clause extraction passed 7 out of 10 clauses. The head of the department asks for the number, and the team reports 70%. Episode 5 showed why that number, on its own, is evidence and not a verdict &mdash; a build that is truly 50% right and a build that is truly 80% right both produce seven out of ten regularly. This episode puts a number on the uncertainty: seven out of ten is really a range of about forty to eighty-nine percent. The bare 70% hides a fifty-point range. The width is the news.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question</h2>
+
+<p class="leading-relaxed mb-4">Seven out of ten &mdash; what range is the truth actually in? The observed pass rate, written <em>p&#770;</em> and read as &ldquo;p-hat&rdquo;, is 7 &divide; 10 = 0.70. But <em>p&#770;</em> is an estimate of the build&rsquo;s true pass rate <em>p</em>, the proportion it would get right over a very large number of similar clauses. The estimate wobbles from sample to sample &mdash; Episode 5&rsquo;s binomial distribution is the wobble, written down. A confidence interval turns that wobble into a range: a range of plausible values for <em>p</em>, computed from the data, with a stated level of confidence attached.</p>
+
+<p class="leading-relaxed mb-4">What &ldquo;95% confidence&rdquo; means needs stating carefully, because the common reading is wrong. A 95% confidence interval is a range produced by a procedure that captures the true value 95% of the time, over many repeated samples. It does <em>not</em> mean there is a 95% probability that the true value sits inside this particular interval. The true pass rate is a fixed number, not a random one; the interval is what varies from sample to sample. Ninety-five out of a hundred intervals built this way will contain the truth, and five will miss it. You never know whether yours is one of the five. That is the correct reading, and it is the only one this episode uses.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Wald Interval &mdash; and Why It Is Wrong at Small n</h2>
+
+<p class="leading-relaxed mb-4">The interval most people meet first is the Wald interval. It takes the observed rate and adds a margin on either side:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg"><em>p&#770;</em> &plusmn; <em>z</em> &times; &radic;(<em>p&#770;</em>(1 &minus; <em>p&#770;</em>) &divide; <em>n</em>)</p>
+
+<p class="leading-relaxed mb-4">Here <em>n</em> is the number of trials (10), <em>p&#770;</em> is the observed rate (0.70), and <em>z</em> is the multiplier for the confidence level: 1.96 for 95% confidence. The quantity under the square root is the standard error of the proportion &mdash; how much <em>p&#770;</em> varies from sample to sample. For 7 out of 10: the standard error is &radic;(0.70 &times; 0.30 &divide; 10) = &radic;0.021 &asymp; 0.145. The margin is 1.96 &times; 0.145 &asymp; 0.284. So the Wald interval is 0.70 &minus; 0.284 = 0.416 to 0.70 + 0.284 = 0.984 &mdash; about 42% to 98%.</p>
+
+<p class="leading-relaxed mb-4">That interval is wrong in two ways, and both matter at small <em>n</em>. First, it is centred on the observed rate and symmetric around it, which pushes the top end to 98% &mdash; nearly claiming the build could be almost perfect on the strength of seven passes out of ten. Second, and more seriously, the Wald interval covers the truth far less often than its 95% label promises when <em>n</em> is small or <em>p</em> is near 0 or 1. Its actual coverage at <em>n</em> = 10 can fall well below 95%, sometimes below 80%, because the normal approximation it relies on breaks down: with ten trials, the count takes only eleven possible values, and the distribution of <em>p&#770;</em> is lumpy and skewed, not the smooth bell curve the formula assumes. The Wald interval is a large-sample shortcut used outside the range where it works. Brown, Cai and DasGupta showed this in detail in 2001, and their recommendation is blunt: the Wald interval should not be used for small samples. This episode follows that recommendation.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Wilson Interval</h2>
+
+<p class="leading-relaxed mb-4">The interval to use instead is the Wilson interval, published by Edwin Wilson in 1927. It looks more complicated, and the complication is doing real work: instead of centring the interval on the observed rate, it centres it on a value pulled slightly toward 50%, and it widens the interval where the data are thin. The 95% Wilson interval is:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">(<em>p&#770;</em> + <em>z</em><sup>2</sup> &divide; 2<em>n</em> &plusmn; <em>z</em> &times; &radic;(<em>p&#770;</em>(1 &minus; <em>p&#770;</em>) &divide; <em>n</em> + <em>z</em><sup>2</sup> &divide; 4<em>n</em><sup>2</sup>)) &divide; (1 + <em>z</em><sup>2</sup> &divide; <em>n</em>)</p>
+
+<p class="leading-relaxed mb-4">Every symbol: <em>p&#770;</em> is the observed rate, <em>n</em> is the number of trials, <em>z</em> is 1.96 for 95% confidence. The term <em>z</em><sup>2</sup> &divide; 2<em>n</em> is the pull toward the centre; the term under the square root is the standard error with a small-sample correction added. The whole thing is divided by (1 + <em>z</em><sup>2</sup> &divide; <em>n</em>), which shrinks the interval back inside the 0-to-1 range. Two properties follow from the formula itself: the interval is never symmetric around <em>p&#770;</em> unless <em>p&#770;</em> is exactly 50%, and it can never escape the 0&ndash;100% range &mdash; unlike the Wald interval, which can produce limits above 100% or below 0%.</p>
+
+<p class="leading-relaxed mb-4">Worked for 7 out of 10, step by step. <em>z</em><sup>2</sup> = 1.96<sup>2</sup> = 3.84. The denominator is 1 + 3.84 &divide; 10 = 1.384. The centre is (0.70 + 3.84 &divide; 20) &divide; 1.384 = (0.70 + 0.192) &divide; 1.384 = 0.892 &divide; 1.384 &asymp; 0.645. Note the centre is 64.5%, not 70%: with ten trials, the interval is pulled toward 50%. The half-width is 1.96 &times; &radic;(0.70 &times; 0.30 &divide; 10 + 3.84 &divide; 400) &divide; 1.384 = 1.96 &times; &radic;(0.021 + 0.0096) &divide; 1.384 = 1.96 &times; 0.1749 &divide; 1.384 &asymp; 0.248. So the interval is 0.645 &minus; 0.248 = 0.397 to 0.645 + 0.248 = 0.893 &mdash; roughly 40% to 89%.</p>
+
+<svg viewBox="0 0 640 150" class="w-full mb-4" role="img" aria-label="Number line from zero to one hundred percent showing the Wald interval 42 to 98 percent and the Wilson interval 40 to 89 percent for seven out of ten">
+<text x="320" y="16" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Seven out of ten: two intervals, same data</text>
+<g font-family="Inter, sans-serif" font-size="11" fill="#4a4a4a">
+<line x1="40" y1="100" x2="600" y2="100" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="40" y1="94" x2="40" y2="106" stroke="#1a1a1a" stroke-width="1.5"/><text x="40" y="122" text-anchor="middle">0%</text>
+<line x1="180" y1="94" x2="180" y2="106" stroke="#1a1a1a" stroke-width="1.5"/><text x="180" y="122" text-anchor="middle">25%</text>
+<line x1="320" y1="94" x2="320" y2="106" stroke="#1a1a1a" stroke-width="1.5"/><text x="320" y="122" text-anchor="middle">50%</text>
+<line x1="460" y1="94" x2="460" y2="106" stroke="#1a1a1a" stroke-width="1.5"/><text x="460" y="122" text-anchor="middle">75%</text>
+<line x1="600" y1="94" x2="600" y2="106" stroke="#1a1a1a" stroke-width="1.5"/><text x="600" y="122" text-anchor="middle">100%</text>
+<rect x="273" y="52" width="316" height="14" fill="#d6d3d1"/><text x="596" y="48" text-anchor="end" font-size="12" fill="#1a1a1a">Wald: 42&ndash;98%</text>
+<rect x="262" y="72" width="274" height="14" fill="#991B1B"/><text x="596" y="68" text-anchor="end" font-size="12" fill="#1a1a1a">Wilson: 40&ndash;89%</text>
+<line x1="432" y1="40" x2="432" y2="100" stroke="#991B1B" stroke-width="1.5" stroke-dasharray="4 3"/><text x="432" y="34" text-anchor="middle" font-size="12" fill="#991B1B">observed 70%</text>
+</g>
+</svg>
+
+<p class="leading-relaxed mb-4">Compare the two. The Wald interval runs 42&ndash;98%, the Wilson 40&ndash;89%. Both are wide &mdash; about fifty points &mdash; because ten trials carry little information. The difference is at the top end: the Wilson interval stops at 89% where the Wald runs on to 98%, and the Wilson interval&rsquo;s coverage is close to its stated 95% even at small <em>n</em>. The width is the news either way. A report that says &ldquo;70%&rdquo; and stops is reporting a point inside a fifty-point range as though the range did not exist.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The 4x Rule: What More Cases Buy</h2>
+
+<p class="leading-relaxed mb-4">The interval shrinks as <em>n</em> grows, and it shrinks slowly: the width falls as one over the square root of <em>n</em>. To halve the width, you need four times the cases. That is the 4x rule, and it is the same square-root law from Episode 4, now applied to the interval. The table shows the 95% Wilson interval for a 70% observed rate at four sample sizes &mdash; the observed rate held fixed so the only thing changing is <em>n</em>:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Observed</th>
+<th class="py-2 pr-4">95% Wilson interval</th>
+<th class="py-2">Width (points)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">7 / 10</td><td class="py-2 pr-4">40&ndash;89%</td><td class="py-2">about 50</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">35 / 50</td><td class="py-2 pr-4">56&ndash;81%</td><td class="py-2">about 25</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">70 / 100</td><td class="py-2 pr-4">60&ndash;78%</td><td class="py-2">about 18</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">140 / 200</td><td class="py-2 pr-4">63&ndash;76%</td><td class="py-2">about 13</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Five times the cases, from 10 to 50, roughly halves the width from fifty points to twenty-five. Ten times the cases, from 10 to 100, cuts it to about eighteen. Twenty times the cases gets it to thirteen. The returns diminish: each halving of the width costs four times the work. That is the trade the legal department faces when it sizes its next test round &mdash; and it is why a ten-case pilot can only ever give a rough answer. Episode 9 takes up the sizing question in full: how many cases, for which question.</p>
+
+<p class="leading-relaxed mb-4">One more property of the table is worth noticing. As <em>n</em> grows, the Wilson interval&rsquo;s centre moves toward the observed 70%: at <em>n</em> = 10 the centre is 64.5%, at <em>n</em> = 200 it is about 69.6%. The pull toward 50% is a small-sample correction, and it fades as the data accumulate. At large <em>n</em> the Wilson and Wald intervals converge &mdash; the Wald interval is not wrong everywhere, only where the data are thin.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Zero Failures: The Rule of Three</h2>
+
+<p class="leading-relaxed mb-4">The second worked example is the one vendors like to quote. A legal research assistant &mdash; a tool that retrieves authorities and drafts answers with citations &mdash; is tested on 20 outputs. It returns zero fabricated citations. The vendor&rsquo;s report says &ldquo;zero hallucinations in our test.&rdquo; What does zero out of twenty actually establish?</p>
+
+<p class="leading-relaxed mb-4">It does not establish that the true rate is zero. Twenty outputs with no failure are consistent with a real failure rate, because a build that fails 10% of the time still produces twenty clean outputs about 12% of the time (0.9<sup>20</sup> &asymp; 0.122), and a build that fails 5% of the time does so about 36% of the time (0.95<sup>20</sup> &asymp; 0.358). The question is the same as before, asked at the boundary: given zero failures in <em>n</em> trials, how high could the true failure rate be?</p>
+
+<p class="leading-relaxed mb-4">The quick answer is the rule of three: with zero failures in <em>n</em> trials, the 95% upper bound on the true rate is about 3 &divide; <em>n</em>. The reasoning is one line. If the true rate were <em>p</em>, the probability of seeing zero failures is (1 &minus; <em>p</em>)<sup><em>n</em></sup>. Set that equal to 0.05 &mdash; the 5% tail &mdash; and solve: (1 &minus; <em>p</em>)<sup><em>n</em></sup> = 0.05 gives <em>p</em> &asymp; 3 &divide; <em>n</em> for the <em>n</em> values lawyers meet. For <em>n</em> = 20, the upper bound is 3 &divide; 20 = 0.15, about 15%. Zero fabricated citations in twenty outputs is consistent with a true fabrication rate as high as about 15%.</p>
+
+<p class="leading-relaxed mb-4">Two more precise answers sit beside the rule of three, and they agree with it. The Wilson interval for 0 out of 20 has an upper bound of about 16%: the formula gives (0 + 3.84 &divide; 40) &divide; (1 + 3.84 &divide; 20) plus its half-width, which works out to 0.161. The Clopper&ndash;Pearson interval &mdash; the exact interval, computed from the binomial distribution itself rather than an approximation &mdash; gives an upper bound of about 14%: 1 &minus; 0.05<sup>1&divide;20</sup> &asymp; 0.139. Three methods, one message: 15%, 16%, 14%. The rule of three is the one you can do in your head, and it is close enough to the exact answer to use in a meeting. The Clopper&ndash;Pearson interval is the exact one; it is also the most conservative of the three in general, because exact coverage forces it wider. Report the upper bound, whichever method you use &mdash; &ldquo;zero in twenty&rdquo; without it is a number without its uncertainty.</p>
+
+<p class="leading-relaxed mb-4">The context for the citation example is worth stating. Fabricated citations are a documented failure mode of legal research tools: <em>Mata v. Avianca</em> (S.D.N.Y. 2023) is the case in which a filing cited decisions that did not exist, and a 2024 study by Dahl and colleagues at Stanford RegLab and the Human-Centered AI institute measured hallucination rates in commercial legal research tools directly. A vendor&rsquo;s &ldquo;zero failures&rdquo; claim sits against that background. Twenty clean outputs do not answer it. The interval does &mdash; or rather, the interval says how far twenty clean outputs go toward answering it, which is not very far.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Rare Events and the Clopper&ndash;Pearson Interval</h2>
+
+<p class="leading-relaxed mb-4">Zero failures is the extreme case of a rare event. The same methods apply whenever the count is small &mdash; two failures in a hundred, one in fifty. The Clopper&ndash;Pearson interval is the exact interval for a binomial proportion: its limits are found by asking which values of <em>p</em> would make the observed count unsurprising, using the binomial distribution directly, with no normal approximation anywhere. Because it guarantees at least the stated coverage, it runs wider than the Wilson interval &mdash; that is the price of exactness. In practice: use the Wilson interval for ordinary reporting, and the Clopper&ndash;Pearson interval when the count is small or the stakes require an exact statement. Never use the Wald interval at small <em>n</em>.</p>
+
+<p class="leading-relaxed mb-4">A note on the confidence level itself. Ninety-five percent is a convention, not a law of nature. A 90% interval is narrower and a 99% interval wider, for the same data: for 7 out of 10, the 90% Wilson interval is about 44&ndash;87% and the 99% Wilson interval about 32&ndash;92%. The level is a choice about how much risk of missing the truth you accept, and it should be stated alongside the interval, every time. A range without its level is as incomplete as a percentage without its count.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Back to the department. The team reports the pilot to the head of the department. The version without an interval reads: &ldquo;The platform scored 70%.&rdquo; The version with one reads: &ldquo;The platform passed 7 of 10 clauses. The 95% Wilson interval is 40&ndash;89%.&rdquo; The second version says what the first hides: on ten clauses, the build could plausibly be anywhere from barely half right to nearly nine-tenths right. The decision the department faces &mdash; roll out, tune further, or test more &mdash; looks different once the range is visible. A 40% build is not a rollout candidate. An 89% build might be. Ten clauses cannot tell them apart, and the interval is what says so.</p>
+
+<p class="leading-relaxed mb-4">The same discipline applies to the vendor&rsquo;s &ldquo;zero failures&rdquo; claim. The response is not to dispute the twenty clean outputs. It is to ask for the interval: zero in twenty puts the 95% upper bound at about 15%. Then the question becomes whether a failure rate up to 15% is acceptable for the work the tool will do &mdash; a question the department can answer, once the number is on the table.</p>
+
+<p class="leading-relaxed mb-4">A short checklist for reporting any pilot score:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Report the interval, never the bare percentage. The width is the news.</li>
+<li>Report the count alongside the interval: 7 out of 10, not just 70%.</li>
+<li>State the confidence level: 95% is the convention; say so, or say what you used instead.</li>
+<li>Use the Wilson interval at small <em>n</em>. Do not use the Wald interval there.</li>
+<li>For zero failures, report the upper bound &mdash; about 3 &divide; <em>n</em> &mdash; and say what it allows.</li>
+<li>When a vendor quotes a bare percentage, ask for <em>n</em> and the interval before deciding anything.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Report the interval, never the bare percentage. The width is the news. Seven out of ten is a 95% Wilson interval of roughly forty to eighty-nine percent &mdash; a fifty-point range that the bare 70% hides entirely. Zero failures in twenty outputs allows a true failure rate up to about 15%. The interval does not make the evidence weaker. It makes the evidence visible.</p>
+
+<p class="leading-relaxed mb-4">Next episode: what does <em>p</em> mean? The vendor says p = 0.03 &mdash; what are they actually claiming?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Wilson, E. B. (1927). <a class="underline hover:text-red" href="https://doi.org/10.1080/01621459.1927.10502953">&ldquo;Probable inference, the law of succession, and statistical inference.&rdquo;</a> <em>Journal of the American Statistical Association</em> 22(158), 209&ndash;212 &mdash; the Wilson interval.</li>
+<li>Brown, L. D., Cai, T. T., &amp; DasGupta, A. (2001). <a class="underline hover:text-red" href="https://doi.org/10.1214/ss/1009213286">&ldquo;Interval estimation for a binomial proportion.&rdquo;</a> <em>Statistical Science</em> 16(2), 101&ndash;133 &mdash; the Wald interval&rsquo;s poor coverage at small <em>n</em>, and the recommendation to use the Wilson interval instead.</li>
+<li>Clopper, C. J., &amp; Pearson, E. S. (1934). <a class="underline hover:text-red" href="https://doi.org/10.1093/biomet/26.4.404">&ldquo;The use of confidence or fiducial limits illustrated in the case of the binomial.&rdquo;</a> <em>Biometrika</em> 26(4), 404&ndash;413 &mdash; the exact (Clopper&ndash;Pearson) interval.</li>
+<li>Agresti, A., &amp; Coull, B. A. (1998). <a class="underline hover:text-red" href="https://doi.org/10.2307/2685469">&ldquo;Approximate is better than &lsquo;exact&rsquo; for interval estimation of binomial proportions.&rdquo;</a> <em>The American Statistician</em> 52(2), 119&ndash;126.</li>
+<li>The worked examples in this episode are the series&rsquo; own: 7/10 gives a 95% Wilson interval of 39.7&ndash;89.2% and a Wald interval of 41.6&ndash;98.4%; 0/20 gives a rule-of-three upper bound of 15%, a Wilson upper bound of 16.1% and a Clopper&ndash;Pearson upper bound of 13.9%.</li>
+<li><em>Mata v. Avianca, Inc.</em>, No. 22-cv-1461 (S.D.N.Y. 2023) &mdash; fabricated citations in a filing. Dahl, M., et al. (2024). <a class="underline hover:text-red" href="https://arxiv.org/abs/2401.01301">&ldquo;Large legal fictions: Profiling legal hallucinations in large language models.&rdquo;</a> Stanford RegLab / Human-Centered AI &mdash; measured hallucination rates in commercial legal research tools.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 8 &mdash; confidence intervals for a proportion, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

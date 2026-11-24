@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 4 — Why More Cases Help — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 4 &mdash; Why More Cases Help</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 4 &middot; Module 1 &mdash; Foundations: What a Number Means &middot; 6:30 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-04.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-4">The legal department has run the contract platform on ten contracts and has a mean score. The vendor offers to run forty more. Is that worth the time? The department is deciding whether a ten-case pilot tells it anything at all about the platform&rsquo;s performance &mdash; and, if not, how many cases would.</p>
+<p class="text-lg leading-relaxed mb-8">The question this episode answers: why is 50 questions steadier than 5? The answer is the sampling distribution, the standard error, and the Central Limit Theorem &mdash; the whole reason test sets work.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">One Question Wobbles; a Mean Steadies</h2>
+<p class="leading-relaxed mb-4">Take one contract, scored by the platform. From Episode 1, the ten pilot scores had a population standard deviation of &sigma; = 2.45. A single score can sit a long way from the mean: the observed scores ran from 4 to 10 around a mean of 7. One document tells you about that document. It tells you very little about the platform.</p>
+<p class="leading-relaxed mb-4">Now take the mean of 50 contracts. Each individual score still varies as much as before, but the high scores and the low scores partly cancel each other out in the average. A mean of 50 is steadier than a single score, because the wobble in one direction is offset by wobble in the other. The more items in the mean, the more cancelling happens, and the steadier the mean becomes. That is the whole reason test sets work: averages of many things are steadier than single things.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Sampling Distribution</h2>
+<p class="leading-relaxed mb-4">Imagine running the pilot many times: draw 50 contracts, compute the mean, write it down; draw another 50, compute the mean, write it down; and so on, hundreds of times. The list of means you collect has its own distribution. That distribution is called the sampling distribution of the mean. It is a distribution of averages, not a distribution of individual scores.</p>
+<p class="leading-relaxed mb-4">The sampling distribution has a centre and a spread, like any distribution. Its centre is the true mean: the average the platform would score if it were run on every contract in the population. Its spread is narrower than the spread of individual scores, because averages vary less than single items do. The spread of the sampling distribution is what the standard error measures.</p>
+<svg viewBox="0 0 560 260" class="w-full mb-2" role="img" aria-label="Three curves showing sampling distributions: the widest for means of 5 items, narrower for means of 20, narrowest for means of 50. All centred on the same true mean.">
+<path d="M 40 220 Q 120 210 180 120 Q 240 40 280 40 Q 320 40 380 120 Q 440 210 520 220" fill="none" stroke="#7a7a7a" stroke-width="2"/>
+<path d="M 40 220 Q 180 215 230 110 Q 260 45 280 45 Q 300 45 330 110 Q 380 215 520 220" fill="none" stroke="#991B1B" stroke-width="2"/>
+<path d="M 40 220 Q 220 218 255 110 Q 270 50 280 50 Q 290 50 305 110 Q 340 218 520 220" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+<line x1="280" y1="30" x2="280" y2="220" stroke="#e5e5e5" stroke-width="1"/>
+<text x="280" y="245" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">True mean</text>
+<text x="90" y="200" font-size="12" font-family="Inter,sans-serif" fill="#7a7a7a">n = 5</text>
+<text x="330" y="90" font-size="12" font-family="Inter,sans-serif" fill="#991B1B">n = 20</text>
+<text x="300" y="40" font-size="12" font-family="Inter,sans-serif">n = 50</text>
+</svg>
+<p class="font-sans text-sm text-ink-muted mb-4">Figure 1. The sampling distribution of the mean, for samples of 5, 20, and 50 items. All three are centred on the same true mean. As n grows, the distribution narrows: the mean of a larger sample varies less from sample to sample.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Standard Error: &sigma; &divide; &radic;n</h2>
+<p class="leading-relaxed mb-4">The standard error, written SE, is the standard deviation of the sampling distribution. It measures how far a sample mean typically sits from the true mean. Its formula is:</p>
+<p class="text-center text-xl leading-relaxed mb-4">SE = &sigma; &divide; &radic;n</p>
+<p class="leading-relaxed mb-4">Here &sigma; is the standard deviation of individual scores &mdash; how much single items vary &mdash; and n is the number of items in the sample. The square root is the key part. The standard error shrinks as one over the square root of n. Double the sample and the standard error shrinks by a factor of &radic;2, about 1.41, not by half. To halve the standard error, the sample must grow fourfold: four times the cases, half the wobble.</p>
+<p class="leading-relaxed mb-4">The worked numbers below use &sigma; = 2.45, the population standard deviation of the ten pilot scores from Episode 1. That is a teaching simplification, stated explicitly: the ten pilot scores are being used as if their spread were the spread of individual scores in the wider population. The arithmetic is what matters here, and it is shown in full.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Items in the mean (n)</th>
+<th class="py-2 pr-4">Standard error</th>
+<th class="py-2 pr-4">Working</th>
+<th class="py-2">Approximate 95% range for the mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">1</td>
+<td class="py-2 pr-4">2.45</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;1 = 2.45</td>
+<td class="py-2">mean &plusmn; 4.80</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">5</td>
+<td class="py-2 pr-4">1.10</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;5 = 2.45 &divide; 2.24 = 1.10</td>
+<td class="py-2">mean &plusmn; 2.15</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">10</td>
+<td class="py-2 pr-4">0.77</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;10 = 2.45 &divide; 3.16 = 0.77</td>
+<td class="py-2">mean &plusmn; 1.52</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">20</td>
+<td class="py-2 pr-4">0.55</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;20 = 2.45 &divide; 4.47 = 0.55</td>
+<td class="py-2">mean &plusmn; 1.07</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">50</td>
+<td class="py-2 pr-4">0.35</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;50 = 2.45 &divide; 7.07 = 0.35</td>
+<td class="py-2">mean &plusmn; 0.68</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">200</td>
+<td class="py-2 pr-4">0.17</td>
+<td class="py-2 pr-4">2.45 &divide; &radic;200 = 2.45 &divide; 14.14 = 0.17</td>
+<td class="py-2">mean &plusmn; 0.34</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Read the table from the top. With one item, the standard error is 2.45 &mdash; the mean of one item is just that item, so it wobbles as much as a single score. With five items, the standard error is 1.10. With 50 items, it is 0.35. With 200 items, it is 0.17. The fourfold rule is visible in the table: from n = 5 to n = 20, the standard error halves, from 1.10 to 0.55. From n = 50 to n = 200, it halves again, from 0.35 to 0.17.</p>
+<p class="leading-relaxed mb-4">The last column is the approximate 95% range: the sample mean, plus or minus 1.96 times the standard error. The multiplier 1.96 comes from the normal distribution, and is explained in the next section. With 50 items, the mean sits within about 0.68 points of the true mean in about 95% of samples. With five items, that range is 2.15 points &mdash; more than three times as wide. A ten-case pilot with a mean of 7.0 and a standard error of 0.77 has an approximate 95% range of 7.0 &plusmn; 1.52, or about 5.5 to 8.5. That range is the answer to whether a ten-case pilot tells the department anything: it tells the department the mean is somewhere in a three-point range, which is a start, and not a precise estimate.</p>
+<p class="leading-relaxed mb-4">The standard error is not the standard deviation. The standard deviation, &sigma;, describes how much individual scores vary. The standard error, &sigma; &divide; &radic;n, describes how much sample means vary. Confusing the two is a common error in pilot reports: a report that quotes the standard deviation of the scores as if it were the uncertainty in the mean overstates the uncertainty by a factor of &radic;n.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Central Limit Theorem</h2>
+<p class="leading-relaxed mb-4">The Central Limit Theorem says that the sampling distribution of the mean becomes approximately normal &mdash; bell-shaped, symmetric around the true mean &mdash; as the sample size grows, whatever the distribution of the individual scores looks like. The ten pilot scores from Episode 1 were bimodal, with two clusters and a gap in the middle. The mean of 50 such scores is still approximately normal. That is the theorem&rsquo;s force: the average smooths out the irregularities of the individual items.</p>
+<p class="leading-relaxed mb-4">The theorem needs three conditions. First, the items must be independent: each item&rsquo;s score must not depend on the others. Second, the sample must be large enough for the approximation to be good. How large is large enough depends on the distribution of the individual scores: for roughly symmetric scores, a few dozen items are enough; for heavily skewed scores, more are needed. Third, the individual scores must have a finite variance &mdash; a condition that holds for scores on a bounded ten-point scale.</p>
+<p class="leading-relaxed mb-4">The approximation is weak at small n. The 95% range for n = 5 in the table above uses the normal multiplier 1.96, but with five items drawn from a bimodal distribution the sampling distribution is not yet close to normal, so that range is rough. By n = 50 it is a good approximation. The lesson is not that small samples are useless, but that the normal approximation &mdash; and the intervals built on it &mdash; should not be trusted at small n without checking. Episode 6 builds proper intervals for small samples.</p>
+<p class="leading-relaxed mb-4">The multiplier 1.96 is the point on a standard normal distribution that leaves 2.5% in each tail, so that 95% of the distribution lies within 1.96 standard errors of the centre. It is a property of the normal distribution, not of the data. The Central Limit Theorem is what licenses using it for a sample mean.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What the Standard Error Does Not Do</h2>
+<p class="leading-relaxed mb-4">The standard error shrinks random error only. It says nothing about bias. A convenience sample of easy contracts stays biased at any n: the mean of 500 template NDAs is a precise estimate of performance on template NDAs, and it still says nothing about bespoke vendor contracts. That is Episode 3&rsquo;s lesson, and it is the reason sample quality comes before sample size. More cases make a biased estimate more precise, not less biased.</p>
+<p class="leading-relaxed mb-4">The standard error also says nothing about clustering. Every n in this episode assumes independent items: each contract&rsquo;s score independent of the others. If ten questions come from one contract, or twenty clauses from one MSA, the items travel together, and the effective sample size is smaller than the headline n. Episode 13 works through the design effect that corrects for clustering. Until then, treat every n in this episode as a count of independent items.</p>
+<p class="leading-relaxed mb-4">Finally, the standard error describes the uncertainty in the mean, not the spread of the scores. A small standard error does not mean the platform&rsquo;s scores are consistent with each other. It means the average is precisely estimated. The platform can score 4 on some documents and 10 on others &mdash; a wide spread, &sigma; = 2.45 &mdash; while the mean of 50 documents is estimated to within 0.35 points. Both statements are true at once, and they answer different questions.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case: Sizing a Pilot</h2>
+<p class="leading-relaxed mb-4">The department is deciding whether a ten-case pilot tells it anything at all. With &sigma; = 2.45, a ten-case pilot gives a standard error of 0.77 and an approximate 95% range of about 5.5 to 8.5 around a mean of 7.0. That range is wide enough to matter: a platform whose true mean is 5.5 and a platform whose true mean is 8.5 are different platforms, and the pilot cannot tell them apart. The pilot is not useless &mdash; it can reveal a split between document types, as Episode 1 showed, and it can reveal catastrophic failures &mdash; but it cannot pin down the mean.</p>
+<p class="leading-relaxed mb-4">To halve the range, the department needs four times the cases: 40 contracts instead of 10, giving a standard error of about 0.39 and a range of about 7.0 &plusmn; 0.76. To halve it again, 160 contracts. Each halving costs four times as much testing. The decision is therefore a trade-off between precision and cost, and the standard error is what prices it. Episode 9 takes up the full sizing question: how many cases are needed to estimate a score, to detect a difference, and to compare two builds.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Reading a Mean and Its Uncertainty</h2>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Ask for n: how many independent items went into the mean?</li>
+<li>Ask for the standard error, not just the standard deviation. The standard error is &sigma; &divide; &radic;n.</li>
+<li>Check the fourfold rule: halving the wobble needs four times the cases.</li>
+<li>Ask whether the items are independent. Items from the same document travel together.</li>
+<li>Ask whether the sample is representative. A precise estimate of the wrong population is still the wrong population.</li>
+<li>Ask for the interval around the mean, not just the mean. The width is the news.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+<p class="leading-relaxed mb-4">Averages of many things are steadier than single things. That is the whole reason test sets work. The standard error, &sigma; &divide; &radic;n, says how much steadier: four times the cases, half the wobble. It shrinks random error only. Bias and clustering are separate problems, and they need separate fixes.</p>
+<p class="leading-relaxed mb-4">Next episode: pass or fail is a weighted coin. Seven out of ten &mdash; good or not?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>The worked numbers in this episode are the series&rsquo; own, computed from the Episode 1 pilot scores (population standard deviation &sigma; = 2.45). The use of &sigma; = 2.45 as the spread of individual scores in the wider population is a teaching simplification, stated in the text. Standard errors: n = 1, 2.45; n = 5, 1.10; n = 10, 0.77; n = 20, 0.55; n = 50, 0.35; n = 200, 0.17. Approximate 95% ranges use the normal multiplier 1.96.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 7 &mdash; the Central Limit Theorem and the sampling distribution of the mean, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

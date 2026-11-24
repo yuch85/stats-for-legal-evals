@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 12 — Did the Fix Help? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 12 &mdash; Did the Fix Help?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 12 &middot; Module 3 &mdash; Comparing Builds &middot; 7:00 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-12.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The legal department has rewritten the prompt for clause extraction on its contract intelligence platform &mdash; the tool that reviews commercial agreements against the company playbook &mdash; and run the same test set through the platform before and after the change. Same questions, new prompt. Better? This episode answers that with McNemar&rsquo;s exact test and the paired bootstrap, the two tools for before/after comparisons on the same test set. It is the most common comparison in legal evals, and the easiest to get wrong by testing the new prompt on different questions.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Premise: Same Questions, Before and After</h2>
+
+<p class="leading-relaxed mb-4">Each test item is a clause-extraction task: the platform either extracts the clause correctly (a pass) or it does not (a fail). The old prompt and the new prompt each run on the same items, so each item produces a pair of outcomes. The four possible pairs are:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4"></th>
+<th class="py-2 pr-4">New prompt passes</th>
+<th class="py-2 pr-4">New prompt fails</th>
+<th class="py-2">Row total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4"><strong>Old prompt passes</strong></td>
+<td class="py-2 pr-4">a — both pass</td>
+<td class="py-2 pr-4">c — old passes, new fails</td>
+<td class="py-2">a + c</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4"><strong>Old prompt fails</strong></td>
+<td class="py-2 pr-4">b — old fails, new passes</td>
+<td class="py-2 pr-4">d — both fail</td>
+<td class="py-2">b + d</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4"><strong>Column total</strong></td>
+<td class="py-2 pr-4">a + b</td>
+<td class="py-2 pr-4">c + d</td>
+<td class="py-2">a + b + c + d</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The pairs where both prompts agree &mdash; a and d &mdash; say nothing about which prompt is better. Both passing means the item was easy for both; both failing means it was hard for both. The comparison turns on the <strong>discordant pairs</strong>: b, the items the fix repaired, and c, the items the fix broke. If the fix did nothing, b and c should be about equal: each discordant pair is equally likely to favour the old prompt or the new one. If b is much larger than c, that is evidence the fix helped. The whole test is a question about b and c alone.</p>
+
+<p class="leading-relaxed mb-4">That is the first clarification this episode makes, because it is the one most often missed: <strong>McNemar&rsquo;s n is the number of discordant pairs, not the number of items.</strong> A test set of 200 items with 22 discordant pairs has n = 22 for this test, not n = 200. The other 178 items were run, and they matter for the pass rate, but they carry no information about which prompt is better.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">McNemar&rsquo;s Exact Test</h2>
+
+<p class="leading-relaxed mb-4">The null hypothesis is that the two prompts are equally good, so each discordant pair is a fair coin flip: a 50% chance it favours the new prompt, 50% that it favours the old one. Conditional on the number of discordant pairs, n = b + c, the count b follows the binomial distribution with n trials and probability 0.5 (Episode 5). The two-sided p-value is twice the probability of seeing a split as lopsided as the one observed, or more so, in the direction observed:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">p = 2 &times; P(X &le; min(b, c)) &nbsp;where X ~ Binomial(n, 0.5)</p>
+
+<p class="leading-relaxed mb-4">It is called the <em>exact</em> test because the probability comes from the binomial distribution itself, not from a normal approximation to it. With 20 or so discordant pairs, the normal approximation is poor &mdash; the counts are small and discrete &mdash; so the exact calculation is the one to use. There is also an asymptotic version of McNemar&rsquo;s test, based on a chi-squared statistic; it is not used in this episode, and the p-values below are all exact.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Examples: Four Splits, Four Answers</h2>
+
+<p class="leading-relaxed mb-4">Four discordant splits, worked the same way. In each row, n is the discordant count, the smaller count is the tail that is summed, and the p-value is twice the one-sided binomial tail.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Split (b vs c)</th>
+<th class="py-2 pr-4">Discordant n</th>
+<th class="py-2 pr-4">One-sided tail</th>
+<th class="py-2 pr-4">Two-sided p</th>
+<th class="py-2">Reading</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">14 vs 8</td>
+<td class="py-2 pr-4">22</td>
+<td class="py-2 pr-4">P(X &le; 8) = 0.1431</td>
+<td class="py-2 pr-4">0.29</td>
+<td class="py-2">Little evidence against the null</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">18 vs 4</td>
+<td class="py-2 pr-4">22</td>
+<td class="py-2 pr-4">P(X &le; 4) = 0.0022</td>
+<td class="py-2 pr-4">0.004</td>
+<td class="py-2">Strong evidence against the null</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">15 vs 5</td>
+<td class="py-2 pr-4">20</td>
+<td class="py-2 pr-4">P(X &le; 5) = 0.0207</td>
+<td class="py-2 pr-4">0.041</td>
+<td class="py-2">Evidence against the null, just inside 0.05</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">14 vs 6</td>
+<td class="py-2 pr-4">20</td>
+<td class="py-2 pr-4">P(X &le; 6) = 0.0577</td>
+<td class="py-2 pr-4">0.115</td>
+<td class="py-2">Not enough evidence against the null</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The working for the first row: with n = 22 and a fair coin, P(X &le; 8) is the sum of the binomial probabilities for 0 through 8 successes, each C(22, k) &divide; 2<sup>22</sup>. That sum is 0.1431; doubling it for the two-sided test gives p = 0.286, shown as 0.29. The other rows follow the same arithmetic. The one-sided tail is doubled rather than taken as the answer because the test does not assume in advance which direction the fix went: a split of 8 vs 14 would be equally surprising.</p>
+
+<svg viewBox="0 0 640 300" class="w-full mb-4" role="img" aria-label="Bar chart of the four two-sided p-values: 0.29, 0.004, 0.041 and 0.115, with a dashed line at 0.05">
+<rect x="0" y="0" width="640" height="300" fill="#FAFAF8"/>
+<text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Two-sided p-values for the four splits (dashed line: 0.05)</text>
+<line x1="60" y1="250" x2="620" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="60" y1="40" x2="60" y2="250" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="60" y1="215" x2="620" y2="215" stroke="#991B1B" stroke-width="2" stroke-dasharray="5,4"/>
+<text x="615" y="208" font-family="Inter, sans-serif" font-size="11" text-anchor="end" fill="#991B1B">0.05</text>
+<rect x="100" y="70" width="80" height="180" fill="#991B1B"/><text x="140" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">14 vs 8</text><text x="140" y="62" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0.29</text>
+<rect x="230" y="248" width="80" height="2" fill="#991B1B"/><text x="270" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">18 vs 4</text><text x="270" y="240" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0.004</text>
+<rect x="360" y="225" width="80" height="25" fill="#991B1B"/><text x="400" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">15 vs 5</text><text x="400" y="217" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0.041</text>
+<rect x="490" y="180" width="80" height="70" fill="#991B1B"/><text x="530" y="270" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">14 vs 6</text><text x="530" y="172" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0.115</text>
+<text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Bars are illustrative, not to a linear scale: 0.004 would be invisible next to 0.29.</text>
+</svg>
+
+<p class="leading-relaxed mb-4">The third and fourth rows are the boundary, and the boundary is the lesson. Fifteen against five gives p = 0.041, inside the conventional 0.05 threshold. Fourteen against six gives p = 0.115, outside it. One pair moving from one side to the other &mdash; a single item, re-graded or re-run &mdash; flips the conclusion. That is not a defect in the test. It is discreteness: with 20 discordant pairs, the p-value can only take a handful of values, and 0.05 falls between two of them. A report that says &ldquo;significant&rdquo; for 15 vs 5 and &ldquo;not significant&rdquo; for 14 vs 6, without showing the interval and the effect, is reporting the threshold, not the evidence. The difference between the two splits is one item; the difference between the two verdicts is a convention.</p>
+
+<p class="leading-relaxed mb-4">Language is qualified throughout: &ldquo;evidence against the null&rdquo;, not &ldquo;real&rdquo; versus &ldquo;noise&rdquo;. A p-value of 0.29 is not proof the fix did nothing; it is a statement that a split of 14 vs 8 is unsurprising if the prompts were equally good. A p-value of 0.004 is not proof the fix worked; it is a statement that a split of 18 vs 4 would be surprising if they were equal.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Two Illustrations</h2>
+
+<p class="leading-relaxed mb-4"><strong>The contract platform&rsquo;s prompt fix.</strong> The clause-extraction prompt is rewritten, and both versions run on the same test set. The discordant split is 18 vs 4 &mdash; eighteen items the new prompt extracts correctly that the old one missed, four items it newly gets wrong &mdash; with p &asymp; 0.004. That is evidence against the null, and the direction is clear: the fix repaired more than it broke. The department still checks the four newly broken items before shipping: if they share a clause type, the fix has a cost the headline hides (Episode 8), and the minimum important difference (Episode 10) still decides whether 14 net repairs are worth the re-validation.</p>
+
+<p class="leading-relaxed mb-4"><strong>The citation-check prompt fix.</strong> The legal research assistant &mdash; the tool that retrieves authorities and drafts answers with citations &mdash; gets a rewritten prompt for its citation check, the step that verifies each cited authority supports the proposition it is cited for. Before and after, on the same set of research questions, the split is 15 vs 5, p &asymp; 0.041. That is evidence against the null, just inside the threshold, and the department treats it as a provisional result: the interval on the difference is wide, the split sits one item from the boundary, and the fix is re-tested on a fresh set of questions before it ships. The second illustration exists to show the same test on a different tool: the statistics do not change when the workflow does.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Why Pairing Buys Power</h2>
+
+<p class="leading-relaxed mb-4">Running both prompts on the same items is more powerful than running each on its own set of items, and the reason is the agreement between the pairs. An unpaired comparison must allow for the possibility that the two groups of items differ in difficulty. A paired comparison does not: the same item is judged twice, so item difficulty cancels out, and only the disagreements remain.</p>
+
+<p class="leading-relaxed mb-4">A worked comparison, with the assumptions stated: 100 items, the old prompt passes 70, the new prompt passes 76, and the discordant split is 14 vs 8 (so a = 62 items both pass, d = 16 both fail). The paired standard error of the difference is &radic;(0.22 &divide; 100) = &radic;0.0022 = 0.047, or 4.7 points. The unpaired standard error, treating the two pass rates as independent samples of 100, is &radic;(0.70 &times; 0.30 &divide; 100 + 0.76 &times; 0.24 &divide; 100) = &radic;(0.0021 + 0.0018) = &radic;0.0039 = 0.063, or 6.3 points. The paired interval is narrower, because the paired calculation uses only the discordant rate (22%) while the unpaired calculation carries the full variance of both rates.</p>
+
+<p class="leading-relaxed mb-4">The gain depends on the correlation between the paired measurements &mdash; how much the two prompts agree. When the prompts agree on most items, the discordant rate is low and the paired standard error is small. When they disagree on nearly everything, the gain shrinks. There is no universal multiplier: an earlier draft of this series claimed pairing quadruples the power, and that claim was withdrawn, because no single number describes the gain. The gain is whatever the discordant rate and the correlation make it, on that test set.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Paired Bootstrap, and When It Disagrees with the Exact Test</h2>
+
+<p class="leading-relaxed mb-4">The <strong>paired bootstrap</strong> is the interval to report alongside McNemar&rsquo;s p-value. It resamples the paired items with replacement &mdash; whole pairs, never one side of a pair alone &mdash; computes the difference in pass rates for each resample, and takes the middle 95% of those differences as the interval. It answers a different question from the exact test in form, but the same question in substance: how large is the difference, and how precisely is it measured?</p>
+
+<p class="leading-relaxed mb-4">Sometimes the two disagree, and the disagreement is the most instructive part of this episode. Take a small test set of 10 items: the new prompt repairs 4 items, breaks none, and the other 6 are unchanged. The discordant count is 4, all in one direction, and the exact McNemar p-value is 2 &times; (1/2)<sup>4</sup> = 2 &divide; 16 = 0.125. The difference in pass rates is 4 &divide; 10 = 0.40. A normal-approximation interval on that difference runs from about 0.08 to 0.72 &mdash; working: the differences per item are four +1s and six 0s, mean 0.40, sample standard deviation 0.516, standard error 0.516 &divide; &radic;10 = 0.163, and 0.40 &plusmn; 1.96 &times; 0.163 = 0.40 &plusmn; 0.32. A percentile bootstrap interval on the same data can also exclude zero. So the interval says &ldquo;the difference is away from zero&rdquo; while the exact test says p = 0.125.</p>
+
+<p class="leading-relaxed mb-4">Do not explain that away as &ldquo;different questions&rdquo; &mdash; the two can address the same underlying performance difference. Check four things instead:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Discreteness.</strong> With 4 discordant pairs, the two-sided exact p-value can only take three values: 1.000 for a 2 vs 2 split, 0.625 for 3 vs 1, and 0.125 for 4 vs 0. No split of 4 pairs can produce a p-value below 0.05. The test cannot return a significant result at this size, however lopsided the split.</li>
+<li><strong>Small-sample behaviour.</strong> Ten items is a small test set. The bootstrap resamples 10 items, so its intervals are built from very little information, and percentile intervals at n = 10 are known to be optimistic.</li>
+<li><strong>Interval construction.</strong> A normal-approximation interval and a percentile bootstrap interval are built differently from an exact binomial tail. They make different approximations, and at small n the approximations diverge. A bias-corrected bootstrap interval, or an exact interval on the difference, would be wider.</li>
+<li><strong>Assumptions.</strong> The exact test conditions on the discordant count; the bootstrap does not. The two are answering the same question under different conditionings, and at small n the conditioning matters.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">Do not teach automatic deference to one method. Report both, state which assumption each one rests on, and say what would settle the disagreement: more discordant pairs. With 4 discordant pairs the question cannot be settled; with 22, it can.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Before/After on the Same Test Set</h2>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Run both versions on the same items. Different questions throw away the pairing, and the pairing is the best evidence you have.</li>
+<li>Build the 2 &times; 2 table. Report b and c, not just the two pass rates.</li>
+<li>Use the exact test at small discordant counts. Report the discordant n beside the p-value.</li>
+<li>Report the paired bootstrap interval beside the p-value, and the net difference (b &minus; c) in points.</li>
+<li>If the exact test and the bootstrap disagree, check discreteness, small-sample behaviour, interval construction, and assumptions &mdash; and collect more discordant pairs.</li>
+<li>Read the newly broken items (c) item by item before shipping, whatever the p-value says.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Before/after on the same test set is the most common comparison in legal evals: a prompt fix on the contract platform, a citation-check fix on the research assistant, a retrieval change on the RAG tool, a new model version behind the same interface. The design is always the same &mdash; same questions, paired test &mdash; and the failure mode is always the same too: testing the new version on fresh questions and comparing its score with the old version&rsquo;s score on the old questions, which confounds the fix with the difficulty of the questions. Same questions, paired test. Different questions, and the best evidence is gone.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Same questions, paired test. Different questions, you have thrown away your best evidence. McNemar&rsquo;s exact test asks whether the discordant pairs split evenly, and its n is the discordant count, not the item count. The paired bootstrap puts an interval on the difference. When they disagree at small n, the disagreement is information about discreteness and interval construction, not a reason to defer to one method automatically. And a p-value of 0.041 against 0.115 is one item apart &mdash; report the split, the interval, and the broken items, and let the reader see the evidence instead of the verdict.</p>
+
+<p class="leading-relaxed mb-4">Next episode: your items are not independent. One hundred questions from ten cases behave like about thirty-six.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>McNemar, Q. (1947). <a class="underline hover:text-red" href="https://doi.org/10.1007/BF02295996">Note on the sampling error of the difference between correlated proportions or percentages</a>. <em>Psychometrika</em>, 12(2), 153&ndash;157 &mdash; the paired test for binary outcomes.</li>
+<li>Fagerland, M. W., Lydersen, S., &amp; Laake, P. (2013). <a class="underline hover:text-red" href="https://doi.org/10.1186/1471-2288-13-91">The McNemar test for binary matched-pairs data: mid-p and asymptotic are better than exact conditional</a>. <em>BMC Medical Research Methodology</em>, 13, 91 &mdash; the exact conditional test is conservative at small discordant counts; the mid-p variant is the usual remedy, noted here and not adopted, so the episode&rsquo;s p-values stay exact.</li>
+<li>Efron, B., &amp; Tibshirani, R. J. (1993). <em>An Introduction to the Bootstrap</em>. Chapman &amp; Hall &mdash; the paired bootstrap interval.</li>
+<li>The worked examples (14 vs 8, p &asymp; 0.29; 18 vs 4, p &asymp; 0.004; 15 vs 5, p &asymp; 0.041; 14 vs 6, p &asymp; 0.115; 4 vs 0 on 10 items, p = 0.125) are the series&rsquo; own exact binomial calculations.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

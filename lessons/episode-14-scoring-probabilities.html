@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 14 — Scoring Probabilities — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 14 &mdash; Scoring Probabilities</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 14 &middot; Module 4 &mdash; Scoring and Agreement &middot; 7:16 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-14.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The model says 90% confident. Is it right 90% of the time? In this episode, Sera and Ben score five dismissal forecasts by hand, work out what a good score even looks like, and check the 90% bucket &mdash; where one model got 81 out of 81 right, and another got 57 of 320 wrong.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Today&rsquo;s Lesson</h2>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question: The Model Says 90% Confident. Is It Right 90% of the Time?</h2>
+
+<p class="leading-relaxed mb-4">So far this series has scored answers: right or wrong. But a legal build rarely just answers. It says how sure it is &mdash; a dismissal probability, a risk score, a settlement range with a confidence attached. A score that ignores confidence rewards a lucky guesser and punishes a careful hedger. A model that says 90% and is right half the time is not a 90% model. It is a model whose numbers mean nothing.</p>
+
+<p class="leading-relaxed mb-4">Two checks answer the question in the title. The Brier score grades the probabilities themselves. Calibration checks whether the stated confidence matches the realised accuracy. You need both, because a model can be accurate and badly calibrated &mdash; right most of the time, and wrong about how sure it is.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Setting: Dismissal Odds and Risk Scores</h2>
+
+<p class="leading-relaxed mb-4">Two settings carry this episode. The first is dismissal odds. LegalForecastBench is a benchmark that tests whether models can forecast US federal motion-to-dismiss rulings from the judge&rsquo;s written record. A motion to dismiss is a defendant&rsquo;s ask that the court throw a claim out before trial. One lawsuit can contain several claims against several defendants, so the benchmark scores each claim&ndash;defendant unit separately: one challenged claim against one defendant, or a group of similarly-situated defendants. The model is given the same written record the federal judge received, and predicts, for each unit, the probability that the claim will be dismissed in full. The benchmark covers 91 US federal cases, scored as 387 claim&ndash;defendant units, and across those units 73.6% were dismissed. That 73.6% is the dismissal base rate in that benchmark (Episode 2). Its code is Apache 2.0 and its data is CC BY 4.0; the repository is the source for the design, the unit definition, the counts, and the micro-Brier metric used here.</p>
+
+<p class="leading-relaxed mb-4">The second setting is the contract platform&rsquo;s risk scores. The platform reviews commercial agreements against the company&rsquo;s playbooks and attaches a risk score to each clause or document &mdash; a score that says, in effect, &ldquo;90% likely high-risk.&rdquo; Before that score can be graded, the event behind &ldquo;high risk&rdquo; must be defined: which playbook rule was breached, and what counts as a breach. A probability without a defined event cannot be scored, because there is no outcome to compare it against. Define the event first, then score the probability.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Brier Score</h2>
+
+<p class="leading-relaxed mb-4">For N binary forecasts, the Brier score is BS = (1/N) &Sigma; (f &minus; o)&sup2;, where f is the forecast probability between 0 and 1 and o is the outcome, 1 or 0. Each forecast contributes the squared gap between what the model said and what happened. A forecast of 0.90 on an outcome of 1 contributes (0.90 &minus; 1)&sup2; = 0.01 &mdash; a small penalty for being nearly right. A forecast of 0.60 on an outcome of 0 contributes (0.60 &minus; 0)&sup2; = 0.36 &mdash; a large penalty for leaning the wrong way with real confidence. Lower is better, and 0 is perfect.</p>
+
+<p class="leading-relaxed mb-4">The squaring is the point. It punishes confident errors hardest, which is exactly the behaviour a lawyer cares about: a model that is 95% sure and wrong has done more damage than one that was 55% sure and wrong. The Brier score is also a strictly proper scoring rule &mdash; the expected score is uniquely minimised by reporting your true belief, so neither hedging toward 0.5 nor inflating toward 1.0 can improve it in expectation.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: Five Forecasts</h2>
+
+<p class="leading-relaxed mb-4">The build forecasts dismissal probabilities for five claims, and the judges&rsquo; rulings come back:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Claim</th>
+<th class="py-2 pr-4">Forecast f</th>
+<th class="py-2 pr-4">Outcome o</th>
+<th class="py-2">(f &minus; o)&sup2;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">1</td>
+<td class="py-2 pr-4">0.90</td>
+<td class="py-2 pr-4">1 (dismissed)</td>
+<td class="py-2">0.01</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">2</td>
+<td class="py-2 pr-4">0.80</td>
+<td class="py-2 pr-4">1</td>
+<td class="py-2">0.04</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">3</td>
+<td class="py-2 pr-4">0.60</td>
+<td class="py-2 pr-4">0 (not dismissed)</td>
+<td class="py-2">0.36</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">4</td>
+<td class="py-2 pr-4">0.40</td>
+<td class="py-2 pr-4">0</td>
+<td class="py-2">0.16</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">5</td>
+<td class="py-2 pr-4">0.95</td>
+<td class="py-2 pr-4">1</td>
+<td class="py-2">0.0025</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Sum of squared errors: 0.01 + 0.04 + 0.36 + 0.16 + 0.0025 = 0.5725. BS = 0.5725 / 5 = <strong>0.1145</strong>.</p>
+
+<p class="leading-relaxed mb-4">Note where the damage is. Claim 3 &mdash; forecast 0.60 for an outcome of 0 &mdash; contributes 0.36, more than all the other four claims combined (0.2125). One confident error dominates the score. That is the Brier score doing its job: it is a score about confidence, and the one forecast where the model leaned the wrong way with real confidence is the one that costs.</p>
+
+<p class="leading-relaxed mb-4">For comparison, the best model on LegalForecastBench scored 0.118 on 387 units. The five-claim example and the best model on the benchmark land in the same place &mdash; which also shows why five forecasts prove nothing on their own. The worked example teaches the arithmetic; the benchmark figure is the one with 387 units behind it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Anchors: What Counts as Good?</h2>
+
+<p class="leading-relaxed mb-4">A Brier score without a reference point is uninterpretable, because the scale depends on the task. Three anchors fix it:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Strategy</th>
+<th class="py-2 pr-4">Brier score</th>
+<th class="py-2">What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Always say 0.5</td>
+<td class="py-2 pr-4">0.25</td>
+<td class="py-2">Know-nothing line</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Always predict the base rate</td>
+<td class="py-2 pr-4">0.194</td>
+<td class="py-2">Knows the base rate, nothing else</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Best model on LegalForecastBench</td>
+<td class="py-2 pr-4">0.118</td>
+<td class="py-2">Best on the benchmark, 387 units</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Perfect</td>
+<td class="py-2 pr-4">0</td>
+<td class="py-2">Every forecast exactly right</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Always saying 0.5 scores exactly 0.25, whatever the outcomes: (0.5 &minus; 1)&sup2; = 0.25 and (0.5 &minus; 0)&sup2; = 0.25, so every forecast contributes a quarter. That is the know-nothing line &mdash; any model scoring above 0.25 is worse than admitting it knows nothing. Note what 0.25 is: the score of constant 0.5 forecasts. It is not a universal baseline. The meaningful baseline is always predicting the base rate.</p>
+
+<p class="leading-relaxed mb-4">Always predicting the base rate is better, and the arithmetic shows why the base rate matters. On a task where 73.6% of units are dismissed &mdash; the LegalForecastBench dismissal rate &mdash; always forecasting 0.736 scores 0.736 &times; 0.264 &asymp; <strong>0.194</strong>. The working: a dismissed unit contributes (0.736 &minus; 1)&sup2; = 0.264&sup2; &asymp; 0.0697, and 73.6% of units are dismissed, giving 0.736 &times; 0.0697 &asymp; 0.0513; a unit that is not dismissed contributes (0.736 &minus; 0)&sup2; &asymp; 0.5417, and 26.4% of units are not dismissed, giving 0.264 &times; 0.5417 &asymp; 0.1430; the sum is 0.0513 + 0.1430 &asymp; 0.194. A model that beats 0.194 has learned something beyond the base rate. A model between 0.194 and 0.25 knows less than the base rate alone. So the scale reads: 0.25 (know nothing), 0.194 (know the base rate), 0.118 (best model), 0 (perfect). A Brier score without the base rate next to it is uninterpretable &mdash; always report both.</p>
+
+<p class="leading-relaxed mb-4">One reporting detail: micro-Brier pools all units, so cases with more units weigh more; equal-case Brier averages within each case first, so each case weighs equally. LegalForecastBench reports both, with micro as the headline. When you compare two Brier scores, check which version each one is. The clustering in Episode 13 applies here too: units from the same case travel together, so a Brier score over 387 units carries less evidence than 387 independent forecasts would.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Murphy Decomposition, in Plain Words</h2>
+
+<p class="leading-relaxed mb-4">The Brier score splits into three parts: BS = reliability &minus; resolution + uncertainty. Each part has a plain meaning.</p>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li><strong>Reliability</strong> is calibration error &mdash; how far the stated confidence sits from the realised accuracy, averaged across forecasts. Zero is perfect. This is the part the next section measures directly.</li>
+<li><strong>Resolution</strong> is discrimination &mdash; how well the forecasts separate the outcomes. A model that says 0.9 on the claims that get dismissed and 0.1 on the ones that do not has high resolution. Higher is better, and it enters the formula with a minus sign: better discrimination lowers the score.</li>
+<li><strong>Uncertainty</strong> is the base-rate variance, p(1 &minus; p) &mdash; a property of the data, not the model. On the dismissal task, p = 0.736, so the uncertainty is 0.736 &times; 0.264 &asymp; 0.194: exactly the always-the-base-rate anchor. Two models on different tasks cannot be compared by Brier alone, because their uncertainty terms differ.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">The five-forecast example is too small to split into these three parts in a way that means anything &mdash; the split is shown here so the reader knows what the single number contains, and the reliability part is measured directly in the next section.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Calibration and ECE</h2>
+
+<p class="leading-relaxed mb-4">A model is perfectly calibrated if, whenever it says a probability p, it is right p of the time. The reliability diagram plots mean stated confidence against realised accuracy per bin; perfect calibration is the diagonal, where confidence equals accuracy. Expected calibration error compresses the diagram into one number:</p>
+
+<p class="leading-relaxed mb-4">ECE = &Sigma; (|B<sub>m</sub>|/n) &middot; |acc(B<sub>m</sub>) &minus; conf(B<sub>m</sub>)|. Each bin contributes its share of the predictions times the gap between its accuracy and its confidence. Zero is perfect; larger is worse. ECE depends on the binning, so always state the number of bins when reporting it. It also depends on sample size: with few predictions per bin, the accuracy in each bin wobbles, and the ECE wobbles with it.</p>
+
+<svg viewBox="0 0 640 360" class="w-full mb-2" role="img" aria-label="Reliability diagram: two bins below the diagonal, showing overconfidence">
+  <rect x="0" y="0" width="640" height="360" fill="#FAFAF8"/>
+  <text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Reliability diagram: stated confidence against realised accuracy.</text>
+  <line x1="90" y1="300" x2="90" y2="60" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="580" y2="300" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="580" y2="60" stroke="#991B1B" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="540" y="52" font-family="Inter, sans-serif" font-size="12" fill="#991B1B">perfect calibration</text>
+  <circle cx="507" cy="140" r="9" fill="#991B1B"/>
+  <circle cx="316" cy="258" r="6" fill="#991B1B"/>
+  <text x="330" y="262" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Bin 0.8&ndash;0.9: confidence 0.85, accuracy 0.67</text>
+  <circle cx="556" cy="120" r="9" fill="#4a4a4a"/>
+  <circle cx="316" cy="282" r="6" fill="#4a4a4a"/>
+  <text x="330" y="286" font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">Bin 0.9&ndash;1.0: confidence 0.95, accuracy 0.75</text>
+  <text x="90" y="325" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">0</text>
+  <text x="565" y="325" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">1.0 confidence</text>
+  <text x="20" y="70" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">1.0</text>
+  <text x="20" y="305" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">0</text>
+  <text x="20" y="185" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">accuracy</text>
+</svg>
+
+<p class="leading-relaxed mb-4"><strong>Worked example &mdash; ECE on ten predictions.</strong> Two bins. Bin 0.8&ndash;0.9: 6 predictions, mean confidence 0.85, accuracy 4/6 = 0.667. Bin 0.9&ndash;1.0: 4 predictions, mean confidence 0.95, accuracy 3/4 = 0.75.</p>
+
+<p class="leading-relaxed mb-4">ECE = (6/10) &times; |0.667 &minus; 0.85| + (4/10) &times; |0.75 &minus; 0.95| = 0.6 &times; 0.183 + 0.4 &times; 0.20 = 0.11 + 0.08 = <strong>0.19</strong>.</p>
+
+<p class="leading-relaxed mb-4">An ECE of 0.19 means the model&rsquo;s stated confidence is, on average, 19 points away from its realised accuracy. Both bins sit below the diagonal &mdash; the model is overconfident in both. The ECE alone does not say which direction the error runs &mdash; the diagram does. A model can be underconfident instead, with its bins above the diagonal, and score the same ECE. Report the diagram beside the number, or the direction is lost.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The 90% Bucket Check</h2>
+
+<p class="leading-relaxed mb-4">There is a one-line check any lawyer can run on any eval in five minutes: take only the predictions where the model said it was at least 90% sure, and ask how often it was right. Suppose 20 predictions at 90% or above, mean confidence 0.94, 17 correct: accuracy 0.85. Gap: 9 points of overconfidence.</p>
+
+<p class="leading-relaxed mb-4">The real numbers from LegalForecastBench show how wide that gap can run. Fable (Claude Fable 5.1) was 81 out of 81 at 90% or above &mdash; perfect in the bucket. If all 81 predictions were exactly 90% sure, about 81 &times; 0.90 = 72.9 would be correct. The bucket&rsquo;s mean stated confidence was 92.9%, which implies about 75 correct (an approximate expectation, not a guarantee). Fable produced 81. Gemini (Gemini 3.1 Pro Preview) was wrong 57 times out of 320 &mdash; 263 right out of 320, about 82% accurate at 90% stated confidence, an 8-point gap at the confidence level where a lawyer is most likely to stop checking. If all 320 predictions were exactly 90% sure, about 288 would be correct; at the bucket&rsquo;s mean stated confidence of 95.4%, about 305. Gemini produced 263, which is 25 short of the 90% figure and about 42 short of the 95.4% figure.</p>
+
+<p class="leading-relaxed mb-4">One warning: small buckets lie. With only 5 predictions at 90% or above, one miss moves the bucket by 20 points. The bucket check is a spotlight, not a verdict &mdash; it shows you where to look, and the Brier score and ECE say how much it matters across the whole eval.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Log Loss: The Other Proper Score</h2>
+
+<p class="leading-relaxed mb-4">Log loss is the second proper scoring rule in common use. For one binary forecast it is &minus;[o &middot; log f + (1 &minus; o) &middot; log(1 &minus; f)], where log is the natural logarithm, and the score for a set of forecasts is the average over the set. A forecast that is right with high confidence scores near zero; a forecast that is wrong with high confidence scores large, without bound. Log loss punishes confident errors even harder than the Brier score does, and a single forecast of 0.99 on the wrong outcome dominates the average.</p>
+
+<p class="leading-relaxed mb-4">On the same five forecasts as the Brier example, the log-loss terms are &minus;log 0.90 = 0.105, &minus;log 0.80 = 0.223, &minus;log 0.40 = 0.916 (forecast 0.60, outcome 0), &minus;log 0.60 = 0.511 (forecast 0.40, outcome 0), and &minus;log 0.95 = 0.051. The sum is 1.806, and the mean log loss is 1.806 / 5 &asymp; 0.361. The same claim 3 dominates here too: 0.916 of the 1.806 total. Log loss has no fixed upper anchor like the Brier score&rsquo;s 0.25, which is one reason the Brier score is the working score in this series. When a report quotes log loss, ask which logarithm it used &mdash; natural log and base-2 log give different numbers for the same forecasts.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Discrimination vs Calibration: Two Different Questions</h2>
+
+<p class="leading-relaxed mb-4">A model can separate high-risk from low-risk matters well while its stated probabilities are wrong, or the reverse. Discrimination asks whether the model ranks the outcomes correctly: do the dismissed claims get higher probabilities than the ones that survive? Calibration asks whether the stated probabilities match the realised frequencies. Both are needed, and they are different questions.</p>
+
+<p class="leading-relaxed mb-4">ROC-AUC measures discrimination. The ROC curve plots the true positive rate against the false positive rate as the decision threshold moves (Episode 16 uses the curve). AUC is the area under that curve: 0.5 is random ranking, 1.0 is perfect separation. PR-AUC is the area under the precision&ndash;recall curve, and it is the more informative of the two when the positive outcome is rare, because its baseline is the prevalence of the positive outcome, not 0.5. A model with ROC-AUC 0.9 and a Brier score of 0.24 ranks well and states its probabilities badly. A model with ROC-AUC 0.6 and a Brier score of 0.12 ranks poorly and states its probabilities well. Neither number alone describes the model.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Model</th>
+<th class="py-2 pr-4">Discrimination (ROC-AUC)</th>
+<th class="py-2 pr-4">Calibration (Brier)</th>
+<th class="py-2">Reading</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">A</td>
+<td class="py-2 pr-4">0.90</td>
+<td class="py-2 pr-4">0.24</td>
+<td class="py-2">Ranks well, probabilities badly stated</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">B</td>
+<td class="py-2 pr-4">0.60</td>
+<td class="py-2 pr-4">0.12</td>
+<td class="py-2">Ranks poorly, probabilities well stated</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The two rows are a teaching illustration, not results from any benchmark: they show that the two scores can point in opposite directions. A report that quotes only one of them has answered only one of the two questions.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Settlement Ranges Need Different Evaluation</h2>
+
+<p class="leading-relaxed mb-4">A settlement range is not a single probability, and it needs different evaluation from a single probability. A range has two things to check: coverage &mdash; how often the true settlement falls inside the stated range &mdash; and width &mdash; how wide the range is. A range that covers 95% of outcomes by being enormously wide says nothing useful; a narrow range that covers 40% of outcomes is overconfident. Report coverage beside width, and state the target coverage the range was supposed to hit. The Brier score grades one probability for one event; a range is a claim about an interval, and it is graded as an interval.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Any model that gives probabilities is a candidate: dismissal odds on a litigation forecast, risk scores on a due-diligence review, settlement ranges with a confidence attached. A vendor reports 88% accuracy and a Brier score of 0.20. A second build reports 85% accuracy and a Brier of 0.15. The accuracy ranking says take the first. The Brier ranking says the second is the one whose confident answers you can trust &mdash; and confident answers are the ones a lawyer acts on without checking.</p>
+
+<p class="leading-relaxed mb-4">That is the decision the two numbers serve. Accuracy says how often the build is right. Calibration says whether its confidence means anything. A build with high accuracy and a bad Brier score is a build that will be confidently wrong on the matter where it matters. Check both before you let its probabilities into a memo.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Scoring a Model That Gives Probabilities</h2>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li>Define the event behind every probability before scoring it.</li>
+<li>Report the Brier score with the base rate beside it, and state whether it is micro-Brier or equal-case Brier.</li>
+<li>Report ECE with the number of bins, and show the reliability diagram beside it.</li>
+<li>Run the 90% bucket check, and state how many predictions are in the bucket.</li>
+<li>Report a discrimination measure (ROC-AUC or PR-AUC) beside the calibration measures.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Accuracy says how often it is right. Calibration says whether its confidence means anything. Check both &mdash; and check whether it separates, too. The Brier score grades the probabilities &mdash; 0.25 is know-nothing, 0.194 is the base rate, 0.118 is the best model on LegalForecastBench &mdash; and the 90% bucket check takes five minutes on any eval: of the times your build said it was at least 90% sure, how often was it right?</p>
+
+<p class="leading-relaxed mb-4">Next episode: do the graders agree? Two partners graded the same outputs &mdash; and 80% raw agreement can mean a kappa of 0.375.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Brier, G. W. (1950), <a class="underline hover:text-red" href="https://doi.org/10.1175%2F1520-0493%281950%29078%3C0001%3AVOFEIT%3E2.0.CO%3B2">&ldquo;Verification of Forecasts Expressed in Terms of Probability,&rdquo;</a> <em>Monthly Weather Review</em> 78(1), 1&ndash;3 &mdash; the Brier score.</li>
+<li>Guo, C., Pleiss, G., Sun, Y. &amp; Weinberger, K. Q. (2017), <a class="underline hover:text-red" href="https://proceedings.mlr.press/v70/guo17a.html">&ldquo;On Calibration of Modern Neural Networks,&rdquo;</a> <em>Proceedings of ICML 2017</em> &mdash; calibration, reliability diagrams, and ECE.</li>
+<li>Murphy, A. H. (1973), &ldquo;A New Vector Partition of the Mean Square Error,&rdquo; <em>Monthly Weather Review</em> 101(9), 645&ndash;651 &mdash; the Murphy decomposition of the Brier score into reliability, resolution, and uncertainty.</li>
+<li>Fawcett, T. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1016/j.patrec.2005.10.010">&ldquo;An Introduction to ROC Analysis,&rdquo;</a> <em>Pattern Recognition Letters</em> 27(8), 861&ndash;874 &mdash; ROC curves and AUC.</li>
+<li>Davis, J. &amp; Goadrich, M. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1145/1143844.1143874">&ldquo;The Relationship Between Precision-Recall and ROC Curves,&rdquo;</a> <em>Proceedings of ICML 2006</em> &mdash; precision&ndash;recall curves and their baseline.</li>
+<li>LegalForecastBench &mdash; code Apache 2.0, data CC BY 4.0. Dismissal base rate 73.6%, 387 scored units, best-model micro-Brier 0.118, and the 90% bucket figures for Fable and Gemini. Repository: <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">https://github.com/johnhughes3/LegalForecastBench</a></li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

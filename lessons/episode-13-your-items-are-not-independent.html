@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 13 — Your Items Are Not Independent — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 13 &mdash; Your Items Are Not Independent</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 13 &middot; Module 3 &mdash; Comparing Builds &middot; 6:50 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-13.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">Your test set has 100 questions. The report says n = 100. But ten of those questions come from the same judgment, ten more from the next, and so on &mdash; ten cases, ten questions each. In this episode, Sera and Ben show why those 100 questions behave like about 36, and what that does to every interval and p-value computed from them.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Today&rsquo;s Lesson</h2>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question: We Have 100 Questions. Do We Really?</h2>
+
+<p class="leading-relaxed mb-4">Every formula in this series so far &mdash; the Wilson interval in Episode 6, McNemar&rsquo;s test in Episode 12, the sample-size tables in Episode 9 &mdash; assumes the items are independent. Independent means each question is a fresh draw: knowing how the build did on one question tells you nothing about how it will do on the next.</p>
+
+<p class="leading-relaxed mb-4">In legal evals, that assumption rarely holds. Several questions from one document, several units from one case, several criteria from one matter &mdash; items from the same source move together. If the build misunderstands the case, it misses all of its questions. If it grasps the judgment, it gets most of them. The questions travel together, so they are not 100 separate pieces of evidence. They are 100 answers to ten underlying questions: did the build understand this case, or not?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What Clustering Means</h2>
+
+<p class="leading-relaxed mb-4">Clustering is the name for this: items grouped into clusters &mdash; cases, documents, matters &mdash; where items inside a cluster resemble each other more than items in different clusters. The resemblance is measured by &rho;, the within-cluster correlation. A &rho; of 0 means no resemblance at all: each question is genuinely fresh. A &rho; of 1 means the cluster moves as one: get the case and you get every question, miss it and you miss them all.</p>
+
+<p class="leading-relaxed mb-4">Treating clustered items as independent makes your intervals too narrow and your wins look real when they are not. The interval thinks it has 100 independent observations behind it. It has far fewer. The fix is not to throw the questions away &mdash; it is to count the evidence correctly.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Design Effect</h2>
+
+<p class="leading-relaxed mb-4">For clusters of m items with within-cluster correlation &rho;, the design effect is DE = 1 + (m &minus; 1)&rho;. The effective sample size is n / DE. That is the number to use in every formula in this series &mdash; the Wilson interval, the sample-size tables, all of them.</p>
+
+<p class="leading-relaxed mb-4">The formula is worth reading slowly. The &ldquo;1&rdquo; is the question itself: one independent observation. The (m &minus; 1)&rho; is the extra resemblance the other questions in the cluster add &mdash; each of the other m &minus; 1 questions contributes &rho; of a duplicate. When &rho; is 0, the design effect is 1 and every question counts in full. When &rho; is high, most of the questions in a cluster are echoes of the first.</p>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li><strong>DE</strong> &mdash; the design effect: the factor by which clustering inflates the variance of an estimate, compared with the same number of independent items.</li>
+<li><strong>m</strong> &mdash; the number of items in each cluster (here, questions per case).</li>
+<li><strong>&rho;</strong> &mdash; the within-cluster correlation: how much items from the same cluster resemble each other.</li>
+<li><strong>Effective n</strong> &mdash; n / DE: the number of independent items that would carry the same amount of evidence.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: 100 Questions from 10 Cases</h2>
+
+<p class="leading-relaxed mb-4">Ten questions per case, so m = 10. Take &rho; = 0.2 &mdash; a modest guess, since questions about the same case share the build&rsquo;s understanding of it. Then:</p>
+
+<p class="leading-relaxed mb-4">DE = 1 + 9 &times; 0.2 = 1 + 1.8 = 2.8. Effective n = 100 / 2.8 &asymp; 36.</p>
+
+<p class="leading-relaxed mb-4">Your &ldquo;100-question eval&rdquo; has the precision of 36 independent questions. Every interval computed with n = 100 is too narrow by roughly the square root of 2.8 &mdash; about 1.7 times too narrow, since &radic;2.8 &asymp; 1.67. A Wilson interval that looked tight was borrowing confidence from questions that were never independent evidence.</p>
+
+<p class="leading-relaxed mb-4">Now change &rho; and watch the same 100 questions change meaning. With &rho; = 0.5 &mdash; the build either gets the case or it doesn&rsquo;t &mdash; DE = 1 + 9 &times; 0.5 = 5.5, and the effective n is 100 / 5.5 &asymp; 18. The same 100 questions, very different evidence. The headline n never changed. The evidence nearly halved.</p>
+
+<svg viewBox="0 0 640 260" class="w-full mb-2" role="img" aria-label="Bar chart: headline n of 100 questions, effective n 36 at rho 0.2, effective n 18 at rho 0.5">
+  <rect x="0" y="0" width="640" height="260" fill="#FAFAF8"/>
+  <text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Headline n = 100 questions. Effective n depends on &rho;.</text>
+  <rect x="120" y="50" width="480" height="34" fill="#991B1B"/>
+  <text x="130" y="72" font-family="Inter, sans-serif" font-size="13" fill="#FAFAF8">Headline n: 100</text>
+  <rect x="120" y="104" width="173" height="34" fill="#4a4a4a"/>
+  <text x="130" y="126" font-family="Inter, sans-serif" font-size="13" fill="#FAFAF8">Effective n at &rho; = 0.2: 36</text>
+  <rect x="120" y="158" width="86" height="34" fill="#7a7a7a"/>
+  <text x="212" y="180" font-family="Inter, sans-serif" font-size="13" fill="#1a1a1a">Effective n at &rho; = 0.5: 18</text>
+  <text x="20" y="230" font-family="Inter, sans-serif" font-size="12" fill="#4a4a4a">Bars are drawn to scale: 480 px = 100 questions. Ten questions per case, m = 10.</text>
+</svg>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Within-case correlation &rho;</th>
+<th class="py-2 pr-4">Design effect</th>
+<th class="py-2">Effective n from 100 questions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0 (independent)</td>
+<td class="py-2 pr-4">1.0</td>
+<td class="py-2">100</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.2 (modest)</td>
+<td class="py-2 pr-4">2.8</td>
+<td class="py-2">36</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">0.5 (gets the case or doesn&rsquo;t)</td>
+<td class="py-2 pr-4">5.5</td>
+<td class="py-2">18</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Two things to notice. First, the cluster size m matters as much as &rho;: ten questions per case at &rho; = 0.2 costs you more than two questions per case at the same &rho;. With m = 2, DE = 1 + 1 &times; 0.2 = 1.2, and the effective n is 100 / 1.2 &asymp; 83. Second, &rho; is a judgment, not a measurement you get for free &mdash; 0.2 is a planning guess, and the move that keeps the report straight is to state the guess and show the result under a higher one too, as the table above does.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Real Example: LegalForecastBench</h2>
+
+<p class="leading-relaxed mb-4">LegalForecastBench is a benchmark that tests whether models can forecast US federal motion-to-dismiss rulings from the judge&rsquo;s written record. A motion to dismiss is a defendant&rsquo;s ask that the court throw a claim out before trial. One lawsuit can contain several claims against several defendants, so the benchmark scores each claim&ndash;defendant unit separately: one challenged claim against one defendant, or a group of similarly-situated defendants. The model is given the same written record the federal judge received, and predicts, for each unit, the probability that the claim will be dismissed in full. The benchmark covers 91 US federal cases, scored as 387 claim&ndash;defendant units. Its code is Apache 2.0 and its data is CC BY 4.0; the repository is the source for the design, the unit definition, and the counts used here.</p>
+
+<p class="leading-relaxed mb-4">Mean cluster size: 387 / 91 &asymp; 4.25 units per case. Take &rho; = 0.3 as an illustration &mdash; this value is a teaching assumption, not a figure the benchmark reports:</p>
+
+<p class="leading-relaxed mb-4">DE &asymp; 1 + 3.25 &times; 0.3 &asymp; 1 + 0.98 &asymp; 1.98. Effective n &asymp; 387 / 1.98 &asymp; 196.</p>
+
+<p class="leading-relaxed mb-4">Roughly half the headline n. A leaderboard that treated 387 as 387 independent units would report intervals about 1.4 times too narrow, since &radic;1.98 &asymp; 1.41, and declare winners that the evidence does not support. Two simplifications are stated here. First, the mean cluster size is used; cases contribute different numbers of units, and unequal cluster sizes need a fuller version of the formula. Second, &rho; = 0.3 is assumed for illustration. The point stands under either simplification: the clustering is a large part of the uncertainty, not a technicality.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Fix: The Cluster Bootstrap</h2>
+
+<p class="leading-relaxed mb-4">There are two standard fixes, and both respect the cluster as the unit of evidence. The first is clustered standard errors: sum the residuals within each cluster before squaring, so the calculation sees ten clusters, not 100 questions. The second is the cluster bootstrap: resample whole clusters &mdash; whole cases or documents &mdash; with replacement, instead of individual items, and recompute the statistic on each resample.</p>
+
+<p class="leading-relaxed mb-4">The cluster bootstrap is the one to reach for when the metric has no closed-form interval, and it is the same discipline Episode 15 uses for the Fleiss &kappa; confidence interval: resample the question, not the item. Resampling individual items would treat echoes as fresh evidence and understate the uncertainty &mdash; the exact mistake the design effect exists to prevent.</p>
+
+<p class="leading-relaxed mb-4">Either fix changes the width of your intervals, not the score itself. The build still got what it got. What changes is how much you claim to know about it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Stratified Resampling: Keeping the Mix</h2>
+
+<p class="leading-relaxed mb-4">When clusters are resampled, the mix of cluster types should be preserved. A test set with five NDAs and five MSAs should not come back from a bootstrap with nine MSAs and one NDA, because the mix changes the score (Episode 1 showed the headline depends on the mix). Stratified resampling draws clusters separately within each stratum &mdash; within NDAs, within MSAs, within each case type &mdash; so every resample keeps the document-type or case-type mix of the original set. The strata are the legally meaningful subgroups: document type, case type, jurisdiction. The resampling respects both the clustering and the mix.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What This Changes When You Build a Test Set</h2>
+
+<p class="leading-relaxed mb-4">The practical consequence is about where new items come from: adding more cases buys more than adding more questions per case. Ten cases with ten questions each is worth far less than a hundred cases with one question each, and the design effect tells you exactly how much less &mdash; at &rho; = 0.2, the first is worth 36 independent questions and the second is worth 100.</p>
+
+<p class="leading-relaxed mb-4">So when a test set is built from a few documents, spread the questions. Ten questions from ten different judgments beats ten questions from three. And when you cannot add cases, at least report the clustering: &ldquo;200 questions from 20 cases&rdquo; states the evidence; &ldquo;n = 200&rdquo; on its own overstates it.</p>
+
+<p class="leading-relaxed mb-4">One edge case to carry with you: clustering also caps what more questions buy. If every question in a cluster is effectively the same question, writing twenty questions per judgment instead of ten adds almost nothing &mdash; the effective n barely moves, because the design effect grows with m. The work that buys evidence is finding the next case, not writing the next question about the one you already have.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Singapore Angle: Ten Questions per Judgment</h2>
+
+<p class="leading-relaxed mb-4">The series&rsquo; teaching corpus holds 34 Singapore judicial review judgments. Suppose the legal department writes ten questions per judgment, as in the worked example above. The headline n is 34 &times; 10 = 340 questions. At &rho; = 0.2, the design effect is still 2.8, and the effective n is 340 / 2.8 &asymp; 121. The corpus has 34 judgments, and no number of questions per judgment changes that: the evidence is bounded by the number of judgments, not the number of questions. The same arithmetic applies to the contract platform&rsquo;s test set: ten questions per contract, or twenty clauses per MSA, and the headline n overstates the confidence by the same factor.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Litigation Angle: E-Discovery</h2>
+
+<p class="leading-relaxed mb-4">The same clustering appears in e-discovery. Documents sit inside matters, near-duplicate email threads repeat the same content under different message IDs, and custodians hold overlapping sets of documents. A review sample of 1,000 documents from 20 custodians is not 1,000 independent draws: documents from one custodian, or one thread, travel together in the same way questions from one case do. The cluster is the custodian, the thread, or the matter &mdash; whichever unit the documents share &mdash; and the effective n is computed the same way, with m as the documents per cluster and &rho; as the resemblance within it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Runs as a Second Cluster</h2>
+
+<p class="leading-relaxed mb-4">There is a second layer of clustering, and it sits on top of the first. The same model gives different answers on the same question from run to run: sampling temperature, nondeterministic generation, and retrieval variation all move the output. One run per item does not separately characterise run-to-run variability. Repeated runs &mdash; pass@k, pass^k &mdash; are a second layer of clustering: variation across legal items <em>and</em> variation across model generations.</p>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li><strong>pass@k</strong> &mdash; the share of items the model answers correctly at least once in k runs. It measures whether the model can ever get it right.</li>
+<li><strong>pass^k</strong> &mdash; the share of items the model answers correctly in all k runs. It measures whether the model gets it right consistently.</li>
+<li><strong>Single-attempt success</strong> &mdash; the share correct on one run. It measures what a user sees on a single try.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">Define the target first: single-attempt success, average success across attempts, or consistent success across repeated attempts. The three targets answer different questions, and a report that mixes them up has reported a number without saying what it is. Repeated outputs on one matter are not additional independent matters: five runs on one contract are five looks at the same contract, not five contracts.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">Take a benchmark paper or a vendor claim and read its n. A vendor reports 200 questions, 90% accuracy, a tight interval &mdash; and the fine print says the 200 questions came from 20 contracts, ten clauses each. At &rho; = 0.2, that is an effective n of 200 / 2.8 &asymp; 71, not 200, and the interval is roughly 1.7 times wider than reported. The score is the same. The confidence is not.</p>
+
+<p class="leading-relaxed mb-4">The check takes a minute: how many source documents, how many questions per document, and what does the design effect do to n? If the report does not say how many documents the questions came from, the n in the headline is not yet a number you can use. Ask for the cluster count before you believe the interval.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Reporting a Clustered Eval</h2>
+
+<ul class="list-disc pl-6 mb-4 leading-relaxed">
+<li>State the headline n, the number of clusters, and the items per cluster.</li>
+<li>State the &rho; assumed, and show the result under a higher &rho; too.</li>
+<li>Report the effective n, and run every interval and test on it.</li>
+<li>Resample whole clusters in any bootstrap, and preserve the mix by stratum.</li>
+<li>For repeated runs, state the target &mdash; single-attempt, average, or consistent success &mdash; and report runs as a second cluster.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Questions from the same document travel together. Count documents, not just questions &mdash; and count runs, not just items. The design effect, 1 + (m &minus; 1)&rho;, turns a headline n into the effective n &mdash; and the effective n is the number every interval and test in this series actually runs on. Report the clustering alongside the score, and use the cluster bootstrap when the metric needs resampling.</p>
+
+<p class="leading-relaxed mb-4">Next episode: scoring probabilities. The model says 90% confident &mdash; is it right 90% of the time?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Kish, L. (1965), <em>Survey Sampling</em> &mdash; the design effect, 1 + (m &minus; 1)&rho;, and the effective sample size n / DE.</li>
+<li>LegalForecastBench &mdash; code Apache 2.0, data CC BY 4.0. 91 federal cases, 387 scored claim&ndash;defendant units. Repository: <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">https://github.com/johnhughes3/LegalForecastBench</a> &mdash; the source for the benchmark&rsquo;s design, the claim&ndash;defendant unit definition, the 91 cases / 387 units, and the micro-Brier metric.</li>
+<li><a class="underline hover:text-red" href="https://doi.org/10.6028/NIST.AI.800-2.ipd">NIST AI 800-2</a>, <em>Practices for Automated Benchmark Evaluations</em>, initial public draft, January 2026 &mdash; item sampling and nondeterministic completions as sources of uncertainty in benchmark evaluations. Draft guidance, not a final standard.</li>
+<li>The corpus of 34 Singapore judicial review judgments is the series&rsquo; own teaching corpus. The ten-questions-per-judgment illustration and the &rho; = 0.2 and &rho; = 0.3 values in this episode are teaching assumptions, stated as such.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

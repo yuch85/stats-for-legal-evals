@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 8 — What Did the Tool Miss? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 8 &mdash; What Did the Tool Miss?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 8 &middot; Module 2 &mdash; The Inference Toolkit &middot; 7:13 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-08.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The contract platform&rsquo;s deviation flagging has been tested on 200 clauses, and the vendor&rsquo;s scorecard says one number: 70% accurate. In this episode, Sera and Ben open that number up. Seventy percent accurate &mdash; but what did the tool miss, and what did it flag for nothing? The answer needs a table, not a single number: the confusion matrix, and the four numbers that come out of it. Precision and recall, specificity, and the predictive values. Accuracy hides the asymmetry between the two kinds of error. The matrix shows it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Question</h2>
+
+<p class="leading-relaxed mb-4">A deviation is a clause that departs from the company&rsquo;s approved legal playbook in a way that matters &mdash; an indemnity that is broader than the playbook allows, a liability cap that is missing, a termination right that runs the wrong way. The platform reads a clause and either flags it as a deviation or clears it. A lawyer reading the vendor&rsquo;s scorecard needs to know two things the headline accuracy cannot say: of the real deviations, how many did the platform find, and of the clauses it flagged, how many were actually deviations? Those are two different questions, with two different answers, and confusing them is the most common way to misread a vendor scorecard.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Confusion Matrix</h2>
+
+<p class="leading-relaxed mb-4">The test set is 200 clauses. Lawyers have already graded every one of them by hand, so the truth is known: 80 clauses are real deviations, 120 are not. The platform flags 100 clauses as deviations and clears the other 100. The four cells of the confusion matrix count what happened at the intersection of the truth and the platform&rsquo;s call:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4"></th>
+<th class="py-2 pr-4">Actually a deviation (80)</th>
+<th class="py-2 pr-4">Actually not a deviation (120)</th>
+<th class="py-2">Row total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4"><strong>Flagged as a deviation (100)</strong></td><td class="py-2 pr-4">60 &mdash; true positives (TP)</td><td class="py-2 pr-4">40 &mdash; false positives (FP)</td><td class="py-2">100</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4"><strong>Cleared (100)</strong></td><td class="py-2 pr-4">20 &mdash; false negatives (FN)</td><td class="py-2 pr-4">80 &mdash; true negatives (TN)</td><td class="py-2">100</td></tr>
+<tr class="border-b-2 border-rule-dark"><td class="py-2 pr-4"><strong>Column total</strong></td><td class="py-2 pr-4">80</td><td class="py-2 pr-4">120</td><td class="py-2">200</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Every term in the table has a plain meaning. A <strong>true positive</strong> (TP) is a real deviation the platform flagged: 60. A <strong>false positive</strong> (FP) is a harmless clause the platform flagged anyway: 40. A <strong>false negative</strong> (FN) is a real deviation the platform missed: 20. A <strong>true negative</strong> (TN) is a harmless clause the platform correctly cleared: 80. The four cells add to 200. The rows add to what the platform said; the columns add to what was true. Check the totals before trusting any metric built on the table &mdash; a matrix whose rows and columns do not reconcile is a matrix with an error in it.</p>
+
+<p class="leading-relaxed mb-4">The same four cells, drawn as the matrix itself:</p>
+
+<svg viewBox="0 0 640 240" class="w-full mb-4" role="img" aria-label="Confusion matrix: 60 true positives, 40 false positives, 20 false negatives, 80 true negatives">
+<g font-family="Inter, sans-serif" font-size="13" fill="#1a1a1a">
+<text x="320" y="18" text-anchor="middle" font-size="14" font-weight="600">The confusion matrix &mdash; 200 clauses</text>
+<text x="330" y="52" text-anchor="middle" font-size="12" fill="#4a4a4a">Actually a deviation</text>
+<text x="500" y="52" text-anchor="middle" font-size="12" fill="#4a4a4a">Actually not</text>
+<text x="180" y="120" text-anchor="middle" font-size="12" fill="#4a4a4a">Flagged</text>
+<text x="180" y="195" text-anchor="middle" font-size="12" fill="#4a4a4a">Cleared</text>
+<rect x="245" y="62" width="170" height="75" fill="#991B1B"/>
+<text x="330" y="92" text-anchor="middle" fill="#FAFAF8" font-weight="600">TP 60</text>
+<text x="330" y="114" text-anchor="middle" fill="#FAFAF8" font-size="11">found it</text>
+<rect x="415" y="62" width="170" height="75" fill="#d6d3d1"/>
+<text x="500" y="92" text-anchor="middle" font-weight="600">FP 40</text>
+<text x="500" y="114" text-anchor="middle" font-size="11">flagged for nothing</text>
+<rect x="245" y="137" width="170" height="75" fill="#991B1B" opacity="0.55"/>
+<text x="330" y="167" text-anchor="middle" fill="#FAFAF8" font-weight="600">FN 20</text>
+<text x="330" y="189" text-anchor="middle" fill="#FAFAF8" font-size="11">missed it</text>
+<rect x="415" y="137" width="170" height="75" fill="#d6d3d1"/>
+<text x="500" y="167" text-anchor="middle" font-weight="600">TN 80</text>
+<text x="500" y="189" text-anchor="middle" font-size="11">correctly cleared</text>
+</g>
+</svg>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Precision, Recall, and the Rest</h2>
+
+<p class="leading-relaxed mb-4">Five metrics come out of the four cells, and each one answers a different question. Worked from the numbers above, with every step shown:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Precision</strong> &mdash; of everything the platform flagged, how much was actually a deviation? TP &divide; (TP + FP) = 60 &divide; (60 + 40) = 60 &divide; 100 = 60%. The denominator is the row: everything flagged. Precision is the answer to &ldquo;when it flags something, how often is it right?&rdquo;</li>
+<li><strong>Recall</strong> &mdash; of all the real deviations, how many did the platform find? TP &divide; (TP + FN) = 60 &divide; (60 + 20) = 60 &divide; 80 = 75%. The denominator is the column: every real deviation. Recall is the answer to &ldquo;what did it miss?&rdquo; &mdash; it missed 20 of 80, so it found 75%. Recall is also called sensitivity, or the true positive rate. The three names are the same number.</li>
+<li><strong>F1</strong> &mdash; the harmonic mean of precision and recall, a single number that punishes a metric that is high on one and low on the other: F1 = 2 &times; precision &times; recall &divide; (precision + recall) = 2 &times; 0.60 &times; 0.75 &divide; (0.60 + 0.75) = 0.90 &divide; 1.35 &asymp; 0.67, or 67%. The harmonic mean is used instead of the ordinary average because it drops sharply when either input is low: precision 60% and recall 75% average to 67.5% arithmetically and 66.7% harmonically &mdash; close here, and much further apart when one of the two collapses.</li>
+<li><strong>Accuracy</strong> &mdash; of everything, how much did it get right? (TP + TN) &divide; 200 = (60 + 80) &divide; 200 = 140 &divide; 200 = 70%. That is the vendor&rsquo;s headline number.</li>
+<li><strong>Specificity</strong> &mdash; of all the harmless clauses, how many did it correctly clear? TN &divide; (TN + FP) = 80 &divide; (80 + 40) = 80 &divide; 120 &asymp; 67%. Specificity is the true negative rate, the mirror image of recall on the other column.</li>
+</ul>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Metric</th>
+<th class="py-2 pr-4">Formula</th>
+<th class="py-2 pr-4">Value</th>
+<th class="py-2">Question it answers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Precision</td><td class="py-2 pr-4">60 &divide; 100</td><td class="py-2 pr-4">60%</td><td class="py-2">When it flags, how often is it right?</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Recall (sensitivity)</td><td class="py-2 pr-4">60 &divide; 80</td><td class="py-2 pr-4">75%</td><td class="py-2">Of the real deviations, how many did it find?</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">F1</td><td class="py-2 pr-4">2 &times; 0.60 &times; 0.75 &divide; 1.35</td><td class="py-2 pr-4">67%</td><td class="py-2">One number balancing precision and recall</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Accuracy</td><td class="py-2 pr-4">140 &divide; 200</td><td class="py-2 pr-4">70%</td><td class="py-2">Of everything, how much did it get right?</td></tr>
+<tr class="border-b border-rule"><td class="py-2 pr-4">Specificity</td><td class="py-2 pr-4">80 &divide; 120</td><td class="py-2 pr-4">67%</td><td class="py-2">Of the harmless clauses, how many did it clear?</td></tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Now read the headline against the matrix. Accuracy is 70%, and it looks respectable. But it is built from 60 found deviations and 80 correctly cleared harmless clauses &mdash; and it hides the 20 missed deviations, which are the ones that cost the client. A missed deviation is a clause that departs from the playbook and sails through review unflagged: the indemnity that is broader than the playbook allows, sitting in the signed agreement. A false positive is a harmless clause a lawyer spends five minutes checking and clears. The two errors do not cost the same, and accuracy treats them as though they do. That is the asymmetry the headline hides, and the reason the matrix exists.</p>
+
+<p class="leading-relaxed mb-4">Accuracy misleads most when the thing that matters is rare. A platform that flags nothing at all on this test set would score 120 &divide; 200 = 60% accuracy &mdash; it gets every harmless clause right and every deviation wrong. Sixty percent, for a tool that finds nothing. Accuracy rewards doing nothing whenever the negative class is the majority, which is why it is never the metric to quote on its own for a flagging tool.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Trade-Off</h2>
+
+<p class="leading-relaxed mb-4">Precision and recall pull against each other, and the platform&rsquo;s threshold decides where it sits between them. Flag more aggressively and recall rises &mdash; more real deviations found &mdash; while precision falls, because more harmless clauses get flagged too. Flag cautiously and precision rises while recall falls, and more deviations slip through. There is no setting that maximises both at once; the choice is which error the department would rather pay for. For deviation flagging, a missed deviation costs more than a false alarm, so the department leans toward recall. For a different tool the lean could run the other way. The matrix makes the trade-off visible, and the costs decide it. Episode 16 takes up the same trade-off for triage checks, where the two error rates are the true positive rate and the false positive rate, and prices them explicitly.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Prevalence and Positive Predictive Value</h2>
+
+<p class="leading-relaxed mb-4">Precision answers &ldquo;when it flags, how often is it right?&rdquo; on the test set. But the answer depends on how common the thing being flagged is &mdash; its prevalence. The same tool, with the same sensitivity and specificity, gives a very different precision when the target is rare. The second worked example shows why.</p>
+
+<p class="leading-relaxed mb-4">The setting is privilege review in e-discovery: a tool that flags documents as privileged so they are withheld from production. Missing a privileged document is the expensive error &mdash; it can mean waiving privilege over it. The tool has 95% sensitivity (it catches 95% of privileged documents) and 90% specificity (it correctly clears 90% of non-privileged documents). Privileged documents are rare: 3% of the set. What is the positive predictive value &mdash; the PPV, the probability that a flagged document is actually privileged?</p>
+
+<p class="leading-relaxed mb-4">Work it on 10,000 documents, so every number is a count. Privileged: 3% &times; 10,000 = 300. Not privileged: 9,700. The tool catches 95% of the 300 privileged documents: TP = 0.95 &times; 300 = 285, and it misses FN = 300 &minus; 285 = 15. It wrongly flags 10% of the 9,700 non-privileged documents: FP = 0.10 &times; 9,700 = 970, and it correctly clears TN = 9,700 &minus; 970 = 8,730. Total flagged: 285 + 970 = 1,255. PPV = TP &divide; (TP + FP) = 285 &divide; 1,255 &asymp; 0.227, about 23%.</p>
+
+<svg viewBox="0 0 640 170" class="w-full mb-4" role="img" aria-label="Bar showing 1,255 flagged documents split into 285 truly privileged and 970 false alarms">
+<g font-family="Inter, sans-serif" font-size="12" fill="#1a1a1a">
+<text x="320" y="16" text-anchor="middle" font-size="14" font-weight="600">1,255 documents flagged as privileged</text>
+<rect x="40" y="40" width="128" height="40" fill="#991B1B"/>
+<text x="104" y="65" text-anchor="middle" fill="#FAFAF8" font-weight="600">285 truly privileged</text>
+<rect x="168" y="40" width="432" height="40" fill="#d6d3d1"/>
+<text x="384" y="65" text-anchor="middle" font-weight="600">970 false alarms</text>
+<text x="40" y="110" font-size="11" fill="#4a4a4a">Sensitivity 95%, specificity 90%, prevalence 3% &mdash; yet only about 23% of flags are real.</text>
+<text x="40" y="130" font-size="11" fill="#4a4a4a">The negative predictive value is the mirror image: NPV = 8,730 &divide; (8,730 + 15) &asymp; 99.8% &mdash;</text>
+<text x="40" y="148" font-size="11" fill="#4a4a4a">a document the tool clears is almost certainly not privileged. That is the asymmetry of rare targets.</text>
+</g>
+</svg>
+
+<p class="leading-relaxed mb-4">When the thing that matters is rare, most flags are false alarms &mdash; even for a tool with 95% sensitivity and 90% specificity. The false alarms outnumber the true ones more than three to one, not because the tool is bad but because there are 9,700 non-privileged documents for every 300 privileged ones, and a 10% false-alarm rate on 9,700 is 970 documents. The same arithmetic is Bayes&rsquo; theorem from Episode 2, applied to a test result: the posterior probability that a flagged document is privileged depends on the prevalence, and a low prevalence drags it down. Report the prevalence alongside the PPV, or the PPV cannot be reused anywhere the mix is different. Episode 16 uses this same point for triage checks.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Retrieval: Precision@k and Recall@k</h2>
+
+<p class="leading-relaxed mb-4">The third tool in this episode is a legal research assistant &mdash; a retrieval-augmented system that, given a question, retrieves authorities and then drafts an answer grounded in them. Evaluating it needs two separate scores, because it does two separate jobs: retrieving the right authorities, and reasoning from them. Answer evaluation alone misses the first job entirely. A plausible answer built on the wrong authority is a retrieval failure, not a reasoning failure, and scoring only the final answer cannot tell the two apart.</p>
+
+<p class="leading-relaxed mb-4">Retrieval is scored with precision@k and recall@k, where <em>k</em> is the number of results returned. The assistant returns 10 authorities for a question. Precision@10 is how many of the ten are relevant: if 6 of the 10 are relevant to the question, precision@10 = 6 &divide; 10 = 60%. Recall@10 is how many of the relevant authorities in the whole set it found: if there are 15 relevant authorities in the collection and the assistant returned 6 of them, recall@10 = 6 &divide; 15 = 40%. The denominator is the difference between the two metrics, as it is for precision and recall on the confusion matrix: precision@k divides by what was returned, recall@k divides by what exists. Both need a stated <em>k</em> and a stated definition of &ldquo;relevant&rdquo; &mdash; relevance judged by lawyers against the question, not by the system itself.</p>
+
+<p class="leading-relaxed mb-4">Two finer retrieval metrics live on this page as a sidebar, because the podcast stays on the matrix and these need the written form. <strong>Mean reciprocal rank (MRR)</strong> scores where the first relevant result appears: if the first relevant authority is at rank 3, the reciprocal rank for that question is 1 &divide; 3 &asymp; 0.333. Average that over questions and you have the MRR. It rewards putting one good answer near the top, and it says nothing about the rest of the list. <strong>Normalised discounted cumulative gain (nDCG)</strong> scores the whole ranked list with graded relevance, discounting results that appear lower down. Worked on five returned authorities with relevance grades 3, 1, 0, 2, 0 &mdash; where 3 means highly relevant and 0 means irrelevant &mdash; the discounted cumulative gain is DCG = 3 + 1 &divide; log<sub>2</sub>(3) + 0 + 2 &divide; log<sub>2</sub>(5) + 0 = 3 + 0.631 + 0 + 0.861 + 0 = 4.49. The ideal ordering of the same grades is 3, 2, 1, 0, 0, giving IDCG = 3 + 2 &divide; log<sub>2</sub>(3) + 1 &divide; log<sub>2</sub>(4) = 3 + 1.262 + 0.5 = 4.76. nDCG = DCG &divide; IDCG = 4.49 &divide; 4.76 &asymp; 0.94. The discount is logarithmic because a reader&rsquo;s attention falls off roughly that way: the third result is worth about 1 &divide; log<sub>2</sub>(3) of the first, not a third. MRR answers &ldquo;how far down is the first good one?&rdquo;; nDCG answers &ldquo;how good is the whole ranking?&rdquo;</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Elusion: What the TAR System Left Behind</h2>
+
+<p class="leading-relaxed mb-4">The fourth worked example is elusion, the recall estimate for technology-assisted review (TAR) in e-discovery. The setting: a litigation document review with 10,000 documents. The TAR system flags 1,000 as responsive and excludes 9,000. The question is how many responsive documents sit in the excluded 9,000 &mdash; the ones the review will never see.</p>
+
+<p class="leading-relaxed mb-4">The method is a random sample of the excluded set. Lawyers take a random sample of 400 excluded documents and review them by hand. Twelve are actually responsive. The elusion rate &mdash; the proportion of the excluded set that is responsive &mdash; is 12 &divide; 400 = 0.03, or 3%. The 95% Wilson interval for 12 out of 400 is about 1.7&ndash;5.2%: the centre is (0.03 + 3.84 &divide; 800) &divide; (1 + 3.84 &divide; 400) = 0.0348 &divide; 1.0096 &asymp; 0.0345, and the half-width is 1.96 &times; &radic;(0.03 &times; 0.97 &divide; 400 + 3.84 &divide; 640,000) &divide; 1.0096 &asymp; 0.0172, giving 0.017 to 0.052.</p>
+
+<p class="leading-relaxed mb-4">From the elusion rate, the rest follows. Estimated missed responsive documents: 0.03 &times; 9,000 = 270. Estimated recall: the 1,000 found, divided by the 1,000 found plus the 270 missed, is 1,000 &divide; 1,270 &asymp; 0.787, about 79%. The interval on recall comes from the interval on elusion: at the low end, 1.7% of 9,000 is about 155 missed, giving recall of 1,000 &divide; 1,155 &asymp; 87%; at the high end, 5.2% of 9,000 is about 465 missed, giving recall of 1,000 &divide; 1,465 &asymp; 68%. So the estimated recall is about 79%, with an interval of roughly 68&ndash;87%.</p>
+
+<p class="leading-relaxed mb-4">Two cautions belong with the estimate. First, a low observed elusion rate does not establish zero missed documents. If the sample of 400 had contained zero responsive documents, the rule of three from Episode 6 would still allow an elusion rate up to about 3 &divide; 400 = 0.75% &mdash; which is up to about 68 missed documents in the excluded 9,000. Zero in the sample is not zero in the set. Second, the estimate assumes the sample is genuinely random and the hand review is correct &mdash; if the sample is drawn from the easy end of the excluded set, or the reviewers miss responsive documents themselves, the estimate is biased, and no formula repairs that. That is Episode 3&rsquo;s lesson, applied here.</p>
+
+<p class="leading-relaxed mb-4">The legal anchor for TAR is the US courts&rsquo; acceptance of predictive coding, beginning with <em>Da Silva Moore v. Publicis Groupe</em> (S.D.N.Y. 2012), in which the court approved a protocol using technology-assisted review. In Singapore, the e-discovery decision is <em>Deutsche Bank AG v Chang Tse Wen</em> [2010] SGHC 125, in which the court ordered a party to follow the e-discovery protocol &mdash; a decision about e-discovery protocols, not predictive coding as such, and cited here for that reason. The statistical foundation of a TAR validation report is the elusion calculation above: it is what turns a sample of the excluded set into an estimate of what the review missed.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Name the Denominator</h2>
+
+<p class="leading-relaxed mb-4">The last lesson of the episode is about denominators, and it applies to every metric in it. Three citation metrics that sound alike are three different numbers. Incorrect citations divided by citations is a per-citation error rate. Answers containing an incorrect citation, divided by answers, is a per-answer rate &mdash; one bad citation spoils the whole answer. Unsupported legal propositions divided by propositions is a per-proposition rate, and it is stricter than either, because a citation can exist and still not support the proposition it sits beside. Citation existence is different from substantive support for a claim. A vendor report that says &ldquo;2% error rate&rdquo; without saying 2% of what has said nothing you can act on.</p>
+
+<p class="leading-relaxed mb-4">The same discipline applies to hallucination claims. A 2024 study by Dahl and colleagues at Stanford RegLab and the Human-Centered AI institute measured hallucination rates in commercial legal research tools directly, and the rates differed sharply by the denominator and the task &mdash; which is the point. When a vendor says &ldquo;zero hallucinations,&rdquo; ask: zero of how many, of what, and with what interval beside it (Episode 6). <em>Mata v. Avianca</em> (S.D.N.Y. 2023) is the case in which a filing cited decisions that did not exist; the question for any research tool is how often it would do the same, measured with the denominator stated.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">A vendor scorecard lands on the department&rsquo;s desk. It says 70% accurate. The matrix is what turns that number into a decision. Ask for the four cells: how many real deviations were there, how many did the tool find, how many did it flag for nothing, how many harmless clauses did it clear? Ask for precision and recall separately, because the misses cost more than the false alarms. Ask for the prevalence, because a PPV without it cannot be reused. Ask for the denominators, because a rate without one is not a number. And ask what the tool missed, because the headline accuracy is built to hide exactly that.</p>
+
+<p class="leading-relaxed mb-4">A short checklist for reading any vendor scorecard:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Ask for the confusion matrix, not just the accuracy. The four cells are the evidence; the metrics are arithmetic on them.</li>
+<li>Read precision and recall separately. A tool can be 70% accurate and still miss a quarter of what matters.</li>
+<li>Ask which error costs more, and whether the threshold is set that way.</li>
+<li>Ask for the prevalence before believing a predictive value. Rare targets make most flags false alarms.</li>
+<li>Ask for the denominator of every rate. Citations, answers and propositions are three different denominators.</li>
+<li>For TAR, ask for the elusion sample: its size, its randomness, and its interval &mdash; not just the headline recall.</li>
+<li>For retrieval, ask for precision@k and recall@k separately from the final-answer score. A good answer on the wrong authority is a retrieval failure.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">Accuracy hides the asymmetry. Precision and recall show it. Name the denominator. The platform was 70% accurate, with precision 60%, recall 75%, F1 67% and specificity 67% &mdash; and it missed 20 of 80 real deviations. A privilege tool with 95% sensitivity and 90% specificity still produces mostly false alarms when privilege is 3% of the set. A TAR system with a 3% elusion rate still leaves about 270 responsive documents behind. The matrix is the language these numbers are written in. Learn to read it, and no scorecard reads the same again.</p>
+
+<p class="leading-relaxed mb-4">Next episode: how many cases do you need? &ldquo;How many cases?&rdquo; is three questions, not one.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Manning, C. D., Raghavan, P., &amp; Sch&uuml;tze, H. (2008). <a class="underline hover:text-red" href="https://nlp.stanford.edu/IR-book/"><em>Introduction to Information Retrieval</em></a>. Cambridge University Press, ch. 8 &mdash; precision, recall, F1, mean reciprocal rank and nDCG, the standard treatment of evaluation in information retrieval.</li>
+<li>Grossman, M. R., &amp; Cormack, G. V. (2011). <a class="underline hover:text-red" href="http://jolt.richmond.edu/jolt-archive/v17i3/article11.pdf">&ldquo;Technology-assisted review in e-discovery can be more effective and more efficient than exhaustive manual review.&rdquo;</a> <em>Richmond Journal of Law &amp; Technology</em> 17(3) &mdash; the elusion and recall estimation method for TAR validation.</li>
+<li><em>Da Silva Moore v. Publicis Groupe</em>, 287 F.R.D. 182 (S.D.N.Y. 2012) &mdash; court approval of a technology-assisted review protocol. <em>Deutsche Bank AG v Chang Tse Wen</em> [2010] SGHC 125 &mdash; the Singapore court ordering a party to follow the e-discovery protocol.</li>
+<li>Dahl, M., et al. (2024). <a class="underline hover:text-red" href="https://arxiv.org/abs/2401.01301">&ldquo;Large legal fictions: Profiling legal hallucinations in large language models.&rdquo;</a> Stanford RegLab / Human-Centered AI &mdash; measured hallucination rates in commercial legal research tools, by task and by denominator.</li>
+<li><em>Mata v. Avianca, Inc.</em>, No. 22-cv-1461 (S.D.N.Y. 2023) &mdash; fabricated citations in a filing.</li>
+<li>The worked examples in this episode are the series&rsquo; own: the 200-clause confusion matrix (TP 60, FP 40, FN 20, TN 80; precision 60%, recall 75%, F1 67%, accuracy 70%, specificity 67%); the privilege review at 95% sensitivity, 90% specificity and 3% prevalence (PPV about 23%, NPV about 99.8%); the TAR elusion sample (12 of 400, Wilson interval about 1.7&ndash;5.2%, estimated 270 missed documents, estimated recall about 79% with an interval of roughly 68&ndash;87%); the retrieval example (precision@10 60%, recall@10 40%) and the nDCG example (DCG 4.49, IDCG 4.76, nDCG about 0.94).</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 8 &mdash; the Wilson interval used for the elusion interval.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

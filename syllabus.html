@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Outline — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="index.html" class="hover:text-red transition">Episodes</a>
+                <a href="syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+<h1 class="text-4xl font-bold leading-tight mb-3">Outline</h1>
+<p class="font-sans text-sm text-ink-muted mb-6">19 episodes in 5 modules. One technique per episode.</p>
+<h2 class="text-2xl font-bold mt-12 mb-4">Module 1 &mdash; Foundations: What a Number Means</h2>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-01-what-a-number-means.html">Episode 1 &mdash; What a Number Means</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;We scored 70%. What does that even mean?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Mean, median, mode, spread (range, standard deviation), histograms, bimodal distributions, comparing two builds with the same mean, skew (mean vs median), stratification and post-stratification.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Summarising a pilot eval for a partner; spotting that a build fails one document type entirely while looking fine on average.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>One average can hide two different stories.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-02-base-rates-and-bayes.html">Episode 2 &mdash; Base Rates and Bayes</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;The model says 90% likely. Likely compared to what?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Probability, conditional probability, Bayes&#x27; theorem, base rates.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reading a vendor&#x27;s accuracy claim; judging whether a triage check is doing anything.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Every probability needs a base rate. Without one, the number is a slogan.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-03-how-do-you-build-a-test-set.html">Episode 3 &mdash; How Do You Build a Test Set?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;How do I know my test set is fair?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Sampling frames, random vs convenience vs stratified sampling, oversampling rare categories and weighting back, development/evaluation separation, leakage and contamination, label noise and the human noise floor, the unit of evaluation, model/product/workflow evaluation levels.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Building a test set before running a pilot; judging a vendor&#x27;s test set.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>More examples cannot repair an unrepresentative test set. Teach sample quality alongside sample size.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-04-why-more-cases-help.html">Episode 4 &mdash; Why More Cases Help</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;Why is 50 questions steadier than 5?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Sampling distribution, standard error, the Central Limit Theorem.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Deciding whether a ten-case pilot tells you anything at all.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Averages of many things are steadier than single things. That is the whole reason test sets work.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-05-pass-or-fail-is-a-weighted-coin.html">Episode 5 &mdash; Pass or Fail Is a Weighted Coin</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;We got 7 out of 10. Is that good?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The binomial distribution, expected counts, how much counts vary by chance.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reading a pass rate from a small test set.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Counts wobble. 7 out of 10 is evidence, not a verdict.</p>
+<h2 class="text-2xl font-bold mt-12 mb-4">Module 2 &mdash; The Inference Toolkit</h2>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-06-how-sure-are-you.html">Episode 6 &mdash; How Sure Are You?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;7 out of 10 — what range is the truth actually in?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Confidence intervals; the Wilson interval; why the Wald interval is wrong at small n; the 4x rule; the rule of three and Clopper–Pearson intervals for rare events and zero failures.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reporting a pilot score to a partner without overstating it; reading a vendor&#x27;s &quot;zero failures&quot; claim.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Report the interval, never the bare percentage. The width is the news.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-07-what-does-p-mean.html">Episode 7 &mdash; What Does p Mean?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;The vendor says p = 0.03. What are they actually claiming?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The p-value — the probability of seeing data at least this extreme if the null hypothesis were true. The common misreadings: it is not the probability the null is true, and not the probability your fix worked.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Judging whether a prompt fix actually helped, or whether the difference is consistent with chance.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>p is a statement about the data under an assumption, not about the truth of your claim.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-08-what-did-the-tool-miss.html">Episode 8 &mdash; What Did the Tool Miss?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;70% accurate — but what did it miss, and what did it flag for nothing?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The confusion matrix; precision, recall, F1; specificity; positive and negative predictive values; prevalence; why accuracy misleads when the thing that matters is rare. Retrieval metrics: precision@k, recall@k (mean reciprocal rank and nDCG on the lesson page as a sidebar).</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reading any vendor scorecard; judging an extraction or review tool where the misses matter more than the hits.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Accuracy hides the asymmetry. Precision and recall show it. Name the denominator.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-09-how-many-cases-do-you-need.html">Episode 9 &mdash; How Many Cases Do You Need?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;How many test cases before I can believe the result?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Power; the three questions (estimate, detect, compare); sample-size tables; effect size beats sample size.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Sizing a test set before running it — and the correction that significance is the wrong goal for a ten-question teaching eval.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>&quot;How many cases?&quot; is three questions, not one. Answer the wrong one and the number is useless.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-10-how-big-is-the-difference.html">Episode 10 &mdash; How Big Is the Difference?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;It&#x27;s significant. Is it worth anything?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Effect size; the minimum important difference set by the department; Cohen&#x27;s d for means (short aside only); the raw point difference for proportions; significance is not importance; non-inferiority testing (equivalence / TOST as a separate written aside).</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Deciding whether to ship a fix, or to keep tuning; deciding whether a cheaper model is acceptably worse.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>A p-value says how surprising the data are under an assumption. Effect size says &quot;big enough to care about.&quot; You need both — and the margin is yours to set, not the vendor&#x27;s.</p>
+<h2 class="text-2xl font-bold mt-12 mb-4">Module 3 &mdash; Comparing Builds</h2>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-11-the-paired-t-test.html">Episode 11 &mdash; The Paired t-Test</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;Build A averages 0.82, Build B 0.76. Is the gap real?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The paired t-test; the t-distribution and why small samples need it; when to use it instead of McNemar; the Wilcoxon signed-rank fallback when differences are not roughly normal; the bootstrap / permutation interval alongside.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Mean rubric scores, mean Brier scores, mean cost or latency per task — any metric that is a mean over items.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Pass/fail is McNemar&#x27;s territory. Means are the t-test&#x27;s. Use the test that matches the metric.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-12-did-the-fix-help.html">Episode 12 &mdash; Did the Fix Help?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;Same questions, new prompt. Better?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>McNemar&#x27;s exact test; the paired bootstrap; why pairing buys power over unpaired comparison (the gain depends on the correlation between the paired measurements — there is no universal multiplier).</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Before/after on the same test set — the most common comparison in legal evals.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Same questions, paired test. Different questions, you have thrown away your best evidence.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-13-your-items-are-not-independent.html">Episode 13 &mdash; Your Items Are Not Independent</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;We have 100 questions. Do we really?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Clustering; the design effect, 1 + (m − 1)ρ; effective sample size; the cluster bootstrap; stratified resampling; run-to-run variance as a second cluster.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Test sets built from a few documents — ten questions per judgment, twenty clauses per contract — where the headline n overstates the confidence; repeated model runs on the same items.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Questions from the same document travel together. Count documents, not just questions — and count runs, not just items.</p>
+<h2 class="text-2xl font-bold mt-12 mb-4">Module 4 &mdash; Scoring and Agreement</h2>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-14-scoring-probabilities.html">Episode 14 &mdash; Scoring Probabilities</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;The model says 90% confident. Is it right 90% of the time?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The Brier score; the Murphy decomposition (reliability, resolution, uncertainty); calibration; expected calibration error (ECE); the 90%-confidence bucket check; log loss; reliability diagrams; ROC-AUC and PR-AUC — discrimination vs calibration.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Any model that gives probabilities — dismissal odds, risk scores, settlement ranges.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Accuracy says how often it is right. Calibration says whether its confidence means anything. Check both — and check whether it separates, too.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-15-do-the-graders-agree.html">Episode 15 &mdash; Do the Graders Agree?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;Two partners graded the same outputs. Did they agree?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Cohen&#x27;s κ (two raters); Fleiss κ (three or more); weighted κ for ordinal ratings; intraclass correlation (ICC) for continuous scores; Krippendorff&#x27;s α — with a guide to when each fits; choosing a judge panel by κ with held-out validation; agreement is not correctness; LLM-judge bias (position, length, self-preference).</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Human grading of eval outputs; picking an AI judge panel.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>Raw agreement flatters. Kappa asks how much agreement survives chance — and agreement is not correctness.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-16-did-the-triage-check-work.html">Episode 16 &mdash; Did the Triage Check Work?</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;The model asks for more facts when it should — and when it shouldn&#x27;t?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>True positive rate, false positive rate, balanced accuracy; the threshold trade-off; ROC and precision–recall curves; cost-weighted decisions and expected cost; abstention / non-conclusions as a third outcome.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Any triage step that routes work — answer vs ask, review vs escalate.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>A check has two error rates, not one. Report both, or the number is a lie by omission — and price the errors, or the threshold is a guess.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-17-what-the-model-asks-matters-more.html">Episode 17 &mdash; What the Model Asks Matters More</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;Models that ask more do better. Or do they?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>Pearson&#x27;s r, r-squared, the Fisher-z confidence interval for r, correlation versus causation; Spearman&#x27;s ρ as the alternative when relationships are not linear.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reading a benchmark&#x27;s correlation claims; &quot;does a bigger model mean a better score?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>What the model asks matters more than how often it asks. And a correlation is not a cause.</p>
+<h2 class="text-2xl font-bold mt-12 mb-4">Module 5 &mdash; Reporting Your Results</h2>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-18-how-not-to-fool-yourself.html">Episode 18 &mdash; How Not to Fool Yourself</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;We ran five tests and one came out significant. Did we find something?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>P-hacking; multiple comparisons; the Bonferroni correction; the Holm correction and Benjamini–Hochberg; pre-specification; overlapping confidence intervals; subgroup analysis and multiplicity.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Reading a vendor report that tested everything and reported the one hit; running your own pilot without fooling yourself.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>If you test enough things, something will look real. Decide the tests before you look.</p>
+<h3 class="text-lg font-bold mt-8"><a class="hover:text-red" href="lessons/episode-19-reporting-your-results.html">Episode 19 &mdash; Reporting Your Results (Series Finale)</a></h3>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">The question</span><br>&quot;How do I write this up so a reader can see exactly what it proves — and what it doesn&#x27;t?&quot;</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Technique</span><br>The one-page eval report; cost and the Pareto frontier; post-deployment monitoring (weekly spot-checks, control charts, drift); workflow evaluation (lawyer-only vs lawyer-plus-AI); measurement validity; versioning; the cautionary tales.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Legal evals use case</span><br>Writing up an eval for a partner, a vendor, or a regulator.</p>
+<p class="mt-2 text-sm leading-relaxed"><span class="font-sans text-xs uppercase tracking-widest text-ink-muted">Remember</span><br>A report that hides its limits is a demo with better stationery.</p>
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026 &middot; MIT licence &middot; <a class="underline hover:text-red" href="https://github.com/yuch85/stats-for-legal-evals">Source on GitHub</a></p>
+            <p class="font-sans text-xs text-ink-muted mt-2">For educational purposes only. Does not represent the views of any organisation or constitute legal advice.</p>
+        </div>
+    </footer>
+</body>
+</html>

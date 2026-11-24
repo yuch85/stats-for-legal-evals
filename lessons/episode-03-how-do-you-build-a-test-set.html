@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 3 — How Do You Build a Test Set? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 3 &mdash; How Do You Build a Test Set?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 3 &middot; Module 1 &mdash; Foundations: What a Number Means &middot; 6:40 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-03.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-4">The legal department is about to pilot the contract platform from Episode 1. Before a single document is scored, one decision matters more than any formula in the rest of this series: which documents go into the test set. A biased test set makes every number after it meaningless. No formula fixes a test set that does not look like the work.</p>
+<p class="text-lg leading-relaxed mb-8">The question this episode answers: how do I know my test set is fair? The worked example is the platform&rsquo;s pilot: a sampling frame of 50 contracts, chosen by type, with the prompt tuned on 30 of them and tested on the untouched 20.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">First, Name the Population</h2>
+<p class="leading-relaxed mb-4">A test set is a set of items used to measure how well a tool performs. The population is the full set of items the tool will actually be used on &mdash; in this case, the commercial agreements the department receives in its real work: NDAs, MSAs, software and SaaS agreements, vendor and procurement contracts, data protection agreements (DPAs), statements of work, and licensing and technology agreements. The test set is useful only to the extent that it resembles that population.</p>
+<p class="leading-relaxed mb-4">The sampling frame is the list the test set is actually drawn from. The frame is not the same thing as the population. A frame built from the department&rsquo;s template library, for example, contains clean standard documents; the population contains bespoke vendor contracts with non-standard terms. A test set drawn from the template frame measures performance on templates, not on the department&rsquo;s real work. The first check on any test set is therefore a check on its frame: does the list it was drawn from cover the population, or only the convenient part of it?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Three Ways to Choose: Random, Convenience, Stratified</h2>
+<p class="leading-relaxed mb-4"><strong>Convenience sampling</strong> takes the items that are easiest to reach: the 50 contracts already on a shared drive, the ones a colleague happens to have to hand. Convenience sampling is fast, and it is the most common way a pilot test set gets built. Its weakness is that easy-to-reach items are rarely typical items. If the 50 easiest contracts are all template NDAs, the score says nothing about the bespoke vendor contracts the department actually receives. A convenience sample can still be used, but only if the report states plainly that it is a convenience sample and what it leaves out.</p>
+<p class="leading-relaxed mb-4"><strong>Random sampling</strong> gives every item in the frame the same chance of being chosen, for example by numbering the contracts in the frame and drawing numbers at random. Random sampling does not guarantee a representative sample in any single draw &mdash; a random draw of 50 can still come out light on MSAs by chance &mdash; but it removes the chooser&rsquo;s preferences from the selection, and it makes the sampling error quantifiable. That is the subject of Episode 4.</p>
+<p class="leading-relaxed mb-4"><strong>Stratified sampling</strong> divides the frame into subgroups, called strata, and samples from each subgroup separately. In the pilot, the strata are the document types: NDAs, MSAs, SaaS agreements, DPAs, and vendor contracts. Stratification guarantees that each type appears in the test set in the intended proportion, which random sampling alone does not guarantee at small sizes. It also makes the subgroup scores reportable: the department can read the NDA score and the MSA score separately, which is what Episode 1 showed matters.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Oversampling, and Weighting Back</h2>
+<p class="leading-relaxed mb-4">Some categories are rare but consequential. Indemnity-heavy MSAs are a small share of the department&rsquo;s portfolio, but a missed indemnity clause in one of them is expensive. A test set that samples strictly in proportion to the portfolio might contain only one or two of them &mdash; too few to learn anything about performance on that category.</p>
+<p class="leading-relaxed mb-4">The remedy is oversampling: deliberately include more of the rare category than its portfolio share, so there are enough of them to measure. Oversampling is legitimate, but only if the results are then weighted back to the portfolio mix. Weighting back means each subgroup&rsquo;s score is multiplied by its share of the real portfolio, not its share of the test set, before the subgroups are combined into an overall score. The arithmetic is the same as the portfolio weighting in Episode 1: a weighted mean, where the weights are the portfolio shares. An overall score computed from an oversampled test set without weighting back describes the test set, not the portfolio. The weights must be stated alongside the score, so a reader can see what mix the headline number was computed over.</p>
+<p class="leading-relaxed mb-4">The same logic applies in reverse. If a category is over-represented in the test set for any reason &mdash; because it was oversampled, or because it was simply easier to collect &mdash; the unweighted overall score overstates that category&rsquo;s importance. The fix is the same: weight back to the population the decision is about.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Example: 50 Contracts, Split 30 and 20</h2>
+<p class="leading-relaxed mb-4">The pilot&rsquo;s sampling frame is 50 contracts, stratified by type, with indemnity-heavy MSAs oversampled and the results weighted back to the portfolio mix. The 50 contracts are then divided into two groups with different jobs:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li><strong>Development set, 30 contracts.</strong> The prompt &mdash; the instructions given to the platform &mdash; was tuned on these 30 contracts. The team tried wording, checked the outputs, and adjusted the prompt until the outputs looked right on these contracts.</li>
+<li><strong>Evaluation set, 20 contracts.</strong> These 20 were untouched during tuning. They are the test: the platform, with its final prompt, is run on them once, and the score is the score on these 20.</li>
+</ul>
+<p class="leading-relaxed mb-4">The split is the point. The 30 development contracts cannot also be the test, because the prompt was adjusted until it performed well on them. A score on the development set measures how well the tuning worked, not how well the platform will perform on new contracts. Testing on the same contracts used for tuning overstates performance, and the overstatement is invisible in the score itself &mdash; nothing in the number says it was computed on tuned-on data. The only protection is the separation: development data and evaluation data must be different contracts, and the evaluation contracts must stay untouched until the test runs.</p>
+<p class="leading-relaxed mb-4">The same separation applies to people as well as prompts. If a lawyer reviewed the development contracts and learned the platform&rsquo;s failure patterns from them, that knowledge can leak into the grading of the evaluation contracts. The evaluation grading should be done against the same rubric, by graders who did not tune the prompt.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Leakage and Contamination</h2>
+<p class="leading-relaxed mb-4">Leakage is information from the test reaching the thing being tested before the test runs. The development split above is one form of leakage: tuning on the test data. Contamination is a related problem at the level of the model itself: if the platform&rsquo;s training data included the benchmark cases, or documents very like them, the score is inflated. The platform is not performing well on new work; it is remembering work it has already seen.</p>
+<p class="leading-relaxed mb-4">Contamination is difficult to detect from the score alone, because a contaminated score looks like a good score. The questions to ask are about provenance: what was the model trained on, and does the training data overlap with the test set? Where the training data cannot be inspected, a clean test set &mdash; documents created after the model&rsquo;s training cut-off, or documents written specifically for the test &mdash; is the practical protection. A vendor that cannot say what its model was trained on cannot rule contamination out, and the report should say so.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Label Noise: Two Lawyers Disagreed on 8 of 50</h2>
+<p class="leading-relaxed mb-4">The reference labels are the scores the lawyers assigned to each contract: the standard against which the platform is measured. In the pilot, two lawyers independently scored the same 50 contracts, and they disagreed on 8 of the 50 scores. That is a disagreement rate of 8 &divide; 50 = 16%. The disagreement is label noise: uncertainty in the reference labels themselves.</p>
+<p class="leading-relaxed mb-4">Disagreement on 8 of 50 does not mean the labels are useless. It means the labels need investigation before they are used as a standard. The team should investigate whether the disagreements reflect unclear grading instructions, rater error, missing information, or genuine legal ambiguity. Each cause points to a different fix:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Unclear grading instructions: rewrite the rubric so the two lawyers are applying the same standard.</li>
+<li>Rater error: one lawyer misread a clause or misapplied the rubric; the score can be corrected.</li>
+<li>Missing information: the contract as provided did not contain what the grader needed; the test item needs completing, not the grader.</li>
+<li>Genuine legal ambiguity: two competent lawyers can reasonably differ on the point. The label is genuinely uncertain.</li>
+</ul>
+<p class="leading-relaxed mb-4">Where a disagreement can be resolved, refine or adjudicate the reference labels: the two lawyers discuss the item, or a third lawyer decides, and the agreed label is recorded. Where it cannot be resolved, report the unresolved uncertainty alongside the score, rather than picking one lawyer&rsquo;s label and treating it as certain. Reference labels require validation: a label is a claim about the right answer, and it needs the same scrutiny as the platform&rsquo;s output.</p>
+<p class="leading-relaxed mb-4">Rater disagreement sets a rough ceiling on how closely any output can match one lawyer&rsquo;s label. If two lawyers agree on only 42 of 50 scores, no system can match a single lawyer&rsquo;s labels on all 50, because the labels themselves disagree. That ceiling applies to matching one lawyer&rsquo;s label. It does not cap a model against an adjudicated reference &mdash; a label the lawyers agreed after discussion &mdash; and it is not a universal performance ceiling. The distinction matters: the ceiling is a property of the labels, not of the task. Episode 15 takes up agreement between graders in full, including Cohen&rsquo;s &kappa;.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Unit of Evaluation</h2>
+<p class="leading-relaxed mb-4">The unit of evaluation is the thing being scored: one item, one score. The pilot&rsquo;s unit is the document: each contract receives one score out of ten. But the unit could equally be a clause, a question, a proposition, a citation, or a run. The choice of unit changes what the score means.</p>
+<p class="leading-relaxed mb-4">A platform that scores 9 out of 10 at the document level can still miss the one clause that matters. A platform that extracts 95% of clauses correctly can still fail every document that contains an indemnity clause, if the missed clauses cluster in those documents. The unit should match the decision: if the decision is whether the platform can be trusted to review a contract, the unit is the document. If the decision is whether it extracts clauses reliably, the unit is the clause. Report the unit alongside the score, and check that the unit in the vendor&rsquo;s report matches the unit in your decision. Episode 13 returns to this point from a different direction: items drawn from the same document are not independent items.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Three Levels of Evaluation</h2>
+<p class="leading-relaxed mb-4">An evaluation can be run at three levels, and the level should be stated:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li><strong>Model evaluation:</strong> does the underlying model extract clauses correctly? This tests the model in isolation, on a fixed task, with everything else held constant.</li>
+<li><strong>Product evaluation:</strong> does the complete tool work &mdash; the retrieval, the prompts, the document handling, the interface? A good model inside a poor product still produces poor results for the user, and a product test is what measures that.</li>
+<li><strong>Workflow evaluation:</strong> does a lawyer using the tool do better work than a lawyer without it? This is the level the department&rsquo;s decision is really about. It is also the hardest to run, because it needs lawyers doing real work with and without the tool, and measuring the difference. Episode 19 takes up workflow evaluation in full.</li>
+</ul>
+<p class="leading-relaxed mb-4">A model score is not a product score, and a product score is not a workflow score. Each level answers a different question, and a report should say which level it tested.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Evaluation-Design Worksheet</h2>
+<p class="leading-relaxed mb-4">The practical output of this episode is a worksheet, completed before any results are examined. It records the decisions that make a test set defensible:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Intended user, workflow, jurisdiction, and legal date: who will use the tool, for what work, under which law, as at what date?</li>
+<li>Unit of evaluation: matter, document, question, proposition, citation, or run?</li>
+<li>Target workload and legally meaningful subgroups: which document types, which clauses, which risk levels?</li>
+<li>Representative testing or deliberately difficult &ldquo;challenge&rdquo; testing: is the set meant to resemble the ordinary workload, or to stress the tool on hard cases? Either is legitimate, but a challenge set must be labelled as one, and its score must not be reported as if it were a representative score.</li>
+<li>Separation of development examples from untouched evaluation data: which items were used for tuning, and which were held back?</li>
+<li>Definition of success, consequential failure, and acceptable uncertainty: what score counts as good enough, which failures matter most, and how much uncertainty is acceptable?</li>
+</ul>
+<p class="leading-relaxed mb-4">The worksheet is completed before any results are examined, because decisions made after seeing the results are easy to tilt, even unintentionally, toward the result that looks best. Deciding the tests before looking is the subject of Episode 18.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case: Judging a Vendor&rsquo;s Test Set</h2>
+<p class="leading-relaxed mb-4">A vendor reports a score of 92% on its own test set. The questions from this episode are: what was the sampling frame, and did it cover the department&rsquo;s real work or only the vendor&rsquo;s template library? Was the set stratified by document type, and were rare but consequential categories oversampled and weighted back? Was the test set separate from the data used to develop the tool, or was the tool tuned on the same items it is now being scored on? Were the reference labels validated, and how often did the graders disagree? What is the unit of evaluation, and does it match the decision the department is making? A vendor that can answer those questions has a test set worth reading. A vendor that cannot has a number, not an evaluation.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Building a Test Set</h2>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Name the population before choosing the frame, and check the frame covers it.</li>
+<li>Stratify by the subgroups that matter, and report the scores by subgroup.</li>
+<li>Oversample rare but consequential categories, and weight the results back to the portfolio mix.</li>
+<li>Split development from evaluation, and keep the evaluation set untouched until the test runs.</li>
+<li>Ask what the model was trained on, and whether the test set overlaps with it.</li>
+<li>Investigate grader disagreement, adjudicate where possible, and report unresolved uncertainty.</li>
+<li>State the unit of evaluation and the level of evaluation, and check they match the decision.</li>
+<li>Complete the evaluation-design worksheet before examining any results.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+<p class="leading-relaxed mb-4">More examples cannot repair an unrepresentative test set. Teach sample quality alongside sample size. A test set of 50 well-chosen contracts, stratified by type, split between development and evaluation, and graded against validated labels, tells the department more than a test set of 500 convenience documents. The next episode takes up the question the test set&rsquo;s size does answer: why more cases help.</p>
+<p class="leading-relaxed mb-4">Next episode: why more cases help. Why is 50 questions steadier than 5?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>The pilot test-set design in this episode is the series&rsquo; own worked example: a sampling frame of 50 contracts, stratified by type, with indemnity-heavy MSAs oversampled and results weighted back to the portfolio mix; the prompt tuned on 30 contracts, tested on the untouched 20; two lawyers disagreeing on 8 of the 50 scores (16%). Illustrative evaluation design, not actual vendor performance data.</li>
+<li><a class="underline hover:text-red" href="https://doi.org/10.6028/NIST.AI.800-2.ipd">NIST AI 800-2</a>, <em>Practices for Automated Benchmark Evaluations</em>, initial public draft, January 2026 &mdash; representative test sets, item sampling, and nondeterministic completions as uncertainty sources. Initial public draft, not a final standard.</li>
+<li><a class="underline hover:text-red" href="https://www.nist.gov/artificial-intelligence/ai-research/tevv-athlon-framework-evaluating-ai-systems">NIST AI 200-2</a>, <em>TEVV-Athlon</em>, initial public draft, August 2026 &mdash; evaluation practice for AI systems. Initial public draft, not a final standard.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 1 &mdash; sampling frames, random sampling, and stratified sampling, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

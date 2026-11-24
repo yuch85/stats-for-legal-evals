@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 10 — How Big Is the Difference? — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 10 &mdash; How Big Is the Difference?</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 10 &middot; Module 2 &mdash; The Inference Toolkit &middot; 6:40 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-10.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-8">The vendor has tuned the contract intelligence platform &mdash; the tool that reviews commercial agreements against the company playbook and extracts clauses &mdash; and the pilot report says the new version is better, with a p-value below 0.05. The legal department&rsquo;s question is the one this episode is about: it&rsquo;s significant. Is it worth anything?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">What a p-Value Does and Does Not Say</h2>
+
+<p class="leading-relaxed mb-4">A p-value says how surprising the data are under an assumption &mdash; the assumption, called the null hypothesis, that there is no difference between the two versions. A small p-value means the observed difference would be unusual if the two versions were truly equal. That is all it says. It does not say how big the difference is, and it does not say whether the difference matters. A p-value is a statement about the data under an assumption, not about the truth of a claim (Episode 7).</p>
+
+<p class="leading-relaxed mb-4">The reason a p-value cannot answer &ldquo;is it worth anything?&rdquo; is that it mixes two things together: the size of the difference and the size of the test set. A tiny difference measured on an enormous test set can produce a small p-value, and a large difference measured on a small test set can produce a large one. The two worked examples below are the same point from opposite directions.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">A 2-Point Gain on 2,000 Cases: Significant and Worthless</h2>
+
+<p class="leading-relaxed mb-4">The vendor runs both versions of the platform on the same 2,000 test items &mdash; a paired comparison, the design of Episodes 9 and 12 &mdash; and the new version passes 2 points more than the old one. The assumptions for the calculation are stated here: paired items, a 20% discordant rate (the two versions disagree on one item in five), and a 2-point difference, &delta; = 0.02.</p>
+
+<p class="leading-relaxed mb-4">The standard error of the difference in a paired comparison is:</p>
+
+<p class="leading-relaxed mb-4 font-sans text-center text-lg">SE = &radic;(p<sub>disc</sub> &divide; n)</p>
+
+<p class="leading-relaxed mb-4">Working: p<sub>disc</sub> &divide; n = 0.20 &divide; 2,000 = 0.0001; &radic;0.0001 = 0.01. So SE = 0.01, or 1 point. The test statistic is z = &delta; &divide; SE = 0.02 &divide; 0.01 = 2.0, which gives a two-sided p-value of about 0.046 &mdash; below the conventional 0.05 threshold. The result is statistically significant.</p>
+
+<p class="leading-relaxed mb-4">And it is worth almost nothing. Two points means two extra correct items per hundred. On the department&rsquo;s workload, that is a handful of clauses a week, against the cost of re-validating the build, retraining reviewers on its changed behaviour, and re-running the acceptance tests. The 95% confidence interval makes the same point from the other side: 0.02 &plusmn; 1.96 &times; 0.01 = 0.02 &plusmn; 0.0196, or about 0.0 to 4.0 points. The interval is narrow, and it sits near zero. The department knows the gain precisely, and the gain is small. Significance arrived because n was large, not because the improvement was large.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">A 20-Point Gain on 50 Cases: Worth Further Investigation</h2>
+
+<p class="leading-relaxed mb-4">Now the reverse. A different fix &mdash; a rewritten prompt for deviation flagging &mdash; is tested on the same 50 items, before and after, and the new version passes 20 points more. Same assumptions: paired items, 20% discordant rate.</p>
+
+<p class="leading-relaxed mb-4">Working: SE = &radic;(0.20 &divide; 50) = &radic;0.004 = 0.063, or about 6.3 points. The 95% confidence interval is 0.20 &plusmn; 1.96 &times; 0.063 = 0.20 &plusmn; 0.124, or about 7.6 to 32.4 points. The test statistic is z = 0.20 &divide; 0.063 = 3.2, with a two-sided p-value of about 0.002.</p>
+
+<p class="leading-relaxed mb-4">A 20-point gain is large enough to care about, and the interval excludes zero by a wide margin. But it is worth <em>further investigation</em> &mdash; not shipping. Three things are still missing, and none of them is a p-value:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>The uncertainty beside the effect.</strong> The interval runs from about 8 points to about 32 points. The true gain could be a quarter of the headline, or half as large again. A decision to ship needs a narrower interval, which needs more cases (Episode 9).</li>
+<li><strong>The consequential errors.</strong> A pass rate counts every item equally. If the 20-point gain comes from easy items while the new version newly fails on indemnity clauses &mdash; the items that cost the client &mdash; the headline is misleading. The confusion matrix (Episode 8) shows which errors moved, not just how many.</li>
+<li><strong>The intended-use conditions.</strong> Fifty items from one document type, one jurisdiction, one prompt version. The gain was measured under those conditions; shipping puts the build under all of them. The test set must resemble the work (Episode 3) before the gain can be trusted outside it.</li>
+</ul>
+
+<p class="leading-relaxed mb-4">The contrast between the two examples is the episode in one paragraph. The 2-point gain on 2,000 cases is precisely measured and small. The 20-point gain on 50 cases is large and imprecisely measured. The p-value alone cannot tell them apart as decisions: one is significant and worthless, the other is significant and unfinished. What separates them is the size of the difference and the width of its interval.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Effect Size: The Raw Point Difference</h2>
+
+<p class="leading-relaxed mb-4">An <strong>effect size</strong> is the size of the difference, reported in units the decision-maker can use. For legal evals, which mostly deal with proportions &mdash; pass rates, extraction rates, flagging rates &mdash; the effect size is the raw point difference: new version minus old version, in percentage points. Two points. Twenty points. No transformation is needed, and none should be applied silently: a reader who sees &ldquo;2 points&rdquo; knows what was measured, while a reader who sees a standardised number must undo the standardisation to recover it.</p>
+
+<p class="leading-relaxed mb-4">The department reports the difference with its confidence interval attached, every time. A difference without an interval is a claim without a precision; an interval without a difference is a precision without a claim. The pair together is the report.</p>
+
+<h3 class="text-xl font-bold mt-8 mb-3">Aside: Cohen&rsquo;s d, for Means</h3>
+
+<p class="leading-relaxed mb-4">For means &mdash; mean rubric scores, mean cost per task &mdash; the usual standardised effect size is <strong>Cohen&rsquo;s d</strong>: the mean difference divided by the standard deviation of the scores, d = (mean<sub>new</sub> &minus; mean<sub>old</sub>) &divide; &sigma;. Its conventions, 0.2 for a small effect, 0.5 for medium, 0.8 for large, come from Cohen (1988) and are arbitrary &mdash; Cohen described them as conventions of convenience, not findings about the world. A d of 0.5 on a rubric where one point is a rounding error is not the same decision as a d of 0.5 where one point is a missed indemnity clause. Legal evals mostly deal with proportions, where the raw point difference is the effect size, so d appears here only as an aside. When a vendor reports d without the raw difference and the standard deviation beside it, ask for both.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Minimum Important Difference: Set It First</h2>
+
+<p class="leading-relaxed mb-4">The department sets its <strong>minimum important difference</strong> before the test runs &mdash; the smallest improvement worth acting on. It is a department decision, stated in department units, not a statistical one. Two examples of how it is stated:</p>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li><strong>Errors per 100 contracts.</strong> &ldquo;We will change the build if it removes at least 3 missed deviations per 100 contracts, because each missed deviation costs a review cycle.&rdquo;</li>
+<li><strong>Review hours saved.</strong> &ldquo;We will change the build if it saves at least 5 review hours per 100 contracts, net of re-validation time.&rdquo;</li>
+</ul>
+
+<p class="leading-relaxed mb-4">Once the minimum important difference is set, the report writes the observed difference and its confidence interval against that margin. Three readings are possible, and they are three different decisions:</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Where the interval sits</th>
+<th class="py-2 pr-4">Reading</th>
+<th class="py-2">Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Entirely above the margin</td>
+<td class="py-2 pr-4">The gain exceeds what matters</td>
+<td class="py-2">Ship, subject to the error and conditions checks</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Entirely below the margin</td>
+<td class="py-2 pr-4">The gain is below what matters</td>
+<td class="py-2">Do not ship on this evidence</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Straddling the margin</td>
+<td class="py-2 pr-4">The data cannot settle it</td>
+<td class="py-2">More cases, or a different fix</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The margin is the department&rsquo;s to set, not the vendor&rsquo;s. A vendor that reports a significant 2-point gain without stating what size of gain would matter has reported a p-value, not a case for shipping.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Non-Inferiority: Is the Cheaper Build Acceptably Worse?</h2>
+
+<p class="leading-relaxed mb-4">Sometimes the question is not &ldquo;is it better?&rdquo; but &ldquo;is it no worse than the current build by more than a stated amount?&rdquo; The vendor offers a cheaper build &mdash; lower licence cost, faster responses &mdash; and the department will switch if the cheaper build loses no more than 3 points of pass rate. The 3-point figure is the <strong>non-inferiority margin</strong>, set by the department before the test, in the same way as the minimum important difference above.</p>
+
+<p class="leading-relaxed mb-4">The test is one-sided. The null hypothesis is that the cheaper build is worse by 3 points or more; the department wants evidence against that. The evidence is a confidence interval on the difference, and because the test is one-sided at 5%, the interval used is a <strong>90% confidence interval</strong>: a one-sided 5% test corresponds to a two-sided 90% interval, since the 5% left in each tail of a 95% interval becomes 5% in one tail of a 90% interval.</p>
+
+<p class="leading-relaxed mb-4">The worked example: both builds run on the same 1,370 paired cases. The observed difference is 0 points &mdash; the cheaper build scores exactly the same as the current one. The assumptions are the same as before: paired items, 20% discordant rate.</p>
+
+<p class="leading-relaxed mb-4">Working: SE = &radic;(0.20 &divide; 1,370) = &radic;0.000146 = 0.0121, or about 1.2 points. The 90% interval uses z = 1.645: 0 &plusmn; 1.645 &times; 0.0121 = &plusmn;0.0199, or about <strong>&minus;2.0 to +2.0 points</strong>. The lower bound, &minus;2.0 points, sits above the &minus;3-point margin. The cheaper build is <strong>non-inferior within 3 points</strong>: the data rule out a loss of 3 points or more, at the stated confidence.</p>
+
+<svg viewBox="0 0 640 260" class="w-full mb-4" role="img" aria-label="Number line from minus five to plus five points: the 90 percent interval from minus two to plus two points sits entirely above the minus three point non-inferiority margin">
+<rect x="0" y="0" width="640" height="260" fill="#FAFAF8"/>
+<text x="20" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Non-inferiority: the interval against the margin</text>
+<line x1="60" y1="140" x2="600" y2="140" stroke="#1a1a1a" stroke-width="2"/>
+<line x1="60" y1="132" x2="60" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="60" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">−5</text>
+<line x1="168" y1="132" x2="168" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="168" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">−3 margin</text>
+<line x1="240" y1="132" x2="240" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="240" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">−2</text>
+<line x1="330" y1="132" x2="330" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="330" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">0</text>
+<line x1="420" y1="132" x2="420" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="420" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">+2</text>
+<line x1="600" y1="132" x2="600" y2="148" stroke="#1a1a1a" stroke-width="2"/><text x="600" y="170" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">+5</text>
+<line x1="168" y1="90" x2="168" y2="190" stroke="#991B1B" stroke-width="2" stroke-dasharray="5,4"/><text x="168" y="210" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#991B1B">margin −3</text>
+<line x1="240" y1="110" x2="420" y2="110" stroke="#991B1B" stroke-width="6"/>
+<circle cx="330" cy="110" r="5" fill="#991B1B"/>
+<text x="330" y="80" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">90% interval: −2.0 to +2.0</text>
+<text x="330" y="100" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#1a1a1a">observed difference 0</text>
+<text x="20" y="245" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">The whole interval sits above the margin, so the cheaper build is non-inferior within 3 points.</text>
+</svg>
+
+<p class="leading-relaxed mb-4">Two cautions belong with the conclusion. First, non-inferiority within 3 points is not equality: the cheaper build could be 2 points worse, and the department has accepted that as the price of the saving. Second, the margin does the work. A 10-point margin would be easy to pass and nearly meaningless; a 1-point margin would be nearly impossible to pass on a pilot. The margin is a department decision, and it should be defended in department units &mdash; what a 3-point loss costs in missed deviations or review hours &mdash; not chosen because it makes the test pass.</p>
+
+<h3 class="text-xl font-bold mt-8 mb-3">The Margin Drives the Sample Size</h3>
+
+<p class="leading-relaxed mb-4">A tight margin needs many cases. At 80% power, with a 20% discordant rate and no true difference between the builds, the total paired cases needed are given by n = (z<sub>1&minus;&alpha;</sub> + z<sub>1&minus;&beta;</sub>)&sup2; &times; p<sub>disc</sub> &divide; margin&sup2;, with z<sub>1&minus;&alpha;</sub> = 1.645 for a one-sided 5% test and z<sub>1&minus;&beta;</sub> = 0.84 for 80% power. Working for the 3-point margin: (1.645 + 0.84)&sup2; = 2.485&sup2; = 6.18; 6.18 &times; 0.20 = 1.236; 1.236 &divide; 0.0009 = 1,373, reported as about <strong>1,370 paired cases</strong>.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Non-inferiority margin</th>
+<th class="py-2 pr-4">Total paired cases (80% power)</th>
+<th class="py-2">Working</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">3 points</td>
+<td class="py-2 pr-4">About 1,370</td>
+<td class="py-2">1.236 &divide; 0.0009 = 1,373</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">5 points</td>
+<td class="py-2 pr-4">About 500</td>
+<td class="py-2">1.236 &divide; 0.0025 = 494</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">10 points</td>
+<td class="py-2 pr-4">About 125</td>
+<td class="py-2">1.236 &divide; 0.01 = 124</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">The practical lesson is in the first row. A 3-point margin needs about 1,370 paired cases &mdash; a test set the department may not have. A tight margin may not be testable on a pilot at all. When the margin the department wants cannot be tested with the cases it has, the department has three options: accept a wider margin and say so, build a larger test set, or treat the cheaper build as unproven rather than proven. What it cannot do is run 200 cases, find no significant difference, and declare the builds equivalent.</p>
+
+<h3 class="text-xl font-bold mt-8 mb-3">Aside: Equivalence (TOST), and What a Non-Significant Result Does Not Prove</h3>
+
+<p class="leading-relaxed mb-4"><strong>Equivalence testing</strong> asks a stricter question than non-inferiority: is the new build within a stated margin on <em>both</em> sides &mdash; no worse by more than the margin, and no better by more than the margin? The standard procedure is the <strong>two one-sided tests</strong> procedure, TOST: test the lower margin and the upper margin separately, and declare equivalence only if both tests reject. Equivalence needs the whole confidence interval to sit inside the margin band, on both sides.</p>
+
+<p class="leading-relaxed mb-4">The failure that both procedures guard against is the most common misreading in eval reports: a test finds no significant difference, and the report concludes the builds are the same. Failure to find a significant difference establishes neither non-inferiority nor equivalence. It establishes that the test, at that sample size, could not detect a difference &mdash; which is a statement about the test, not about the builds. The interval is what settles it: if the interval sits inside the margin, the builds are equivalent within the margin; if it straddles the margin, the data cannot settle it; if it sits outside, they differ.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Reading a Difference</h2>
+
+<ul class="list-disc pl-6 mb-4 space-y-2">
+<li>Ask for the raw point difference first, with its confidence interval. The p-value comes second.</li>
+<li>Compare the interval against the minimum important difference the department set before the test. If no margin was set, the report is incomplete.</li>
+<li>For a cheaper or newer build, ask whether the question is non-inferiority, and what margin was used &mdash; and whether the margin was set before the results were seen.</li>
+<li>Check the consequential errors, not just the headline rate (Episode 8), and the conditions the gain was measured under (Episode 3).</li>
+<li>Never read &ldquo;no significant difference&rdquo; as &ldquo;the builds are the same.&rdquo;</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+
+<p class="leading-relaxed mb-4">The legal department decides whether to ship a clause-extraction fix, and whether to switch to a cheaper build. The fix gains 2 points on 2,000 cases: significant, and below the department&rsquo;s 3-point minimum important difference, so it stays in tuning. The cheaper build, on 1,370 paired cases, scores the same as the current build with a 90% interval of &minus;2.0 to +2.0 points, inside the 3-point margin, so the department switches &mdash; having stated in advance that a loss of up to 3 points is worth the saving. Both decisions use the same numbers the vendor reported. The difference is that the department asked how big the difference was, and how big it needed to be.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+
+<p class="leading-relaxed mb-4">A p-value says how surprising the data are under an assumption. Effect size says &ldquo;big enough to care about.&rdquo; You need both &mdash; and the margin is yours to set, not the vendor&rsquo;s. A 2-point gain on 2,000 cases can be significant and worthless. A 20-point gain on 50 cases is worth further investigation, not shipping. And a cheaper build is worth switching to when its whole interval sits inside a margin the department chose in advance.</p>
+
+<p class="leading-relaxed mb-4">Next episode: the paired t-test. Build A averages 0.82, Build B 0.76. Is the gap real?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>Cohen, J. (1988). <em>Statistical Power Analysis for the Behavioral Sciences</em>, 2nd ed. &mdash; effect size, Cohen&rsquo;s d, and the 0.2 / 0.5 / 0.8 conventions, described by Cohen as conventions of convenience.</li>
+<li>Piaggio, G., Elbourne, D. R., Pocock, S. J., Evans, S. J. W., &amp; Altman, D. G. (2012). <a class="underline hover:text-red" href="https://doi.org/10.1001/jama.2012.87802">Reporting of noninferiority and equivalence randomized trials: extension of the CONSORT 2010 statement</a>. <em>JAMA</em>, 308(24), 2594&ndash;2604 &mdash; non-inferiority and equivalence design, the margin, and the two one-sided tests procedure.</li>
+<li>Chow, S.-C., Shao, J., Wang, H., &amp; Lokhnygina, Y. (2017). <em>Sample Size Calculations in Clinical Research</em>, 3rd ed. &mdash; sample-size formulas for non-inferiority with paired proportions.</li>
+<li>Lakens, D. (2013). <a class="underline hover:text-red" href="https://doi.org/10.3389/fpsyg.2013.00863">Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs</a>. <em>Frontiers in Psychology</em>, 4, 863 &mdash; reporting effect sizes with confidence intervals.</li>
+<li>The worked examples (2-point gain on 2,000 cases; 20-point gain on 50 cases; non-inferiority on 1,370 paired cases) are the series&rsquo; own calculations from the formulas above, at a 20% discordant rate.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

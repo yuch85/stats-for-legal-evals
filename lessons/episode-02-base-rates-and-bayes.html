@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 2 — Base Rates and Bayes — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 2 &mdash; Base Rates and Bayes</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 2 &middot; Module 1 &mdash; Foundations: What a Number Means &middot; 6:34 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-02.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-4">A litigation tool says a claim is 90% likely to be dismissed. A legal assistant says a client&rsquo;s question needs more facts before it can be answered. Both statements sound precise. Both are incomplete, because neither states the starting point it was measured against. This episode is about that starting point: the base rate, and the rule for updating it when new evidence arrives.</p>
+<p class="text-lg leading-relaxed mb-8">The question this episode answers: the model says 90% likely. Likely compared to what? 90% likely that the motion as drafted will be dismissed &mdash; but 90% likely relative to a starting chance that may already be high.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The First Tool: Predicting Dismissal</h2>
+<p class="leading-relaxed mb-4">A motion to dismiss is a defendant&rsquo;s ask that the court throw a claim out before trial. Senior lawyers are paid to assess likely outcomes: whether to file a motion, settle, take a case on contingency, or finance litigation. A litigation-outcome prediction tool claims to help with that assessment. Given the papers filed in a case, it predicts how likely a claim is to be dismissed.</p>
+<p class="leading-relaxed mb-4">LegalForecastBench is a benchmark that tests how well models make that prediction. It is built from 91 US federal cases, covering a broad range of federal civil subject matter, with no single topic dominating. Motions to dismiss were chosen because hundreds are decided each week, each over a self-contained written record, and each resolving to a clear yes or no.</p>
+<p class="leading-relaxed mb-4">One lawsuit can contain several claims against several defendants, so the benchmark does not score whole cases. It scores claim&ndash;defendant units. A claim&ndash;defendant unit is one challenged claim against one defendant, or against a group of similarly-situated defendants. A securities motion challenging several claims against an issuer, a group of jointly-briefed underwriters, a director and an officer, for example, yields eight units. Each unit is scored separately.</p>
+<p class="leading-relaxed mb-4">For each unit, the model is given the same written record the federal judge received &mdash; never the judge&rsquo;s later explanation &mdash; and predicts the probability that the claim will be dismissed in full. The model is predicting past cases: it is tested on cases that were already decided, using only the record that existed before the decision. That is how a prediction benchmark is scored.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Base Rate: 73.6%</h2>
+<p class="leading-relaxed mb-4">Across the 387 claim&ndash;defendant units in LegalForecastBench, 73.6% were dismissed. In counts, that is about 285 of the 387 units dismissed (285 &divide; 387 &asymp; 73.6%), and about 102 not dismissed. That 73.6% is the base rate for dismissal on this benchmark: before the model says anything about a particular unit, the chance that the unit is dismissed is already 73.6%.</p>
+<p class="leading-relaxed mb-4">A base rate is the overall frequency of an outcome in the population being studied, before any information about a particular case is taken into account. It is the starting point. A model that always predicts &ldquo;dismissed&rdquo;, without reading a single paper, scores 73.6% on this benchmark &mdash; knowing nothing. That is why the base rate is the floor: any claim that a model is good at predicting dismissal has to be measured against 73.6%, not against zero, and not against 50%.</p>
+<p class="leading-relaxed mb-4">Two limits on the base rate. First, 73.6% is the base rate in that benchmark. It is not automatically the base rate for future litigation, or for a different court, or for a different kind of claim. Second, a high base rate makes a bare accuracy figure easy to earn. If a vendor reports that its dismissal-prediction tool is 75% accurate, and the base rate is 73.6%, the tool has added very little over always predicting dismissal. The question to ask is always: what is the base rate, and how far above it does the model sit?</p>
+<p class="leading-relaxed mb-4">The same point applies to the &ldquo;90% likely&rdquo; claim. A model that says a claim is 90% likely to be dismissed is saying the chance has moved from the starting point of 73.6% up to 90%. That is a real move, but a smaller one than it sounds like without the starting point. Without a base rate, the number is a slogan.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Second Tool: Answer or Ask for More Facts</h2>
+<p class="leading-relaxed mb-4">The second tool in this episode is a legal assistant answering Singapore-law questions. A client asks a question. The assistant has to decide: is there enough in the question to answer it, or must it ask for more facts first? Answering a question that cannot be answered from the facts given risks a confident answer built on missing facts. Asking for facts the question does not need wastes the client&rsquo;s time.</p>
+<p class="leading-relaxed mb-4">SG-LegalClarify is a benchmark that tests whether a language model can make that decision. It contains 1,100 lawyer-authored Singapore-law questions across ten domains. Of those, 340 are fully specified and 760 are underspecified &mdash; questions that cannot be answered without more information. Because each question can appear in more than one form, the 1,100 questions produce 1,860 instances. The benchmark tests legal reasoning and whether a model recognises when a question is underspecified: whether it asks for the missing facts instead of guessing.</p>
+<p class="leading-relaxed mb-4">Inside the model&rsquo;s pipeline there is a step that decides whether to answer or ask for more facts. This episode calls it the sufficiency check. The SG-LegalClarify paper&rsquo;s own term for it is &ldquo;sufficiency gate&rdquo;; this series uses the term sufficiency check throughout. The check is a step in the model pipeline, not a person. Its mechanism is concrete: when the check decides more facts are needed, the model either runs a web search or asks the user a question to obtain the missing facts. When the check decides the question is answerable, the model answers directly.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Critical Question</h2>
+<p class="leading-relaxed mb-4">The check said &ldquo;needs more facts.&rdquo; What is the probability the question actually needs more facts? That is the critical question of this episode, and it is a question about a conditional probability: the probability of one thing, given that another thing happened.</p>
+<p class="leading-relaxed mb-4">Bayes&rsquo; theorem is the rule for answering it. Written with symbols:</p>
+<p class="text-center text-xl leading-relaxed mb-4">P(A | B) = P(A and B) &divide; P(B)</p>
+<p class="leading-relaxed mb-4">The vertical bar | is read as &ldquo;given&rdquo;. P(A | B) is the probability of A given B. In this episode:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>A is the event that the question actually needs more facts.</li>
+<li>B is the event that the sufficiency check said &ldquo;needs more facts&rdquo;.</li>
+<li>P(A | B) is the probability the question actually needs more facts, given that the check said so.</li>
+<li>P(A and B) is the probability that both happen: the question needs facts and the check said so.</li>
+<li>P(B) is the probability that the check said &ldquo;needs more facts&rdquo;, whether it was right or wrong.</li>
+</ul>
+<svg viewBox="0 0 560 200" class="w-full mb-2" role="img" aria-label="Diagram of P(A given B): a bar labelled B, the check said needs more facts, with the part where A also happened shaded.">
+<rect x="60" y="40" width="440" height="60" fill="#e5e5e5" stroke="#1a1a1a" stroke-width="1.5"/>
+<rect x="60" y="40" width="255" height="60" fill="#991B1B"/>
+<text x="187" y="75" text-anchor="middle" font-size="14" fill="#FAFAF8" font-family="Inter,sans-serif">A and B: needs facts, check said so</text>
+<text x="380" y="75" text-anchor="middle" font-size="14" font-family="Inter,sans-serif">check said so, wrongly</text>
+<text x="280" y="130" text-anchor="middle" font-size="14" font-family="Inter,sans-serif">B: the check said &ldquo;needs more facts&rdquo; (all 153 alarms)</text>
+<text x="280" y="160" text-anchor="middle" font-size="14" font-family="Inter,sans-serif">P(A | B) = 89 &divide; 153 &asymp; 58%</text>
+</svg>
+<p class="font-sans text-sm text-ink-muted mb-4">Figure 1. The vertical bar in P(A | B) narrows the world to the cases where B happened. Inside that smaller world, the share where A also happened is the answer.</p>
+<p class="leading-relaxed mb-4">The formula divides by P(B) because the question is asked only inside the world where the check said so. Everything outside that world is irrelevant to the question. The numerator counts the alarms that were right. The denominator counts all the alarms, right and wrong. That is the whole idea of Bayes&rsquo; theorem here: start from the base rate, then adjust it by how diagnostic the evidence is.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Worked Set: 100 and 100</h2>
+<p class="leading-relaxed mb-4">The worked example uses a set of 200 questions, deliberately designed by lawyers so that 100 need facts and 100 do not. The set is built that way on purpose: half the questions can be answered without additional facts, and half cannot. The prior &mdash; the probability that a question needs more facts, before the check says anything &mdash; is therefore 50%. The prior is 50% because the set was built 100 and 100. It is not 50% because half of real questions need facts. In the full SG-LegalClarify benchmark, about 69% of questions are underspecified (760 of 1,100), not 50%. The worked set&rsquo;s mix is a teaching construction, and the mix must be reported alongside any result computed from it.</p>
+<p class="leading-relaxed mb-4">Two models are tested on this set. Luna is a ChatGPT-family model. Mistral is a second model, introduced here by name. Each model&rsquo;s sufficiency check is measured by two rates:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>The true positive rate (TPR): of the questions that need facts, the share the check correctly flags. Luna catches 89.3%. Mistral catches 16.2%.</li>
+<li>The false positive rate (FPR): of the questions that do not need facts, the share the check wrongly flags. Luna wrongly flags 64.1%. Mistral wrongly flags 3.5%.</li>
+</ul>
+<p class="leading-relaxed mb-4">A check has two error rates, not one. The true positive rate says how often it catches what it should catch. The false positive rate says how often it cries wolf. Both matter, and this episode returns to them in full in Episode 16.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Luna: The Alarm Is Right 58% of the Time</h2>
+<p class="leading-relaxed mb-4">Apply Luna&rsquo;s rates to the 200-question set. Of the 100 questions that need facts, Luna correctly flags 89.3%, which is about 89 questions. Of the 100 questions that do not need facts, Luna wrongly flags 64.1%, which is about 64 questions. The counts are rounded from the rates: 89.3% of 100 is 89.3, and 64.1% of 100 is 64.1.</p>
+<p class="leading-relaxed mb-4">Luna&rsquo;s check said &ldquo;needs more facts&rdquo; 89 + 64 = 153 times. Of those 153 alarms, 89 were right. So:</p>
+<p class="text-center text-xl leading-relaxed mb-4">P(needs facts | check said so) = 89 &divide; 153 &asymp; 58%</p>
+<p class="leading-relaxed mb-4">Using the exact rates instead of the rounded counts gives the same answer: 89.3 &divide; (89.3 + 64.1) = 89.3 &divide; 153.4 &asymp; 58.2%. The denominator adds the true alarms and the false alarms because together they are every time the check said &ldquo;needs more facts&rdquo;. That is why the formula adds them.</p>
+<p class="leading-relaxed mb-4">In plain English: when Luna&rsquo;s check says a question needs more facts, it is right about 58% of the time. The check catches nearly nine in ten questions that need facts, but it also flags nearly two in three questions that do not. The alarm is frequent, and frequency dilutes it.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Mistral: The Alarm Is Right 82% of the Time</h2>
+<p class="leading-relaxed mb-4">Mistral&rsquo;s check is quieter. Of the 100 questions that need facts, it catches 16.2%. Of the 100 that do not, it wrongly flags 3.5%. Using the exact rates:</p>
+<p class="text-center text-xl leading-relaxed mb-4">P(needs facts | check said so) = 16.2 &divide; (16.2 + 3.5) = 16.2 &divide; 19.7 &asymp; 82%</p>
+<p class="leading-relaxed mb-4">In plain English: when Mistral raises the alarm, it is right 82% of the time; Luna, 58% of the time. Mistral catches far fewer of the questions that need facts, but when it does speak up, its alarm carries more weight. The two models trade the two error rates against each other: Luna catches more and cries wolf more; Mistral catches less and cries wolf less.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Model</th>
+<th class="py-2 pr-4">Catches (TPR)</th>
+<th class="py-2 pr-4">Cries wolf (FPR)</th>
+<th class="py-2 pr-4">Alarm right (posterior)</th>
+<th class="py-2">Balanced accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Luna</td>
+<td class="py-2 pr-4">89.3%</td>
+<td class="py-2 pr-4">64.1%</td>
+<td class="py-2 pr-4">58.2%</td>
+<td class="py-2">62.6%</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">Mistral</td>
+<td class="py-2 pr-4">16.2%</td>
+<td class="py-2 pr-4">3.5%</td>
+<td class="py-2 pr-4">82.2%</td>
+<td class="py-2">56.4%</td>
+</tr>
+</tbody>
+</table>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Three Cautions, Each Illustrated</h2>
+<p class="leading-relaxed mb-4">The worked example carries three cautions. Each one is illustrated with numbers below, because a caution stated without numbers is easy to nod at and hard to apply.</p>
+<p class="leading-relaxed mb-4"><strong>First, the posterior depends on the prior.</strong> The 58% and 82% figures above use a prior of 50%, because the worked set was built 100 and 100. Run the same update at the benchmark&rsquo;s actual mix &mdash; 760 of 1,100 questions underspecified, about 69% &mdash; and the answers change. With a 69% prior, Luna&rsquo;s posterior becomes about 76% and Mistral&rsquo;s about 91%. The working for Luna: the true alarms are 0.893 &times; 0.69 = 0.616, the false alarms are 0.641 &times; 0.31 = 0.199, and 0.616 &divide; (0.616 + 0.199) &asymp; 76%. For Mistral: 0.162 &times; 0.69 = 0.112, 0.035 &times; 0.31 = 0.011, and 0.112 &divide; (0.112 + 0.011) &asymp; 91%. Same models, same check, different prior, different answer. Report the mix alongside the posterior, or the posterior cannot be reused.</p>
+<p class="leading-relaxed mb-4"><strong>Second, balanced accuracy does not depend on the mix.</strong> Balanced accuracy is the average of the true positive rate and the true negative rate &mdash; the share of answerable questions the check correctly leaves alone. Luna&rsquo;s true negative rate is 100% &minus; 64.1% = 35.9%, so its balanced accuracy is (89.3 + 35.9) &divide; 2 = 62.6%. Mistral&rsquo;s true negative rate is 100% &minus; 3.5% = 96.5%, so its balanced accuracy is (16.2 + 96.5) &divide; 2 = 56.4%. Balanced accuracy is the same at any mix, because it averages the two rates separately instead of mixing them through the prior. Luna scores higher on balanced accuracy (62.6% against 56.4%) even though Mistral&rsquo;s alarm is more often right. The two summaries answer different questions: the posterior asks how much to trust an alarm; balanced accuracy asks how well the check separates the two kinds of question overall.</p>
+<p class="leading-relaxed mb-4"><strong>Third, silence is the other update.</strong> The check staying silent is also evidence, and Bayes&rsquo; theorem applies to it too. When Luna does not raise an alarm, 11 of the 100 questions that need facts slip through (100 &minus; 89 = 11), against 36 answerable questions correctly left alone (100 &minus; 64 = 36). So P(needs facts | no alarm) = 11 &divide; (11 + 36) = 11 &divide; 47 &asymp; 23%. In plain English: when Luna stays silent, there is still about a 23% chance the question needs more facts. Silence lowers the chance from the 50% prior to 23%, but it does not remove it. A check that is trusted only when it speaks, and ignored when it stays silent, is being read one-sided.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case: Reading a Vendor&rsquo;s Accuracy Claim</h2>
+<p class="leading-relaxed mb-4">A vendor reports that its dismissal-prediction tool is 80% accurate. The first question is the base rate: if 73.6% of claims are dismissed in this benchmark, a tool that always predicts dismissal already scores 73.6%. The vendor&rsquo;s 80% is 6.4 points above the floor, not 80 points above zero. The second question is what the tool was tested on: the same written record the judge received, or material that includes the judge&rsquo;s later explanation? If the test data includes the outcome, the score is inflated. The third question is the mix: what share of the test set was dismissed, and does that mix match the matters the tool will be used on?</p>
+<p class="leading-relaxed mb-4">For a triage check, the questions are the two error rates. A vendor that reports only how often its check catches underspecified questions has reported half the check. Ask for the false positive rate as well, and for the posterior: when the check says &ldquo;needs more facts&rdquo;, how often is it right? Then ask for the mix the posterior was computed at. A posterior computed at a 50% mix does not transfer to a caseload where 69% of questions are underspecified, or to one where 20% are.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Reading a Probability</h2>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Ask what the probability is of, in full: 90% likely that what will happen?</li>
+<li>Ask for the base rate: what is the chance before the model says anything?</li>
+<li>Ask how far above the base rate the model sits. The gap is the model&rsquo;s contribution.</li>
+<li>For a check with an alarm, ask for both error rates: how often it catches what it should, and how often it cries wolf.</li>
+<li>Ask for the posterior: when the check raises the alarm, how often is it right?</li>
+<li>Ask for the mix the posterior was computed at, and re-compute it at your own mix if the mix differs.</li>
+<li>Ask what silence means: when the check does not raise the alarm, what is the chance it missed something?</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+<p class="leading-relaxed mb-4">Every probability needs a base rate. Without one, the number is a slogan. A model that always predicts dismissal scores 73.6% knowing nothing, and a check whose alarm is right 58% of the time at one mix is right 76% of the time at another. The base rate is the starting point, Bayes&rsquo; theorem is the update, and the mix is part of the answer.</p>
+<p class="leading-relaxed mb-4">Next episode: how do you build a test set? Before any number can be believed, the test has to be fair.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>LegalForecastBench &mdash; repository: <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">github.com/johnhughes3/LegalForecastBench</a>. Code Apache 2.0, data CC BY 4.0. The repository is the source for the benchmark&rsquo;s design, the claim&ndash;defendant unit definition, the 91 cases and 387 units, and the micro-Brier metric; it links to the working paper and results site for the figures (73.6% dismissal base rate, 0.118 best-model Brier). Discussed here with attribution; no test data reproduced.</li>
+<li>SG-LegalClarify &mdash; Gu et al., <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">arXiv:2611.19643</a>. 1,100 lawyer-authored Singapore-law questions (340 fully specified, 760 underspecified, 1,860 instances); best balanced check accuracy 69.4%. Discussed here with attribution; no questions reproduced. The sufficiency check figures used here (Luna TPR 89.3%, FPR 64.1%; Mistral TPR 16.2%, FPR 3.5%) are as reported for the benchmark; the 200-question worked set (100 needing facts, 100 not) is the series&rsquo; own teaching construction built from those rates.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 3 and ch. 4 &mdash; conditional probability and Bayes&rsquo; theorem, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

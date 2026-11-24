@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="index.html" class="hover:text-red transition">Episodes</a>
+                <a href="syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh]">
+<div class="py-12 border-b border-rule">
+    <h1 class="text-4xl md:text-5xl font-bold leading-none mb-6">Statistics for Legal Evals</h1>
+    <p class="text-lg italic text-ink-light leading-relaxed">A podcast series that teaches lawyers statistical techniques for legal evals. Each episode takes one technique, teaches it through a legal AI example, and works the numbers by hand. Lawyer-curated for educational purposes only &mdash; does not represent the views of any organisation or constitute legal advice. <a href="about.html" class="text-red hover:text-red-soft transition-colors not-italic font-medium">About &rarr;</a></p>
+    <p class="mt-4 font-sans text-sm text-ink-muted">19 episodes &middot; 5 modules &middot; each with audio and a written lesson page; videos to follow</p>
+</div>
+<div class="py-8"><input id="q" type="search" placeholder="Search episodes..." class="w-full border border-rule bg-paper px-4 py-3 font-sans text-sm focus:outline-none focus:border-ink"></div>
+<div id="list">
+<div class="pt-12 pb-2"><h2 class="font-sans text-xs uppercase tracking-widest text-red">Module 1 &mdash; Foundations: What a Number Means</h2></div>
+<a href="lessons/episode-01-what-a-number-means.html" class="block py-6 border-b border-rule group" data-search="what a number means &quot;we scored 70%.&quot; what does that even mean? mean, median, spread, and the histogram that shows the truth: a contract-review build that aces easy ndas and fails hard msas outright — while the average looks fine. then a second build with the same average and a completely different spread, and what the spread says about the next document. and the reversal: on the equal mix the first build wins, but weighted by the department&#x27;s real portfolio the second build wins — the headline depends on the mix.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 1</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">What a Number Means</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">&quot;We scored 70%.&quot; What does that even mean? Mean, median, spread, and the histogram that shows the truth: a contract-review build that aces easy NDAs and fails hard MSAs outright — while the average looks fine. Then a second build with the same average and a completely different spread, and what the spread says about the next document. And the reversal: on the equal mix the first build wins, but weighted by the department&#x27;s real portfolio the second build wins — the headline depends on the mix.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:39</span></div></a>
+<a href="lessons/episode-02-base-rates-and-bayes.html" class="block py-6 border-b border-rule group" data-search="base rates and bayes the model says 90% likely. likely compared to what? the 73.6% dismissal base rate, and why a model that always predicts &quot;dismissed&quot; scores 73.6% without knowing anything. the sufficiency check as a bayesian update.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 2</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Base Rates and Bayes</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">The model says 90% likely. Likely compared to what? The 73.6% dismissal base rate, and why a model that always predicts &quot;dismissed&quot; scores 73.6% without knowing anything. The sufficiency check as a Bayesian update.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:34</span></div></a>
+<a href="lessons/episode-03-how-do-you-build-a-test-set.html" class="block py-6 border-b border-rule group" data-search="how do you build a test set? before the statistics, the test set. a biased test set makes every number after it meaningless — no formula fixes a test set that does not look like the work.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 3</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">How Do You Build a Test Set?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Before the statistics, the test set. A biased test set makes every number after it meaningless — no formula fixes a test set that does not look like the work.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:40</span></div></a>
+<a href="lessons/episode-04-why-more-cases-help.html" class="block py-6 border-b border-rule group" data-search="why more cases help why is the mean of 50 questions steadier than one question? sampling distributions, standard error, and the central limit theorem — the whole reason test sets work.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 4</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Why More Cases Help</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Why is the mean of 50 questions steadier than one question? Sampling distributions, standard error, and the Central Limit Theorem — the whole reason test sets work.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:30</span></div></a>
+<a href="lessons/episode-05-pass-or-fail-is-a-weighted-coin.html" class="block py-6 border-b border-rule group" data-search="pass or fail is a weighted coin 7 out of 10 — good or not? the binomial distribution, and why the same count can come from a 50% build and an 80% build.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 5</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Pass or Fail Is a Weighted Coin</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">7 out of 10 — good or not? The binomial distribution, and why the same count can come from a 50% build and an 80% build.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:40</span></div></a>
+<div class="pt-12 pb-2"><h2 class="font-sans text-xs uppercase tracking-widest text-red">Module 2 &mdash; The Inference Toolkit</h2></div>
+<a href="lessons/episode-06-how-sure-are-you.html" class="block py-6 border-b border-rule group" data-search="how sure are you? 7 out of 10 is really 40–89%. the wilson interval, why the wald interval is wrong at small n, and the 4x rule. report the interval, never the bare percentage.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 6</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">How Sure Are You?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">7 out of 10 is really 40–89%. The Wilson interval, why the Wald interval is wrong at small n, and the 4x rule. Report the interval, never the bare percentage.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:56</span></div></a>
+<a href="lessons/episode-07-what-does-p-mean.html" class="block py-6 border-b border-rule group" data-search="what does p mean? the vendor says p = 0.03. what are they actually claiming? a single proportion against a threshold: 68 passes out of 100 against a claimed 75% — p ≈ 0.069, not enough evidence to reject the claim, and the interval shows why.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 7</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">What Does p Mean?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">The vendor says p = 0.03. What are they actually claiming? A single proportion against a threshold: 68 passes out of 100 against a claimed 75% — p ≈ 0.069, not enough evidence to reject the claim, and the interval shows why.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:38</span></div></a>
+<a href="lessons/episode-08-what-did-the-tool-miss.html" class="block py-6 border-b border-rule group" data-search="what did the tool miss? 70% accurate — but what did it miss, and what did it flag for nothing? the confusion matrix, precision, recall, and why accuracy hides the asymmetry.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 8</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">What Did the Tool Miss?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">70% accurate — but what did it miss, and what did it flag for nothing? The confusion matrix, precision, recall, and why accuracy hides the asymmetry.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:13</span></div></a>
+<a href="lessons/episode-09-how-many-cases-do-you-need.html" class="block py-6 border-b border-rule group" data-search="how many cases do you need? &quot;how many cases?&quot; is three questions, not one. power, sample-size tables, and why a 5-point improvement needs roughly 625 total paired cases — plus the correction that significance is the wrong goal for a ten-question eval.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 9</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">How Many Cases Do You Need?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">&quot;How many cases?&quot; is three questions, not one. Power, sample-size tables, and why a 5-point improvement needs roughly 625 total paired cases — plus the correction that significance is the wrong goal for a ten-question eval.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:37</span></div></a>
+<a href="lessons/episode-10-how-big-is-the-difference.html" class="block py-6 border-b border-rule group" data-search="how big is the difference? a 2-point gain on 2,000 cases can be significant and worthless. effect size, the minimum important difference set by the department, and non-inferiority — is the cheaper build no worse within a stated margin?">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 10</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">How Big Is the Difference?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">A 2-point gain on 2,000 cases can be significant and worthless. Effect size, the minimum important difference set by the department, and non-inferiority — is the cheaper build no worse within a stated margin?</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:40</span></div></a>
+<div class="pt-12 pb-2"><h2 class="font-sans text-xs uppercase tracking-widest text-red">Module 3 &mdash; Comparing Builds</h2></div>
+<a href="lessons/episode-11-the-paired-t-test.html" class="block py-6 border-b border-rule group" data-search="the paired t-test build a averages 0.82, build b 0.76. is the gap real? the paired t-test on mean rubric scores — 25 contracts, t = 3.1, p ≈ 0.005 — and when to use it instead of mcnemar.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 11</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">The Paired t-Test</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Build A averages 0.82, Build B 0.76. Is the gap real? The paired t-test on mean rubric scores — 25 contracts, t = 3.1, p ≈ 0.005 — and when to use it instead of McNemar.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:51</span></div></a>
+<a href="lessons/episode-12-did-the-fix-help.html" class="block py-6 border-b border-rule group" data-search="did the fix help? same questions, new prompt. mcnemar&#x27;s exact test and the paired bootstrap — and why pairing buys power over unpaired comparison.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 12</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Did the Fix Help?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Same questions, new prompt. McNemar&#x27;s exact test and the paired bootstrap — and why pairing buys power over unpaired comparison.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:00</span></div></a>
+<a href="lessons/episode-13-your-items-are-not-independent.html" class="block py-6 border-b border-rule group" data-search="your items are not independent 100 questions from 10 cases behave like about 36. clustering, the design effect, and why the headline n overstates your confidence.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 13</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Your Items Are Not Independent</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">100 questions from 10 cases behave like about 36. Clustering, the design effect, and why the headline n overstates your confidence.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:50</span></div></a>
+<div class="pt-12 pb-2"><h2 class="font-sans text-xs uppercase tracking-widest text-red">Module 4 &mdash; Scoring and Agreement</h2></div>
+<a href="lessons/episode-14-scoring-probabilities.html" class="block py-6 border-b border-rule group" data-search="scoring probabilities the model says 90% confident. is it right 90% of the time? the brier score, calibration, ece, and the 90% bucket — fable got 81 out of 81 right; gemini got 57 of 320 wrong.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 14</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Scoring Probabilities</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">The model says 90% confident. Is it right 90% of the time? The Brier score, calibration, ECE, and the 90% bucket — Fable got 81 out of 81 right; Gemini got 57 of 320 wrong.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:16</span></div></a>
+<a href="lessons/episode-15-do-the-graders-agree.html" class="block py-6 border-b border-rule group" data-search="do the graders agree? two partners graded the same outputs. 80% raw agreement can mean κ = 0.375. cohen&#x27;s κ, fleiss κ, weighted κ, icc, krippendorff&#x27;s α — and why agreement is not correctness.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 15</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Do the Graders Agree?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Two partners graded the same outputs. 80% raw agreement can mean κ = 0.375. Cohen&#x27;s κ, Fleiss κ, weighted κ, ICC, Krippendorff&#x27;s α — and why agreement is not correctness.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:12</span></div></a>
+<a href="lessons/episode-16-did-the-triage-check-work.html" class="block py-6 border-b border-rule group" data-search="did the triage check work? a check has two error rates, not one. tpr, fpr, balanced accuracy — luna catches 89.3% but cries wolf 64.1% of the time — and non-conclusions as a third outcome.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 16</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Did the Triage Check Work?</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">A check has two error rates, not one. TPR, FPR, balanced accuracy — Luna catches 89.3% but cries wolf 64.1% of the time — and non-conclusions as a third outcome.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:43</span></div></a>
+<a href="lessons/episode-17-what-the-model-asks-matters-more.html" class="block py-6 border-b border-rule group" data-search="what the model asks matters more models that ask more do better. or do they? variable coverage correlates with score at r = 0.73; clarification rate only at r = 0.40. pearson&#x27;s r, and why a correlation is not a cause.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 17</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">What the Model Asks Matters More</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">Models that ask more do better. Or do they? Variable coverage correlates with score at r = 0.73; clarification rate only at r = 0.40. Pearson&#x27;s r, and why a correlation is not a cause.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">6:45</span></div></a>
+<div class="pt-12 pb-2"><h2 class="font-sans text-xs uppercase tracking-widest text-red">Module 5 &mdash; Reporting Your Results</h2></div>
+<a href="lessons/episode-18-how-not-to-fool-yourself.html" class="block py-6 border-b border-rule group" data-search="how not to fool yourself we ran five tests and one came out significant. did we find something? p-hacking, multiple comparisons, and deciding the tests before you look.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 18</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">How Not to Fool Yourself</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">We ran five tests and one came out significant. Did we find something? P-hacking, multiple comparisons, and deciding the tests before you look.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:08</span></div></a>
+<a href="lessons/episode-19-reporting-your-results.html" class="block py-6 border-b border-rule group" data-search="reporting your results (series finale) the finale. eighteen episodes of statistics condensed into the one-page eval report: score, interval, n, test, effect, cost, limits, version. post-deployment monitoring, workflow evaluation, and the cautionary tales — a report that hides its limits is a demo with better stationery.">
+  <div class="flex justify-between gap-6"><div><p class="font-sans text-xs uppercase tracking-widest text-red mb-1">Episode 19</p>
+  <h3 class="text-xl font-bold group-hover:text-red transition-colors">Reporting Your Results (Series Finale)</h3>
+  <p class="mt-2 text-sm text-ink-light leading-relaxed">The finale. Eighteen episodes of statistics condensed into the one-page eval report: score, interval, n, test, effect, cost, limits, version. Post-deployment monitoring, workflow evaluation, and the cautionary tales — a report that hides its limits is a demo with better stationery.</p></div><span class="font-sans text-sm text-ink-muted shrink-0">7:21</span></div></a>
+</div>
+<script>
+document.getElementById('q').addEventListener('input',function(){var t=this.value.toLowerCase();document.querySelectorAll('#list a').forEach(function(a){a.style.display=a.dataset.search.indexOf(t)>-1?'':'none';});});
+</script>
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026 &middot; MIT licence &middot; <a class="underline hover:text-red" href="https://github.com/yuch85/stats-for-legal-evals">Source on GitHub</a></p>
+            <p class="font-sans text-xs text-ink-muted mt-2">For educational purposes only. Does not represent the views of any organisation or constitute legal advice.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Episode 1 — What a Number Means — Statistics for Legal Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','ink-muted':'#7a7a7a',red:'#991B1B','red-soft':'#B91C1C',rule:'#e5e5e5','rule-dark':'#1a1a1a',paper:'#FAFAF8'},fontFamily:{serif:['Lora','Georgia','serif'],sans:['Inter','sans-serif']}}}}
+</script>
+<style>a{overflow-wrap:anywhere}table{display:block;max-width:100%;overflow-x:auto}</style></head>
+<body class="bg-paper font-serif text-ink text-base antialiased">
+    <header class="border-b-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8">
+            <a href="../index.html" class="block text-center text-3xl font-bold tracking-tight hover:text-red transition-colors">Statistics for Legal Evals</a>
+            <nav class="flex justify-center gap-8 mt-4 text-sm font-sans text-ink-muted">
+                <a href="../index.html" class="hover:text-red transition">Episodes</a>
+                <a href="../syllabus.html" class="hover:text-red transition">Outline</a>
+                <a href="../about.html" class="hover:text-red transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 min-h-[60vh] py-12">
+
+<h1 class="text-4xl font-bold leading-tight mb-3">Episode 1 &mdash; What a Number Means</h1>
+<p class="font-sans text-sm text-ink-muted mb-8">Episode 1 &middot; Module 1 &mdash; Foundations: What a Number Means &middot; 6:39 &middot; Statistics for Legal Evals</p>
+
+<div class="aspect-video bg-ink text-paper flex items-center justify-center mb-6"><p class="font-sans text-sm text-center px-6">Video to follow. Audio and the written lesson are below.</p></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-01.mp3"></audio>
+
+<p class="text-lg leading-relaxed mb-4">A firm&rsquo;s legal innovation team is piloting an AI contract intelligence platform. Ten commercial agreements have been independently reviewed by lawyers and scored against the same ten-point quality framework. Five are NDAs, five are MSAs.</p>
+<p class="text-lg leading-relaxed mb-4">The platform is a Legal AI Contract Intelligence Platform: it reviews commercial agreements against the company&rsquo;s approved legal playbooks. It extracts clauses, identifies obligations, flags deviations from the playbook, identifies missing provisions, assesses contractual risk, and produces recommendations for human review.</p>
+<p class="text-lg leading-relaxed mb-8">The ten documents were scored by independent human lawyers against a standardised ten-point assessment rubric. The rubric covers five things: accuracy of clause identification; accuracy of key-term extraction; detection of deviations from the legal playbook; identification of missing or problematic provisions; and quality of supporting explanations and source references. Each document received one score out of ten. The vendor&rsquo;s report gives one number for the pilot: 70%. This episode opens that number up &mdash; mean, median, mode, spread, and the histogram that shows what the average is doing.</p>
+<p class="font-sans text-sm text-ink-muted mb-8">Illustrative evaluation dataset, not actual vendor performance data.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Ten Scores</h2>
+<p class="leading-relaxed mb-4">Here are the ten scores, grouped by document type:</p>
+<p class="leading-relaxed mb-4">NDAs: 9, 9, 10, 9, 10. MSAs: 5, 4, 5, 4, 5.</p>
+<p class="leading-relaxed mb-4">The NDAs cluster at the top of the scale. The MSAs cluster near the middle. No document scored 6, 7, or 8. Keep that in mind: the report&rsquo;s headline number is 7, and no document scored 7.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Mean</h2>
+<p class="leading-relaxed mb-4">The mean is the total divided by the number of documents. Add the NDA scores: 9 + 9 + 10 + 9 + 10 = 47. Add the MSA scores: 5 + 4 + 5 + 4 + 5 = 23. Add the two subtotals: 47 + 23 = 70. Divide by the ten documents: 70 &divide; 10 = 7.0. That is the number in the report: a mean of 7 out of 10.</p>
+<p class="leading-relaxed mb-4">A mean is a useful summary of a total. It is also a summary that discards information. It takes ten different performances and returns one number. The rest of this episode recovers the information the mean discarded.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Median and Mode</h2>
+<p class="leading-relaxed mb-4">The median is the middle value when the scores are lined up in order. Sorted, the ten scores are: 4, 4, 5, 5, 5, 9, 9, 9, 10, 10. With ten scores there is no single middle value, so the median is the average of the two middle values, the fifth and sixth: (5 + 9) &divide; 2 = 7. The median is 7, the same number as the mean.</p>
+<p class="leading-relaxed mb-4">The mode is the most common score. There are two modes here. The score 5 appears three times, and the score 9 appears three times. No other score appears as often. So the distribution has two modes: 5 and 9.</p>
+<p class="leading-relaxed mb-4">Mean 7, median 7, modes 5 and 9. The mean and the median agree with each other, and neither one matches the scores the documents actually received. That disagreement between the summary and the scores is the first hint that the average is covering up a split.</p>
+<p class="leading-relaxed mb-4">The median is less sensitive to a single extreme score than the mean is. Change one MSA score from 5 to 0 &mdash; one document the platform got completely wrong. The total drops from 70 to 65, so the mean drops from 7.0 to 6.5. The sorted list becomes 0, 4, 4, 5, 5, 9, 9, 9, 10, 10, and the median is still (5 + 9) &divide; 2 = 7. One bad document moves the mean half a point and leaves the median untouched. That is what &ldquo;robust&rdquo; means: the median describes the typical document, the mean describes the total. Report both when they disagree &mdash; the disagreement is information.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Spread: Range and Standard Deviation</h2>
+<p class="leading-relaxed mb-4">Spread is how far apart the scores are from each other. The simplest measure of spread is the range: the lowest score and the highest score. Here the lowest score is 4 and the highest is 10, so the range is 4&ndash;10, a width of 6 points on a ten-point scale.</p>
+<p class="leading-relaxed mb-4">The standard deviation, written &sigma;, is a more informative measure of spread. It is roughly how far a typical score sits from the mean. The working is: take each score&rsquo;s distance from the mean, square it, average the squares, and take the square root. Squaring stops positive and negative distances from cancelling each other out.</p>
+<p class="leading-relaxed mb-4">For the ten scores, the mean is 7. The squared distances from the mean are:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>NDAs: (9 &minus; 7)&sup2; = 4, (9 &minus; 7)&sup2; = 4, (10 &minus; 7)&sup2; = 9, (9 &minus; 7)&sup2; = 4, (10 &minus; 7)&sup2; = 9. Subtotal: 4 + 4 + 9 + 4 + 9 = 30.</li>
+<li>MSAs: (5 &minus; 7)&sup2; = 4, (4 &minus; 7)&sup2; = 9, (5 &minus; 7)&sup2; = 4, (4 &minus; 7)&sup2; = 9, (5 &minus; 7)&sup2; = 4. Subtotal: 4 + 9 + 4 + 9 + 4 = 30.</li>
+<li>Total of squared distances: 30 + 30 = 60.</li>
+</ul>
+<p class="leading-relaxed mb-4">Divide by the number of documents, 10: 60 &divide; 10 = 6. That is the variance, &sigma;&sup2;. Take the square root: &sigma; = &radic;6 &asymp; 2.45. The population standard deviation is 2.45.</p>
+<p class="leading-relaxed mb-4">Population standard deviation means dividing by n, the number of documents scored, which is 10. There is a second version, the sample standard deviation, which divides by n &minus; 1 instead of n. It is used when the ten documents are treated as a sample standing in for the platform&rsquo;s future scores, rather than as the whole group being described. The sample version here is &radic;(60 &divide; 9) = &radic;6.67 &asymp; 2.58. This episode describes these ten documents, so the figure used is the population standard deviation, 2.45. Later episodes treat the ten documents as a sample, which means dividing by n &minus; 1. A report that quotes a standard deviation should say which version it used.</p>
+<p class="leading-relaxed mb-4">Standard deviation and spread are related but not the same thing. Spread is the general idea: how far apart the scores are. Standard deviation is one number that measures it, in the same units as the scores. The range is another. The histogram below shows the spread directly, as a picture.</p>
+<p class="leading-relaxed mb-4">A standard deviation of 2.45 on a ten-point scale is wide. It says the observed scores varied substantially around the mean. It does not say what the next document will score. Low standard deviation means the observed reviews were relatively consistent. High standard deviation means the observed reviews varied substantially. Neither guarantees the next document&rsquo;s score. With ten documents from two kinds of contract, the 2.45 here mostly describes a mixture of two document types, not either type on its own. The next section shows why.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Histogram</h2>
+<p class="leading-relaxed mb-4">A histogram is a chart with one bar per score. The height of each bar is how many documents received that score. The histogram below shows the ten scores.</p>
+<svg viewBox="0 0 560 260" class="w-full mb-2" role="img" aria-label="Histogram of the ten scores: score 4 has 2 documents, score 5 has 3, score 9 has 3, score 10 has 2. Scores 6, 7 and 8 have none.">
+<line x1="40" y1="220" x2="540" y2="220" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="40" y1="220" x2="40" y2="20" stroke="#1a1a1a" stroke-width="1.5"/>
+<rect x="70" y="140" width="60" height="80" fill="#991B1B"/><text x="100" y="130" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">2</text><text x="100" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">4</text>
+<rect x="150" y="100" width="60" height="120" fill="#991B1B"/><text x="180" y="90" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">3</text><text x="180" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">5</text>
+<rect x="230" y="220" width="60" height="0" fill="#e5e5e5"/><text x="260" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">6</text>
+<rect x="310" y="220" width="60" height="0" fill="#e5e5e5"/><text x="340" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">7</text>
+<rect x="390" y="220" width="60" height="0" fill="#e5e5e5"/><text x="420" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">8</text>
+<rect x="470" y="100" width="30" height="120" fill="#1a1a1a" transform="translate(-20,0)"/><text x="480" y="90" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">3</text><text x="480" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">9</text>
+<rect x="520" y="140" width="20" height="80" fill="#1a1a1a" transform="translate(-10,0)"/><text x="520" y="130" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">2</text><text x="520" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">10</text>
+<text x="40" y="12" font-size="13" font-family="Inter,sans-serif">Documents</text>
+</svg>
+<p class="font-sans text-sm text-ink-muted mb-4">Figure 1. Histogram of the ten pilot scores. Score 4: 2 documents; score 5: 3; score 6: 0; score 7: 0; score 8: 0; score 9: 3; score 10: 2. The bars at 9 and 10 are the NDAs; the bars at 4 and 5 are the MSAs.</p>
+<p class="leading-relaxed mb-4">The histogram does not show one cluster around the mean. It shows two clusters: one down at 4 and 5, one up at 9 and 10, and nothing in between. A distribution with two clusters is called bimodal: two modes, 5 and 9, one for each cluster. In plain words, the platform is doing two different things, and the average is presenting them as one.</p>
+<p class="leading-relaxed mb-4">When reading a histogram, look for three things: gaps (scores nobody received), clusters (where the documents pile up), and a long tail on one side (a few documents far from the rest). This histogram has a gap at 6&ndash;8 and two clusters. A histogram with a long tail to the left would say the platform mostly does well and occasionally collapses &mdash; a different problem, and a different fix.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Split: Stratification</h2>
+<p class="leading-relaxed mb-4">Colour the bars by document type and the picture explains itself. Every NDA scores 9 or 10. Every MSA scores 4 or 5. The mean of the NDAs alone is 47 &divide; 5 = 9.4. The mean of the MSAs alone is 23 &divide; 5 = 4.6. The platform performs exceptionally well on NDAs, but its performance drops sharply on MSAs. It is not consistently good at contract review. It is good at certain kinds of contract review.</p>
+<p class="leading-relaxed mb-4">Splitting the results by a subgroup before summarising them is called stratification. The subgroup here is document type. The overall mean of 7.0 is the average of two subgroup means, 9.4 and 4.6, weighted equally because there are five documents in each subgroup: (9.4 + 4.6) &divide; 2 = 7.0. Change the mix of documents and the overall mean changes, even if the platform&rsquo;s performance on each type stays exactly the same. That is the point of the next section.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Same Mean, Different Build</h2>
+<p class="leading-relaxed mb-4">Now a second build, Build B, scored on the same ten documents. Its ten scores are: 6, 7, 7, 8, 7, 6, 8, 7, 7, 6. Add them up: 6 + 7 + 7 + 8 + 7 + 6 + 8 + 7 + 7 + 6 = 69. Divide by 10: 69 &divide; 10 = 6.9. The mean is 6.9, essentially the same as Build A&rsquo;s 7.0.</p>
+<p class="leading-relaxed mb-4">Sorted, Build B&rsquo;s scores are: 6, 6, 6, 7, 7, 7, 7, 7, 8, 8. The median is (7 + 7) &divide; 2 = 7. The mode is 7, which appears five times. The range is 6&ndash;8. The standard deviation is &sigma; = 0.70 (population; the sample version is 0.74). Build A&rsquo;s standard deviation was 2.45. Same mean, about a quarter of the spread.</p>
+<svg viewBox="0 0 560 260" class="w-full mb-2" role="img" aria-label="Histogram of Build B scores: score 6 has 3 documents, score 7 has 5, score 8 has 2.">
+<line x1="40" y1="220" x2="540" y2="220" stroke="#1a1a1a" stroke-width="1.5"/>
+<line x1="40" y1="220" x2="40" y2="20" stroke="#1a1a1a" stroke-width="1.5"/>
+<rect x="90" y="120" width="70" height="100" fill="#991B1B"/><text x="125" y="110" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">3</text><text x="125" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">6</text>
+<rect x="230" y="60" width="70" height="160" fill="#991B1B"/><text x="265" y="50" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">5</text><text x="265" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">7</text>
+<rect x="370" y="150" width="70" height="70" fill="#991B1B"/><text x="405" y="140" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">2</text><text x="405" y="240" text-anchor="middle" font-size="13" font-family="Inter,sans-serif">8</text>
+<text x="40" y="12" font-size="13" font-family="Inter,sans-serif">Documents</text>
+</svg>
+<p class="font-sans text-sm text-ink-muted mb-4">Figure 2. Histogram of Build B&rsquo;s ten scores. Score 6: 3 documents; score 7: 5; score 8: 2. One cluster, centred on 7.</p>
+<p class="leading-relaxed mb-4">Build B&rsquo;s histogram is one cluster, centred on 7. Three sixes, five sevens, two eights. No gap, no second cluster. One cluster means one behaviour: the platform does roughly the same thing on every document, a little better or a little worse. The score 7, which no document received under Build A, appears five times under Build B.</p>
+<p class="leading-relaxed mb-4">The spread describes the observed ten documents. Build B&rsquo;s observed scores were relatively consistent, with &sigma; = 0.70. Build A&rsquo;s observed scores varied substantially, with &sigma; = 2.45. That difference in consistency is real information about the ten documents scored. It is not a prediction about the next document. A low standard deviation does not guarantee the next document will score near the mean, and a high standard deviation does not guarantee it will score far from it.</p>
+
+<table class="w-full font-sans text-sm mb-4 border-collapse">
+<thead>
+<tr class="border-b-2 border-rule-dark text-left">
+<th class="py-2 pr-4">Build</th>
+<th class="py-2 pr-4">Mean</th>
+<th class="py-2 pr-4">Median</th>
+<th class="py-2 pr-4">Mode</th>
+<th class="py-2 pr-4">Range</th>
+<th class="py-2 pr-4">SD (&sigma;)</th>
+<th class="py-2">Histogram</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">A</td>
+<td class="py-2 pr-4">7.0</td>
+<td class="py-2 pr-4">7</td>
+<td class="py-2 pr-4">5 and 9</td>
+<td class="py-2 pr-4">4&ndash;10</td>
+<td class="py-2 pr-4">2.45</td>
+<td class="py-2">Two clusters</td>
+</tr>
+<tr class="border-b border-rule">
+<td class="py-2 pr-4">B</td>
+<td class="py-2 pr-4">6.9</td>
+<td class="py-2 pr-4">7</td>
+<td class="py-2 pr-4">7</td>
+<td class="py-2 pr-4">6&ndash;8</td>
+<td class="py-2 pr-4">0.70</td>
+<td class="py-2">One cluster</td>
+</tr>
+</tbody>
+</table>
+
+<p class="leading-relaxed mb-4">Which build is better? The mean alone cannot answer that. Build A is better on NDAs and worse on MSAs. Build B is steadier everywhere and spectacular nowhere. Steadiness is not quality: Build B looks steadier, with &sigma; = 0.70 against Build A&rsquo;s 2.45, while being worse on NDAs (7.4 against 9.4, worked below). The decision depends on which documents matter, which is the next section.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Mix Changes the Headline: Post-Stratification</h2>
+<p class="leading-relaxed mb-4">Score Build B&rsquo;s ten documents by type. Its NDAs score 8, 8, 7, 7, 7, a mean of 37 &divide; 5 = 7.4. Its MSAs score 7, 7, 6, 6, 6, a mean of 32 &divide; 5 = 6.4. Build A&rsquo;s subgroup means are 9.4 for NDAs and 4.6 for MSAs.</p>
+<p class="leading-relaxed mb-4">On the pilot&rsquo;s equal mix &mdash; five NDAs and five MSAs &mdash; Build A (7.0) beats Build B (6.9). But the department&rsquo;s real portfolio is not an equal mix. It is 20% NDAs and 80% MSAs. Weighting each subgroup mean by the department&rsquo;s real portfolio, instead of by the pilot&rsquo;s equal mix, is called post-stratification: re-weighting results after the data are collected so they match the population the decision is about.</p>
+<p class="leading-relaxed mb-4">The weighted mean is the sum of each subgroup mean multiplied by its portfolio weight:</p>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Build A: 0.2 &times; 9.4 + 0.8 &times; 4.6 = 1.88 + 3.68 = 5.56, about 5.6.</li>
+<li>Build B: 0.2 &times; 7.4 + 0.8 &times; 6.4 = 1.48 + 5.12 = 6.60, about 6.6.</li>
+</ul>
+<p class="leading-relaxed mb-4">Weighted by the real portfolio, Build A scores 5.6 and Build B scores 6.6. The ranking reverses. On the equal mix, A wins. On the department&rsquo;s actual work, B wins. The headline depends on the mix. A build can look better overall while being worse on the documents that matter most, if the documents it is good at are over-represented in the pilot. Any headline average should state the mix it was computed over, and the mix the decision is about.</p>
+<p class="leading-relaxed mb-4">This is a Simpson&rsquo;s-paradox-style reversal: the overall ranking flips when the subgroup mix changes, even though neither build&rsquo;s performance on either subgroup changed. The subgroup results did not move. Only the weights moved.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">When Mean and Median Disagree: Skew</h2>
+<p class="leading-relaxed mb-4">One more pattern to carry with you: when the mean and the median disagree, find the tail. Ten scores: 10, 10, 9, 10, 9, 10, 10, 2, 10, 10. Add them: 10 + 10 + 9 + 10 + 9 + 10 + 10 + 2 + 10 + 10 = 90. Divide by 10: the mean is 9. Sorted, the scores are 2, 9, 9, 10, 10, 10, 10, 10, 10, 10, and the median is (10 + 10) &divide; 2 = 10.</p>
+<p class="leading-relaxed mb-4">One document scored 2 &mdash; one collapse &mdash; and it costs the mean a full point. The median does not notice. A distribution with a long tail on one side is called skewed. Here the tail points to the left, toward the low scores, so the mean sits below the median. When a report shows a mean below the median, ask what dragged it down. There is usually one document doing the dragging. Find it, and you have found the next fix. The mean describes the total; the median describes the typical document. When they part ways, the gap is the story.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
+<p class="leading-relaxed mb-4">The platform performs exceptionally well on NDAs, but its performance drops sharply on MSAs. It is not consistently good at contract review. It is good at certain kinds of contract review. The decision that follows is provisional, because it rests on five NDAs and five MSAs. Five documents per type is a small base for a rollout decision, and the next episode of testing should widen it.</p>
+<p class="leading-relaxed mb-4">Provisionally: introduce AI-assisted first-pass review for NDAs, subject to human verification and appropriate controls. Keep MSA reviews under closer lawyer supervision while the vendor investigates the performance gap. Send the five low-scoring MSAs back to the vendor as the test set for the next version, so the vendor works on the documents where the platform actually failed. The operational questions are: which contract workflows can take AI-assisted first-pass review, which still need intensive human review, and where the vendor should concentrate its next round of improvements.</p>
+<p class="leading-relaxed mb-4">A realistic check to run on any pilot report: ask for the scores by document type, the histogram, and the mix the headline average was computed over. If the report gives only the mean, ask for the breakdown before acting on it. One further question is left open here and taken up in Episode 15: who checked that the ten-point scores themselves are reliable? Two lawyers grading the same output can disagree, and the scores are only as sound as the grading behind them.</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Checklist: Reading a Pilot Score</h2>
+<ul class="list-disc pl-6 leading-relaxed mb-4 space-y-1">
+<li>Ask what was scored, by whom, and on what rubric, before reading the number.</li>
+<li>Ask for the mean, the median, and the mode together. If they disagree, find out why.</li>
+<li>Ask for the spread: the range and the standard deviation, with the population or sample version stated.</li>
+<li>Ask for the histogram, coloured by document type. Look for gaps and clusters.</li>
+<li>Ask for the scores split by subgroup. A single average can cover a split between subgroups.</li>
+<li>Ask what mix the headline average was computed over, and re-weight it to the mix the decision is about.</li>
+<li>Ask how many documents support each subgroup conclusion. Five documents make a provisional conclusion, not a settled one.</li>
+</ul>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
+<p class="leading-relaxed mb-4">Mean, median, mode, spread &mdash; they are the summary. The histogram is the picture that shows what the summary left out. One average can hide two different stories. When two builds report the same mean, ask for the spread and the histogram before treating them as the same build.</p>
+<p class="leading-relaxed mb-4">Next episode: base rates and Bayes. The model says 90% likely &mdash; likely compared to what?</p>
+
+<h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
+<ol class="list-decimal pl-6 font-sans text-sm text-ink-light space-y-2">
+<li>The ten-score worked example in this episode is the series&rsquo; own: five NDAs (9, 9, 10, 9, 10) and five MSAs (5, 4, 5, 4, 5); mean 7.0, median 7, modes 5 and 9, range 4&ndash;10, population standard deviation 2.45 (sample standard deviation 2.58). The second build&rsquo;s ten scores (6, 7, 7, 8, 7, 6, 8, 7, 7, 6) are also the series&rsquo; own: mean 6.9, median 7, mode 7, range 6&ndash;8, population standard deviation 0.70 (sample standard deviation 0.74). Build B by type: NDAs 8, 8, 7, 7, 7 (mean 7.4), MSAs 7, 7, 6, 6, 6 (mean 6.4). Portfolio-weighted (20% NDA, 80% MSA): Build A 5.56, Build B 6.60. Illustrative evaluation dataset, not actual vendor performance data.</li>
+<li>OpenStax, <a class="underline hover:text-red" href="https://openstax.org/details/books/introductory-statistics-2e"><em>Introductory Statistics</em></a>, 2nd ed., ch. 2&ndash;3 &mdash; mean, median, mode, standard deviation, and histograms, the standard undergraduate treatment.</li>
+</ol>
+
+    </main>
+
+    <footer class="border-t-2 border-rule-dark">
+        <div class="max-w-3xl mx-auto px-6 py-8 text-center">
+            <p class="font-sans text-xs text-ink-muted">Statistics for Legal Evals &copy; 2026</p>
+        </div>
+    </footer>
+</body>
+</html>
