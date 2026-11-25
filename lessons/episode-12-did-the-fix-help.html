@@ -74,7 +74,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">McNemar&rsquo;s Exact Test</h2>
 
-<p class="leading-relaxed mb-4">The null hypothesis is that the two prompts are equally good, so each discordant pair is a fair coin flip: a 50% chance it favours the new prompt, 50% that it favours the old one. Conditional on the number of discordant pairs, n = b + c, the count b follows the binomial distribution with n trials and probability 0.5 (Episode 5). The two-sided p-value is twice the probability of seeing a split as lopsided as the one observed, or more so, in the direction observed:</p>
+<p class="leading-relaxed mb-4">The null hypothesis is that the two prompts are equally good, so each discordant pair is a fair coin flip: a 50% chance it favours the new prompt, 50% that it favours the old one. Conditional on the number of discordant pairs, n = b + c, the count b follows the binomial distribution with n trials and probability 0.5 (<a class="underline hover:text-red" href="episode-05-pass-or-fail-is-a-weighted-coin.html">Episode 5</a>). The two-sided p-value is twice the probability of seeing a split as lopsided as the one observed, or more so, in the direction observed:</p>
 
 <p class="leading-relaxed mb-4 font-sans text-center text-lg">p = 2 &times; P(X &le; min(b, c)) &nbsp;where X ~ Binomial(n, 0.5)</p>
 
@@ -148,7 +148,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Two Illustrations</h2>
 
-<p class="leading-relaxed mb-4"><strong>The contract platform&rsquo;s prompt fix.</strong> The clause-extraction prompt is rewritten, and both versions run on the same test set. The discordant split is 18 vs 4 &mdash; eighteen items the new prompt extracts correctly that the old one missed, four items it newly gets wrong &mdash; with p &asymp; 0.004. That is evidence against the null, and the direction is clear: the fix repaired more than it broke. The department still checks the four newly broken items before shipping: if they share a clause type, the fix has a cost the headline hides (Episode 8), and the minimum important difference (Episode 10) still decides whether 14 net repairs are worth the re-validation.</p>
+<p class="leading-relaxed mb-4"><strong>The contract platform&rsquo;s prompt fix.</strong> The clause-extraction prompt is rewritten, and both versions run on the same test set. The discordant split is 18 vs 4 &mdash; eighteen items the new prompt extracts correctly that the old one missed, four items it newly gets wrong &mdash; with p &asymp; 0.004. That is evidence against the null, and the direction is clear: the fix repaired more than it broke. The department still checks the four newly broken items before shipping: if they share a clause type, the fix has a cost the headline hides (<a class="underline hover:text-red" href="episode-08-what-did-the-tool-miss.html">Episode 8</a>), and the minimum important difference (<a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Episode 10</a>) still decides whether 14 net repairs are worth the re-validation.</p>
 
 <p class="leading-relaxed mb-4"><strong>The citation-check prompt fix.</strong> The legal research assistant &mdash; the tool that retrieves authorities and drafts answers with citations &mdash; gets a rewritten prompt for its citation check, the step that verifies each cited authority supports the proposition it is cited for. Before and after, on the same set of research questions, the split is 15 vs 5, p &asymp; 0.041. That is evidence against the null, just inside the threshold, and the department treats it as a provisional result: the interval on the difference is wide, the split sits one item from the boundary, and the fix is re-tested on a fresh set of questions before it ships. The second illustration exists to show the same test on a different tool: the statistics do not change when the workflow does.</p>
 
@@ -196,7 +196,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">Same questions, paired test. Different questions, you have thrown away your best evidence. McNemar&rsquo;s exact test asks whether the discordant pairs split evenly, and its n is the discordant count, not the item count. The paired bootstrap puts an interval on the difference. When they disagree at small n, the disagreement is information about discreteness and interval construction, not a reason to defer to one method automatically. And a p-value of 0.041 against 0.115 is one item apart &mdash; report the split, the interval, and the broken items, and let the reader see the evidence instead of the verdict.</p>
 
-<p class="leading-relaxed mb-4">Next episode: your items are not independent. One hundred questions from ten cases behave like about thirty-six.</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-13-your-items-are-not-independent.html">Next episode</a>: your items are not independent. One hundred questions from ten cases behave like about thirty-six.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 

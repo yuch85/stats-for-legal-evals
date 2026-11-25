@@ -31,11 +31,11 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <div class="aspect-video bg-ink mb-6"><video class="w-full h-full" controls preload="metadata" playsinline src="../video/episode-17.mp4">Your browser does not support video. Audio and the written lesson are below.</video></div><p class="font-sans text-xs uppercase tracking-widest text-ink-muted mb-2">Audio</p><audio class="w-full mb-8" controls preload="metadata" src="../audio/episode-17.mp3"></audio>
 
-<p class="text-lg leading-relaxed mb-8">A benchmark report says the models that ask more questions score higher. Is that true, and if it is true, what does it prove? In this episode, Sera and Ben work through the correlation between asking and scoring on SG-LegalClarify, a Singapore-law benchmark &mdash; and show why the number that matters is not how often a model asks, but what it asks about.</p>
+<p class="text-lg leading-relaxed mb-8">A benchmark report says the models that ask more questions score higher. Is that true, and if it is true, what does it prove? In this episode, Sera and Ben work through the correlation between asking and scoring on <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">SG-LegalClarify</a>, a Singapore-law benchmark &mdash; and show why the number that matters is not how often a model asks, but what it asks about.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Setting: SG-LegalClarify</h2>
 
-<p class="leading-relaxed mb-4">SG-LegalClarify is a benchmark of 1,100 lawyer-authored Singapore-law questions across 10 domains. Of those questions, 340 are fully specified and 760 are underspecified &mdash; they leave out facts a lawyer would need before answering &mdash; giving 1,860 instances in total. Nineteen large language models were tested on it, closed-book and with web search. The benchmark tests two things at once: legal reasoning, and whether a model recognises when a question is underspecified &mdash; whether it asks for the missing facts instead of guessing.</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">SG-LegalClarify</a> is a benchmark of 1,100 lawyer-authored Singapore-law questions across 10 domains. Of those questions, 340 are fully specified and 760 are underspecified &mdash; they leave out facts a lawyer would need before answering &mdash; giving 1,860 instances in total. Nineteen large language models were tested on it, closed-book and with web search. The benchmark tests two things at once: legal reasoning, and whether a model recognises when a question is underspecified &mdash; whether it asks for the missing facts instead of guessing.</p>
 
 <p class="leading-relaxed mb-4">In the benchmark&rsquo;s multi-turn pipeline, the model decides whether to answer or ask for more facts. A user simulator reveals hidden facts only when asked. Two measures come out of that pipeline, and the whole episode turns on telling them apart:</p>
 
@@ -135,7 +135,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">How Sure Are We? The Fisher-z Interval for r</h2>
 
-<p class="leading-relaxed mb-4">A correlation computed from nineteen models is itself an estimate, and it needs an interval, just as a pass rate does (Episode 6). The interval for r is not built directly on r, because r is squeezed into the &minus;1 to +1 range and its sampling variation is lopsided near the ends. The standard route is the Fisher-z transformation: stretch r out with the inverse hyperbolic tangent, build an ordinary interval there, then squeeze back.</p>
+<p class="leading-relaxed mb-4">A correlation computed from nineteen models is itself an estimate, and it needs an interval, just as a pass rate does (<a class="underline hover:text-red" href="episode-06-how-sure-are-you.html">Episode 6</a>). The interval for r is not built directly on r, because r is squeezed into the &minus;1 to +1 range and its sampling variation is lopsided near the ends. The standard route is the Fisher-z transformation: stretch r out with the inverse hyperbolic tangent, build an ordinary interval there, then squeeze back.</p>
 
 <ul class="list-disc pl-6 mb-4 space-y-2">
 <li><strong>Step 1, transform:</strong> z = atanh(r) = &frac12; &times; ln((1 + r) &divide; (1 &minus; r)). For r = 0.73: z = &frac12; &times; ln(1.73 &divide; 0.27) = &frac12; &times; ln(6.41) = &frac12; &times; 1.86 &asymp; 0.93.</li>
@@ -187,7 +187,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li><strong>Coverage improves the score.</strong> Asking about the right facts gives the model the information it needs, so its answers get better. This is the explanation the benchmark&rsquo;s design points toward: the hidden facts are the ones the answer depends on.</li>
 <li><strong>A higher score produces coverage.</strong> A stronger model both answers better and asks better questions, so coverage is a symptom of capability rather than its source.</li>
 <li><strong>Something else drives both.</strong> Model size, training data, or prompting quality could raise both coverage and score together, with neither causing the other.</li>
-<li><strong>The pattern is a selection effect.</strong> Nineteen models from a small number of related model families are not nineteen independent draws. Models in one family share training, architecture, and prompting, so their results travel together (the same clustering problem as Episode 13, applied to models instead of documents). A correlation across a small number of related families is fragile: one family behaving differently can move it a long way.</li>
+<li><strong>The pattern is a selection effect.</strong> Nineteen models from a small number of related model families are not nineteen independent draws. Models in one family share training, architecture, and prompting, so their results travel together (the same clustering problem as <a class="underline hover:text-red" href="episode-13-your-items-are-not-independent.html">Episode 13</a>, applied to models instead of documents). A correlation across a small number of related families is fragile: one family behaving differently can move it a long way.</li>
 </ul>
 
 <p class="leading-relaxed mb-4">The same reasoning applies to the familiar benchmark question, &ldquo;does a bigger model mean a better score?&rdquo; A correlation between model size and score across a benchmark&rsquo;s model list shows that bigger models in that list scored higher. It does not show that making a model bigger raises its score, because size travels with training budget, data quality, and release date. To test the causal claim you need a comparison that holds those other things fixed &mdash; the same model family at different sizes, or an experiment &mdash; not a correlation across a mixed list.</p>
@@ -211,7 +211,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">What the model asks matters more than how often it asks. And a correlation is not a cause. Coverage correlates with score at r = 0.73, with an interval of roughly 0.41 to 0.89 on nineteen models; clarification rate correlates at r = 0.40, with an interval that includes zero. The numbers point at coverage. The proof would be a test, not a bigger correlation.</p>
 
-<p class="leading-relaxed mb-4">Next episode: how not to fool yourself. Five tests, one significant result &mdash; did the team find something?</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-18-how-not-to-fool-yourself.html">Next episode</a>: how not to fool yourself. Five tests, one significant result &mdash; did the team find something?</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 

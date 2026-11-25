@@ -64,7 +64,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 </tbody>
 </table>
 
-<p class="leading-relaxed mb-4">Questions 2 and 3 overlap: comparing two builds <em>is</em> detecting a difference. They are kept separate here because the team usually asks them at different moments &mdash; question 2 when a fix has been made and the team wants to know whether it helped, question 3 when two builds sit side by side and one must be chosen. The worked numbers below cover questions 1 and 2; question 3 uses the same machinery, with the minimum important difference (Episode 10) in place of the improvement to be detected.</p>
+<p class="leading-relaxed mb-4">Questions 2 and 3 overlap: comparing two builds <em>is</em> detecting a difference. They are kept separate here because the team usually asks them at different moments &mdash; question 2 when a fix has been made and the team wants to know whether it helped, question 3 when two builds sit side by side and one must be chosen. The worked numbers below cover questions 1 and 2; question 3 uses the same machinery, with the minimum important difference (<a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Episode 10</a>) in place of the improvement to be detected.</p>
 
 <p class="leading-relaxed mb-4">Two terms appear throughout this episode, so they are defined here before any formula uses them.</p>
 
@@ -116,13 +116,13 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">The working for the &plusmn;10-point row at the low end: 1.96&sup2; = 3.8416; 3.8416 &times; 0.16 = 0.6147; 0.6147 &divide; 0.01 = 61.47, which rounds up to 62 cases. For the &plusmn;5-point row at the low end: 0.6147 &divide; 0.0025 = 245.86, which rounds up to 246 cases.</p>
 
-<p class="leading-relaxed mb-4">The pattern in the table is the whole point of Episode 4, restated as a cost: halving the margin of error quadruples the number of cases. Going from &plusmn;10 points to &plusmn;5 points costs four times the test set, because E is squared in the denominator. A team that asks for &plusmn;2 points should expect roughly 2,400 cases at the worst-case rate (1.96&sup2; &times; 0.25 &divide; 0.0004 = 2,401) &mdash; a number that usually ends the conversation about precision, and starts a conversation about what precision the decision actually needs.</p>
+<p class="leading-relaxed mb-4">The pattern in the table is the whole point of <a class="underline hover:text-red" href="episode-04-why-more-cases-help.html">Episode 4</a>, restated as a cost: halving the margin of error quadruples the number of cases. Going from &plusmn;10 points to &plusmn;5 points costs four times the test set, because E is squared in the denominator. A team that asks for &plusmn;2 points should expect roughly 2,400 cases at the worst-case rate (1.96&sup2; &times; 0.25 &divide; 0.0004 = 2,401) &mdash; a number that usually ends the conversation about precision, and starts a conversation about what precision the decision actually needs.</p>
 
-<p class="leading-relaxed mb-4">One simplification is stated here because the formula hides it: this calculation treats every test item as independent. Items drawn from the same contract travel together, so a test set of 100 questions from 10 contracts behaves like fewer than 100 independent items. Episode 13 works through that correction. Until then, treat every n in this episode as a count of <em>independent</em> items.</p>
+<p class="leading-relaxed mb-4">One simplification is stated here because the formula hides it: this calculation treats every test item as independent. Items drawn from the same contract travel together, so a test set of 100 questions from 10 contracts behaves like fewer than 100 independent items. <a class="underline hover:text-red" href="episode-13-your-items-are-not-independent.html">Episode 13</a> works through that correction. Until then, treat every n in this episode as a count of <em>independent</em> items.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Question 2: Detecting a Difference</h2>
 
-<p class="leading-relaxed mb-4">Now the team has changed the platform &mdash; a new prompt for clause extraction &mdash; and wants to know whether the new version is better than the old one. Both versions run on the same test items, so each item gives a pair of results: old and new. Most pairs agree. The pairs that disagree are the <strong>discordant pairs</strong>: items the old version got wrong and the new one got right, or the reverse. The comparison turns on those pairs alone, which is why the paired test in Episode 12 is called McNemar&rsquo;s test, and why its sample-size formula is built from the discordant rate.</p>
+<p class="leading-relaxed mb-4">Now the team has changed the platform &mdash; a new prompt for clause extraction &mdash; and wants to know whether the new version is better than the old one. Both versions run on the same test items, so each item gives a pair of results: old and new. Most pairs agree. The pairs that disagree are the <strong>discordant pairs</strong>: items the old version got wrong and the new one got right, or the reverse. The comparison turns on those pairs alone, which is why the paired test in <a class="underline hover:text-red" href="episode-12-did-the-fix-help.html">Episode 12</a> is called McNemar&rsquo;s test, and why its sample-size formula is built from the discordant rate.</p>
 
 <p class="leading-relaxed mb-4">The worked example uses these assumptions, stated in full so the number can be re-derived:</p>
 
@@ -135,7 +135,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li><strong>Design:</strong> paired &mdash; both versions scored on the same items.</li>
 </ul>
 
-<p class="leading-relaxed mb-4">The standard normal approximation for the paired comparison (Connor, 1987) gives the total number of paired cases as:</p>
+<p class="leading-relaxed mb-4">The standard normal approximation for the paired comparison (<a class="underline hover:text-red" href="https://doi.org/10.2307/2531961">Connor, 1987</a>) gives the total number of paired cases as:</p>
 
 <p class="leading-relaxed mb-4 font-sans text-center text-lg">n = [z<sub>&alpha;/2</sub> &times; &radic;p<sub>disc</sub> + z<sub>&beta;</sub> &times; &radic;(p<sub>disc</sub> &minus; &delta;&sup2;)]&sup2; &divide; &delta;&sup2;</p>
 
@@ -196,7 +196,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Bar heights are illustrative, not to scale: the 2.5-point bar would be sixteen times the 10-point bar.</text>
 </svg>
 
-<p class="leading-relaxed mb-4">The chart&rsquo;s bars are drawn out of scale on purpose &mdash; at true scale the 10-point bar would be invisible next to the 2.5-point bar, which is itself the point. The practical lesson runs in the other direction from how teams usually think about it. A team that wants to detect a small improvement does not need a slightly bigger test set. It needs a test set several times larger. And a team that can state a large improvement worth detecting &mdash; ten points, say &mdash; can run a test set a quarter the size. The cheapest way to shrink a test set is to decide what size of difference matters, and stop chasing differences smaller than that. That decision belongs to the department, not to the formula: Episode 10 takes it up as the minimum important difference.</p>
+<p class="leading-relaxed mb-4">The chart&rsquo;s bars are drawn out of scale on purpose &mdash; at true scale the 10-point bar would be invisible next to the 2.5-point bar, which is itself the point. The practical lesson runs in the other direction from how teams usually think about it. A team that wants to detect a small improvement does not need a slightly bigger test set. It needs a test set several times larger. And a team that can state a large improvement worth detecting &mdash; ten points, say &mdash; can run a test set a quarter the size. The cheapest way to shrink a test set is to decide what size of difference matters, and stop chasing differences smaller than that. That decision belongs to the department, not to the formula: <a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Episode 10</a> takes it up as the minimum important difference.</p>
 
 <p class="leading-relaxed mb-4">The discordant rate matters just as much, and teams control it less directly. The discordant rate and the improvement are not independent inputs: a 5-point marginal improvement with a 20% discordant rate means the disagreements split 12.5% in favour of the new version against 7.5% in favour of the old one (12.5 &minus; 7.5 = 5). With a 10% discordant rate, the same 5-point improvement means a 7.5% to 2.5% split &mdash; a sharper split, so each discordant pair carries more evidence and fewer total pairs are needed. The formula already accounts for that through the two square-root terms. The practical point stands: the number depends on the discordant rate, so a team that guesses it wrong sizes the test set wrong. Pilot data &mdash; a small run of both versions on the same items &mdash; is the way to estimate it before committing to the full test set.</p>
 
@@ -209,9 +209,9 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <p class="leading-relaxed mb-4">What a ten-question eval should do instead:</p>
 
 <ul class="list-disc pl-6 mb-4 space-y-2">
-<li>Report the score with its interval attached (Episode 6), so the width of the uncertainty is visible.</li>
+<li>Report the score with its interval attached (<a class="underline hover:text-red" href="episode-06-how-sure-are-you.html">Episode 6</a>), so the width of the uncertainty is visible.</li>
 <li>Describe the failures item by item &mdash; which clauses were missed, and what the misses have in common.</li>
-<li>State the minimum important difference the department would act on (Episode 10), and say plainly that ten questions cannot resolve it.</li>
+<li>State the minimum important difference the department would act on (<a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Episode 10</a>), and say plainly that ten questions cannot resolve it.</li>
 <li>Use the ten questions to estimate the discordant rate for the <em>next</em> test set, so the sizing calculation in this episode has a real input instead of a guess.</li>
 </ul>
 
@@ -222,7 +222,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li>State the significance level (&alpha; = 0.05, two-sided, is the convention used here) and the power (80% is the convention used here). If you use different values, say so &mdash; the number changes with them.</li>
 <li>For a paired comparison, estimate the discordant rate from pilot data. Do not guess it silently.</li>
 <li>Budget the exact calculation (650&ndash;660 pairs for the worked example), not the normal approximation (about 625).</li>
-<li>Check clustering: if items come from a small number of documents, the effective sample size is smaller than the headline n (Episode 13).</li>
+<li>Check clustering: if items come from a small number of documents, the effective sample size is smaller than the headline n (<a class="underline hover:text-red" href="episode-13-your-items-are-not-independent.html">Episode 13</a>).</li>
 <li>If the required n is larger than the test set you can build, change the question &mdash; accept a wider margin, or a larger minimum difference &mdash; and record that change. Do not run the small test set and report the result as if it answered the large question.</li>
 </ul>
 
@@ -234,7 +234,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">&ldquo;How many cases?&rdquo; is three questions, not one. Answer the wrong one and the number is useless. Estimate a score, and the margin of error decides the number. Detect a difference, and the effect size decides it &mdash; halve the effect and the test set quadruples. And for a ten-question teaching eval, significance is the wrong goal altogether: report the interval, describe the failures, and use the small run to size the real one.</p>
 
-<p class="leading-relaxed mb-4">Next episode: how big is the difference? A 2-point gain on 2,000 cases can be significant and worthless.</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Next episode</a>: how big is the difference? A 2-point gain on 2,000 cases can be significant and worthless.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 

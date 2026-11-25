@@ -35,9 +35,9 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Premise: Two Builds, the Same Contracts</h2>
 
-<p class="leading-relaxed mb-4">The rubric is the ten-point assessment framework from Episode 1: accuracy of clause identification, accuracy of key-term extraction, detection of deviations from the legal playbook, identification of missing or problematic provisions, and quality of supporting explanations and source references. Each contract gets one rubric score per build, on a scale from 0 to 1 in this episode (the ten-point scores divided by ten). Build A averages 0.82 across the 25 contracts; Build B averages 0.76.</p>
+<p class="leading-relaxed mb-4">The rubric is the ten-point assessment framework from <a class="underline hover:text-red" href="episode-01-what-a-number-means.html">Episode 1</a>: accuracy of clause identification, accuracy of key-term extraction, detection of deviations from the legal playbook, identification of missing or problematic provisions, and quality of supporting explanations and source references. Each contract gets one rubric score per build, on a scale from 0 to 1 in this episode (the ten-point scores divided by ten). Build A averages 0.82 across the 25 contracts; Build B averages 0.76.</p>
 
-<p class="leading-relaxed mb-4">The pairing matters. The same 25 contracts go through both builds, so each contract produces a pair of scores, and the comparison is made contract by contract. A contract that is hard for both builds &mdash; a dense MSA with unusual indemnity language &mdash; drags both scores down together, and the difference between the two scores on that contract is unaffected. That is why the paired test is more sensitive than comparing two separate groups of contracts (Episode 12 explains the same point for pass/fail outcomes). The unit of the analysis is the <em>difference</em> on each contract, not the two averages.</p>
+<p class="leading-relaxed mb-4">The pairing matters. The same 25 contracts go through both builds, so each contract produces a pair of scores, and the comparison is made contract by contract. A contract that is hard for both builds &mdash; a dense MSA with unusual indemnity language &mdash; drags both scores down together, and the difference between the two scores on that contract is unaffected. That is why the paired test is more sensitive than comparing two separate groups of contracts (<a class="underline hover:text-red" href="episode-12-did-the-fix-help.html">Episode 12</a> explains the same point for pass/fail outcomes). The unit of the analysis is the <em>difference</em> on each contract, not the two averages.</p>
 
 <p class="leading-relaxed mb-4">One simplification is stated here: rubric scores are bounded between 0 and 1, and the t-test treats the differences as continuous quantities that could in principle take any value. With differences mostly between &minus;0.11 and +0.23, the bound is not binding in this example, but a rubric that piles scores up at 0 or 1 would need a different treatment.</p>
 
@@ -117,9 +117,9 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4 font-sans text-center text-lg">s = &radic;[&Sigma;(d &minus; d&#772;)&sup2; &divide; (n &minus; 1)]</p>
 
-<p class="leading-relaxed mb-4">Working: the sum of the squared deviations, &Sigma;(d &minus; d&#772;)&sup2;, is 0.223. Divide by 24: 0.223 &divide; 24 = 0.00929. Take the square root: s = &radic;0.00929 = 0.096, shown as <strong>0.10</strong>. The divisor is n &minus; 1, not n, because these 25 contracts stand in for the builds&rsquo; future scores &mdash; the sample version (Episode 1). Dividing by 25 instead would give 0.094, a slightly smaller number; the page uses the sample version throughout.</p>
+<p class="leading-relaxed mb-4">Working: the sum of the squared deviations, &Sigma;(d &minus; d&#772;)&sup2;, is 0.223. Divide by 24: 0.223 &divide; 24 = 0.00929. Take the square root: s = &radic;0.00929 = 0.096, shown as <strong>0.10</strong>. The divisor is n &minus; 1, not n, because these 25 contracts stand in for the builds&rsquo; future scores &mdash; the sample version (<a class="underline hover:text-red" href="episode-01-what-a-number-means.html">Episode 1</a>). Dividing by 25 instead would give 0.094, a slightly smaller number; the page uses the sample version throughout.</p>
 
-<p class="leading-relaxed mb-4"><strong>Step 3 — the standard error of the mean difference, SE.</strong> The standard error says how much the mean of 25 differences would wobble if the test were repeated on a fresh set of 25 contracts (Episode 4):</p>
+<p class="leading-relaxed mb-4"><strong>Step 3 — the standard error of the mean difference, SE.</strong> The standard error says how much the mean of 25 differences would wobble if the test were repeated on a fresh set of 25 contracts (<a class="underline hover:text-red" href="episode-04-why-more-cases-help.html">Episode 4</a>):</p>
 
 <p class="leading-relaxed mb-4 font-sans text-center text-lg">SE = s &divide; &radic;n = 0.096 &divide; &radic;25 = 0.096 &divide; 5 = 0.019</p>
 
@@ -135,7 +135,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">If the true mean difference were zero &mdash; the null hypothesis &mdash; the t statistic would follow the <strong>t-distribution</strong> with 24 degrees of freedom. The t-distribution is the sampling distribution of t when the standard deviation is estimated from the same small sample: it looks like the normal curve, but with heavier tails, because estimating s from 25 differences adds uncertainty of its own. With 24 degrees of freedom the tails are only slightly heavier than normal; with 5 degrees of freedom they are much heavier, which is why small samples need the t-distribution and large samples can use the normal curve. As the degrees of freedom grow, the t-distribution approaches the normal curve.</p>
 
-<p class="leading-relaxed mb-4">For t = 3.1 on 24 degrees of freedom, the two-sided p-value is about <strong>0.005</strong>: if the two builds were truly equal, a mean difference this far from zero, in either direction, would occur about five times in a thousand. That is evidence against the null hypothesis. It is not a probability that the null is true, and it is not a probability that Build A is better (Episode 7).</p>
+<p class="leading-relaxed mb-4">For t = 3.1 on 24 degrees of freedom, the two-sided p-value is about <strong>0.005</strong>: if the two builds were truly equal, a mean difference this far from zero, in either direction, would occur about five times in a thousand. That is evidence against the null hypothesis. It is not a probability that the null is true, and it is not a probability that Build A is better (<a class="underline hover:text-red" href="episode-07-what-does-p-mean.html">Episode 7</a>).</p>
 
 <svg viewBox="0 0 640 300" class="w-full mb-4" role="img" aria-label="t-distribution curve with 24 degrees of freedom, centred at zero, with the observed t of 3.1 marked in the right tail">
 <rect x="0" y="0" width="640" height="300" fill="#FAFAF8"/>
@@ -151,7 +151,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <text x="20" y="292" font-family="Inter, sans-serif" font-size="11" fill="#7a7a7a">Two-sided p ≈ 0.005: the area beyond ±3.1 in both tails combined.</text>
 </svg>
 
-<p class="leading-relaxed mb-4">The 95% confidence interval for the mean difference uses the t critical value for 24 degrees of freedom, 2.064: 0.0608 &plusmn; 2.064 &times; 0.0193 = 0.0608 &plusmn; 0.0398, or about <strong>0.02 to 0.10</strong>. The interval excludes zero, which is the same conclusion as the p-value, stated as a range instead of a probability. Whether 0.06 is big enough to act on is a separate question &mdash; the minimum important difference (Episode 10) &mdash; and a 0.06 gap on a 0-to-1 rubric is 6 points on a hundred-point scale.</p>
+<p class="leading-relaxed mb-4">The 95% confidence interval for the mean difference uses the t critical value for 24 degrees of freedom, 2.064: 0.0608 &plusmn; 2.064 &times; 0.0193 = 0.0608 &plusmn; 0.0398, or about <strong>0.02 to 0.10</strong>. The interval excludes zero, which is the same conclusion as the p-value, stated as a range instead of a probability. Whether 0.06 is big enough to act on is a separate question &mdash; the minimum important difference (<a class="underline hover:text-red" href="episode-10-how-big-is-the-difference.html">Episode 10</a>) &mdash; and a 0.06 gap on a 0-to-1 rubric is 6 points on a hundred-point scale.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Bootstrap Interval Alongside</h2>
 
@@ -170,7 +170,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <tbody>
 <tr class="border-b border-rule">
 <td class="py-2 pr-4">Pass or fail per item</td>
-<td class="py-2 pr-4">McNemar&rsquo;s exact test (Episode 12)</td>
+<td class="py-2 pr-4">McNemar&rsquo;s exact test (<a class="underline hover:text-red" href="episode-12-did-the-fix-help.html">Episode 12</a>)</td>
 <td class="py-2">Each item gives a yes or no; only the disagreements carry the comparison</td>
 </tr>
 <tr class="border-b border-rule">
@@ -193,20 +193,20 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <ul class="list-disc pl-6 mb-4 space-y-2">
 <li><strong>Paired items.</strong> Each contract is scored by both builds. If the two builds were scored on different contracts, the paired test does not apply.</li>
-<li><strong>Independent pairs.</strong> One contract&rsquo;s difference does not predict another&rsquo;s. Contracts drawn from the same matter, or near-duplicate contracts, break this (Episode 13).</li>
+<li><strong>Independent pairs.</strong> One contract&rsquo;s difference does not predict another&rsquo;s. Contracts drawn from the same matter, or near-duplicate contracts, break this (<a class="underline hover:text-red" href="episode-13-your-items-are-not-independent.html">Episode 13</a>).</li>
 <li><strong>Differences roughly normal.</strong> The histogram above is the check. A skewed or heavy-tailed set of differences calls for the bootstrap interval, or the Wilcoxon test if symmetry holds.</li>
 <li><strong>Scores treated as continuous.</strong> The rubric runs 0 to 1 in this episode. Scores piled at the bounds need a different treatment.</li>
 </ul>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Use Case</h2>
 
-<p class="leading-relaxed mb-4">The paired t-test is the test for any metric that is a mean over items: mean rubric scores (this episode), mean Brier scores for a model that gives dismissal probabilities &mdash; LegalForecastBench reports a micro-Brier score per model, and two models&rsquo; mean Brier scores over the same claim&ndash;defendant units can be compared the same way &mdash; and mean cost or latency per task. The pattern is the same in each case: same items, two builds, one difference per item, and the question is whether the mean difference is far enough from zero, relative to its standard error, to count as evidence.</p>
+<p class="leading-relaxed mb-4">The paired t-test is the test for any metric that is a mean over items: mean rubric scores (this episode), mean Brier scores for a model that gives dismissal probabilities &mdash; <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a> reports a micro-Brier score per model, and two models&rsquo; mean Brier scores over the same claim&ndash;defendant units can be compared the same way &mdash; and mean cost or latency per task. The pattern is the same in each case: same items, two builds, one difference per item, and the question is whether the mean difference is far enough from zero, relative to its standard error, to count as evidence.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
 
 <p class="leading-relaxed mb-4">Pass/fail is McNemar&rsquo;s territory. Means are the t-test&rsquo;s. Use the test that matches the metric. On the same 25 contracts, Build A beats Build B by a mean of 0.06, with a standard error of 0.02, t = 3.1 on 24 degrees of freedom, p &asymp; 0.005, and a 95% interval of about 0.02 to 0.10 &mdash; confirmed by a bootstrap interval of the same range. Whether 0.06 is worth shipping is the next episode&rsquo;s question, not this one&rsquo;s.</p>
 
-<p class="leading-relaxed mb-4">Next episode: did the fix help? Same questions, new prompt &mdash; McNemar&rsquo;s exact test and the paired bootstrap.</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-12-did-the-fix-help.html">Next episode</a>: did the fix help? Same questions, new prompt &mdash; McNemar&rsquo;s exact test and the paired bootstrap.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 

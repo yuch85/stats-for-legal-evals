@@ -35,7 +35,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">What a p-Value Does and Does Not Say</h2>
 
-<p class="leading-relaxed mb-4">A p-value says how surprising the data are under an assumption &mdash; the assumption, called the null hypothesis, that there is no difference between the two versions. A small p-value means the observed difference would be unusual if the two versions were truly equal. That is all it says. It does not say how big the difference is, and it does not say whether the difference matters. A p-value is a statement about the data under an assumption, not about the truth of a claim (Episode 7).</p>
+<p class="leading-relaxed mb-4">A p-value says how surprising the data are under an assumption &mdash; the assumption, called the null hypothesis, that there is no difference between the two versions. A small p-value means the observed difference would be unusual if the two versions were truly equal. That is all it says. It does not say how big the difference is, and it does not say whether the difference matters. A p-value is a statement about the data under an assumption, not about the truth of a claim (<a class="underline hover:text-red" href="episode-07-what-does-p-mean.html">Episode 7</a>).</p>
 
 <p class="leading-relaxed mb-4">The reason a p-value cannot answer &ldquo;is it worth anything?&rdquo; is that it mixes two things together: the size of the difference and the size of the test set. A tiny difference measured on an enormous test set can produce a small p-value, and a large difference measured on a small test set can produce a large one. The two worked examples below are the same point from opposite directions.</p>
 
@@ -60,9 +60,9 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <p class="leading-relaxed mb-4">A 20-point gain is large enough to care about, and the interval excludes zero by a wide margin. But it is worth <em>further investigation</em> &mdash; not shipping. Three things are still missing, and none of them is a p-value:</p>
 
 <ul class="list-disc pl-6 mb-4 space-y-2">
-<li><strong>The uncertainty beside the effect.</strong> The interval runs from about 8 points to about 32 points. The true gain could be a quarter of the headline, or half as large again. A decision to ship needs a narrower interval, which needs more cases (Episode 9).</li>
-<li><strong>The consequential errors.</strong> A pass rate counts every item equally. If the 20-point gain comes from easy items while the new version newly fails on indemnity clauses &mdash; the items that cost the client &mdash; the headline is misleading. The confusion matrix (Episode 8) shows which errors moved, not just how many.</li>
-<li><strong>The intended-use conditions.</strong> Fifty items from one document type, one jurisdiction, one prompt version. The gain was measured under those conditions; shipping puts the build under all of them. The test set must resemble the work (Episode 3) before the gain can be trusted outside it.</li>
+<li><strong>The uncertainty beside the effect.</strong> The interval runs from about 8 points to about 32 points. The true gain could be a quarter of the headline, or half as large again. A decision to ship needs a narrower interval, which needs more cases (<a class="underline hover:text-red" href="episode-09-how-many-cases-do-you-need.html">Episode 9</a>).</li>
+<li><strong>The consequential errors.</strong> A pass rate counts every item equally. If the 20-point gain comes from easy items while the new version newly fails on indemnity clauses &mdash; the items that cost the client &mdash; the headline is misleading. The confusion matrix (<a class="underline hover:text-red" href="episode-08-what-did-the-tool-miss.html">Episode 8</a>) shows which errors moved, not just how many.</li>
+<li><strong>The intended-use conditions.</strong> Fifty items from one document type, one jurisdiction, one prompt version. The gain was measured under those conditions; shipping puts the build under all of them. The test set must resemble the work (<a class="underline hover:text-red" href="episode-03-how-do-you-build-a-test-set.html">Episode 3</a>) before the gain can be trusted outside it.</li>
 </ul>
 
 <p class="leading-relaxed mb-4">The contrast between the two examples is the episode in one paragraph. The 2-point gain on 2,000 cases is precisely measured and small. The 20-point gain on 50 cases is large and imprecisely measured. The p-value alone cannot tell them apart as decisions: one is significant and worthless, the other is significant and unfinished. What separates them is the size of the difference and the width of its interval.</p>
@@ -192,7 +192,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li>Ask for the raw point difference first, with its confidence interval. The p-value comes second.</li>
 <li>Compare the interval against the minimum important difference the department set before the test. If no margin was set, the report is incomplete.</li>
 <li>For a cheaper or newer build, ask whether the question is non-inferiority, and what margin was used &mdash; and whether the margin was set before the results were seen.</li>
-<li>Check the consequential errors, not just the headline rate (Episode 8), and the conditions the gain was measured under (Episode 3).</li>
+<li>Check the consequential errors, not just the headline rate (<a class="underline hover:text-red" href="episode-08-what-did-the-tool-miss.html">Episode 8</a>), and the conditions the gain was measured under (<a class="underline hover:text-red" href="episode-03-how-do-you-build-a-test-set.html">Episode 3</a>).</li>
 <li>Never read &ldquo;no significant difference&rdquo; as &ldquo;the builds are the same.&rdquo;</li>
 </ul>
 
@@ -204,7 +204,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">A p-value says how surprising the data are under an assumption. Effect size says &ldquo;big enough to care about.&rdquo; You need both &mdash; and the margin is yours to set, not the vendor&rsquo;s. A 2-point gain on 2,000 cases can be significant and worthless. A 20-point gain on 50 cases is worth further investigation, not shipping. And a cheaper build is worth switching to when its whole interval sits inside a margin the department chose in advance.</p>
 
-<p class="leading-relaxed mb-4">Next episode: the paired t-test. Build A averages 0.82, Build B 0.76. Is the gap real?</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-11-the-paired-t-test.html">Next episode</a>: the paired t-test. Build A averages 0.82, Build B 0.76. Is the gap real?</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 

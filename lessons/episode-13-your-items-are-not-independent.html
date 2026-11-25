@@ -37,7 +37,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Question: We Have 100 Questions. Do We Really?</h2>
 
-<p class="leading-relaxed mb-4">Every formula in this series so far &mdash; the Wilson interval in Episode 6, McNemar&rsquo;s test in Episode 12, the sample-size tables in Episode 9 &mdash; assumes the items are independent. Independent means each question is a fresh draw: knowing how the build did on one question tells you nothing about how it will do on the next.</p>
+<p class="leading-relaxed mb-4">Every formula in this series so far &mdash; the Wilson interval in <a class="underline hover:text-red" href="episode-06-how-sure-are-you.html">Episode 6</a>, McNemar&rsquo;s test in <a class="underline hover:text-red" href="episode-12-did-the-fix-help.html">Episode 12</a>, the sample-size tables in <a class="underline hover:text-red" href="episode-09-how-many-cases-do-you-need.html">Episode 9</a> &mdash; assumes the items are independent. Independent means each question is a fresh draw: knowing how the build did on one question tells you nothing about how it will do on the next.</p>
 
 <p class="leading-relaxed mb-4">In legal evals, that assumption rarely holds. Several questions from one document, several units from one case, several criteria from one matter &mdash; items from the same source move together. If the build misunderstands the case, it misses all of its questions. If it grasps the judgment, it gets most of them. The questions travel together, so they are not 100 separate pieces of evidence. They are 100 answers to ten underlying questions: did the build understand this case, or not?</p>
 
@@ -113,7 +113,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">The Real Example: LegalForecastBench</h2>
 
-<p class="leading-relaxed mb-4">LegalForecastBench is a benchmark that tests whether models can forecast US federal motion-to-dismiss rulings from the judge&rsquo;s written record. A motion to dismiss is a defendant&rsquo;s ask that the court throw a claim out before trial. One lawsuit can contain several claims against several defendants, so the benchmark scores each claim&ndash;defendant unit separately: one challenged claim against one defendant, or a group of similarly-situated defendants. The model is given the same written record the federal judge received, and predicts, for each unit, the probability that the claim will be dismissed in full. The benchmark covers 91 US federal cases, scored as 387 claim&ndash;defendant units. Its code is Apache 2.0 and its data is CC BY 4.0; the repository is the source for the design, the unit definition, and the counts used here.</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a> is a benchmark that tests whether models can forecast US federal motion-to-dismiss rulings from the judge&rsquo;s written record. A motion to dismiss is a defendant&rsquo;s ask that the court throw a claim out before trial. One lawsuit can contain several claims against several defendants, so the benchmark scores each claim&ndash;defendant unit separately: one challenged claim against one defendant, or a group of similarly-situated defendants. The model is given the same written record the federal judge received, and predicts, for each unit, the probability that the claim will be dismissed in full. The benchmark covers 91 US federal cases, scored as 387 claim&ndash;defendant units. Its code is Apache 2.0 and its data is CC BY 4.0; the repository is the source for the design, the unit definition, and the counts used here.</p>
 
 <p class="leading-relaxed mb-4">Mean cluster size: 387 / 91 &asymp; 4.25 units per case. Take &rho; = 0.3 as an illustration &mdash; this value is a teaching assumption, not a figure the benchmark reports:</p>
 
@@ -125,13 +125,13 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">There are two standard fixes, and both respect the cluster as the unit of evidence. The first is clustered standard errors: sum the residuals within each cluster before squaring, so the calculation sees ten clusters, not 100 questions. The second is the cluster bootstrap: resample whole clusters &mdash; whole cases or documents &mdash; with replacement, instead of individual items, and recompute the statistic on each resample.</p>
 
-<p class="leading-relaxed mb-4">The cluster bootstrap is the one to reach for when the metric has no closed-form interval, and it is the same discipline Episode 15 uses for the Fleiss &kappa; confidence interval: resample the question, not the item. Resampling individual items would treat echoes as fresh evidence and understate the uncertainty &mdash; the exact mistake the design effect exists to prevent.</p>
+<p class="leading-relaxed mb-4">The cluster bootstrap is the one to reach for when the metric has no closed-form interval, and it is the same discipline <a class="underline hover:text-red" href="episode-15-do-the-graders-agree.html">Episode 15</a> uses for the Fleiss &kappa; confidence interval: resample the question, not the item. Resampling individual items would treat echoes as fresh evidence and understate the uncertainty &mdash; the exact mistake the design effect exists to prevent.</p>
 
 <p class="leading-relaxed mb-4">Either fix changes the width of your intervals, not the score itself. The build still got what it got. What changes is how much you claim to know about it.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Stratified Resampling: Keeping the Mix</h2>
 
-<p class="leading-relaxed mb-4">When clusters are resampled, the mix of cluster types should be preserved. A test set with five NDAs and five MSAs should not come back from a bootstrap with nine MSAs and one NDA, because the mix changes the score (Episode 1 showed the headline depends on the mix). Stratified resampling draws clusters separately within each stratum &mdash; within NDAs, within MSAs, within each case type &mdash; so every resample keeps the document-type or case-type mix of the original set. The strata are the legally meaningful subgroups: document type, case type, jurisdiction. The resampling respects both the clustering and the mix.</p>
+<p class="leading-relaxed mb-4">When clusters are resampled, the mix of cluster types should be preserved. A test set with five NDAs and five MSAs should not come back from a bootstrap with nine MSAs and one NDA, because the mix changes the score (<a class="underline hover:text-red" href="episode-01-what-a-number-means.html">Episode 1</a> showed the headline depends on the mix). Stratified resampling draws clusters separately within each stratum &mdash; within NDAs, within MSAs, within each case type &mdash; so every resample keeps the document-type or case-type mix of the original set. The strata are the legally meaningful subgroups: document type, case type, jurisdiction. The resampling respects both the clustering and the mix.</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">What This Changes When You Build a Test Set</h2>
 
@@ -181,7 +181,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">Questions from the same document travel together. Count documents, not just questions &mdash; and count runs, not just items. The design effect, 1 + (m &minus; 1)&rho;, turns a headline n into the effective n &mdash; and the effective n is the number every interval and test in this series actually runs on. Report the clustering alongside the score, and use the cluster bootstrap when the metric needs resampling.</p>
 
-<p class="leading-relaxed mb-4">Next episode: scoring probabilities. The model says 90% confident &mdash; is it right 90% of the time?</p>
+<p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-14-scoring-probabilities.html">Next episode</a>: scoring probabilities. The model says 90% confident &mdash; is it right 90% of the time?</p>
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Sources &amp; references</h2>
 
