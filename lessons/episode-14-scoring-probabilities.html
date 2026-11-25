@@ -130,7 +130,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <td class="py-2">Knows the base rate, nothing else</td>
 </tr>
 <tr class="border-b border-rule">
-<td class="py-2 pr-4">Best model on LegalForecastBench</td>
+<td class="py-2 pr-4">Best model on <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a></td>
 <td class="py-2 pr-4">0.118</td>
 <td class="py-2">Best on the benchmark, 387 units</td>
 </tr>
@@ -196,7 +196,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <p class="leading-relaxed mb-4">There is a one-line check any lawyer can run on any eval in five minutes: take only the predictions where the model said it was at least 90% sure, and ask how often it was right. Suppose 20 predictions at 90% or above, mean confidence 0.94, 17 correct: accuracy 0.85. Gap: 9 points of overconfidence.</p>
 
-<p class="leading-relaxed mb-4">The real numbers from LegalForecastBench show how wide that gap can run. Fable (Claude Fable 5.1) was 81 out of 81 at 90% or above &mdash; perfect in the bucket. If all 81 predictions were exactly 90% sure, about 81 &times; 0.90 = 72.9 would be correct. The bucket&rsquo;s mean stated confidence was 92.9%, which implies about 75 correct (an approximate expectation, not a guarantee). Fable produced 81. Gemini (Gemini 3.1 Pro Preview) was wrong 57 times out of 320 &mdash; 263 right out of 320, about 82% accurate at 90% stated confidence, an 8-point gap at the confidence level where a lawyer is most likely to stop checking. If all 320 predictions were exactly 90% sure, about 288 would be correct; at the bucket&rsquo;s mean stated confidence of 95.4%, about 305. Gemini produced 263, which is 25 short of the 90% figure and about 42 short of the 95.4% figure.</p>
+<p class="leading-relaxed mb-4">The real numbers from <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a> show how wide that gap can run. Fable (Claude Fable 5.1) was 81 out of 81 at 90% or above &mdash; perfect in the bucket. If all 81 predictions were exactly 90% sure, about 81 &times; 0.90 = 72.9 would be correct. The bucket&rsquo;s mean stated confidence was 92.9%, which implies about 75 correct (an approximate expectation, not a guarantee). Fable produced 81. Gemini (Gemini 3.1 Pro Preview) was wrong 57 times out of 320 &mdash; 263 right out of 320, about 82% accurate at 90% stated confidence, an 8-point gap at the confidence level where a lawyer is most likely to stop checking. If all 320 predictions were exactly 90% sure, about 288 would be correct; at the bucket&rsquo;s mean stated confidence of 95.4%, about 305. Gemini produced 263, which is 25 short of the 90% figure and about 42 short of the 95.4% figure.</p>
 
 <p class="leading-relaxed mb-4">One warning: small buckets lie. With only 5 predictions at 90% or above, one miss moves the bucket by 20 points. The bucket check is a spotlight, not a verdict &mdash; it shows you where to look, and the Brier score and ECE say how much it matters across the whole eval.</p>
 
@@ -261,7 +261,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Conclusion</h2>
 
-<p class="leading-relaxed mb-4">Accuracy says how often it is right. Calibration says whether its confidence means anything. Check both &mdash; and check whether it separates, too. The Brier score grades the probabilities &mdash; 0.25 is know-nothing, 0.194 is the base rate, 0.118 is the best model on LegalForecastBench &mdash; and the 90% bucket check takes five minutes on any eval: of the times your build said it was at least 90% sure, how often was it right?</p>
+<p class="leading-relaxed mb-4">Accuracy says how often it is right. Calibration says whether its confidence means anything. Check both &mdash; and check whether it separates, too. The Brier score grades the probabilities &mdash; 0.25 is know-nothing, 0.194 is the base rate, 0.118 is the best model on <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a> &mdash; and the 90% bucket check takes five minutes on any eval: of the times your build said it was at least 90% sure, how often was it right?</p>
 
 <p class="leading-relaxed mb-4"><a class="underline hover:text-red" href="episode-15-do-the-graders-agree.html">Next episode</a>: do the graders agree? Two partners graded the same outputs &mdash; and 80% raw agreement can mean a kappa of 0.375.</p>
 
@@ -273,7 +273,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li>Murphy, A. H. (1973), <a class="underline hover:text-red" href="https://doi.org/10.1175/1520-0450(1973)012%3C0595:ANVPOT%3E2.0.CO;2">&ldquo;A New Vector Partition of the Probability Score,&rdquo;</a> <em>Journal of Applied Meteorology</em> 12(4), 595&ndash;600 &mdash; the Murphy decomposition of the Brier score into reliability, resolution, and uncertainty.</li>
 <li>Fawcett, T. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1016/j.patrec.2005.10.010">&ldquo;An Introduction to ROC Analysis,&rdquo;</a> <em>Pattern Recognition Letters</em> 27(8), 861&ndash;874 &mdash; ROC curves and AUC.</li>
 <li>Davis, J. &amp; Goadrich, M. (2006), <a class="underline hover:text-red" href="https://doi.org/10.1145/1143844.1143874">&ldquo;The Relationship Between Precision-Recall and ROC Curves,&rdquo;</a> <em>Proceedings of ICML 2006</em> &mdash; precision&ndash;recall curves and their baseline.</li>
-<li>LegalForecastBench &mdash; code Apache 2.0, data CC BY 4.0. Dismissal base rate 73.6%, 387 scored units, best-model micro-Brier 0.118, and the 90% bucket figures for Fable and Gemini. Repository: <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">https://github.com/johnhughes3/LegalForecastBench</a></li>
+<li><a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">LegalForecastBench</a> &mdash; code Apache 2.0, data CC BY 4.0. Dismissal base rate 73.6%, 387 scored units, best-model micro-Brier 0.118, and the 90% bucket figures for Fable and Gemini. Repository: <a class="underline hover:text-red" href="https://github.com/johnhughes3/LegalForecastBench">https://github.com/johnhughes3/LegalForecastBench</a></li>
 </ol>
 
     </main>

@@ -241,7 +241,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 
 <h2 class="text-2xl font-bold mt-10 mb-4">Picking a Judge Panel by Kappa</h2>
 
-<p class="leading-relaxed mb-4">Kappa is not only a check on humans. It is how you pick an AI judge. An LLM judge shares the first model&rsquo;s blind spots and will bless its mistakes, so a single unvalidated judge is a rumour with a confidence interval. SG-LegalClarify did it properly: it enumerated all 969 possible three-judge panels and ranked them by Cohen&rsquo;s kappa against the human reference.</p>
+<p class="leading-relaxed mb-4">Kappa is not only a check on humans. It is how you pick an AI judge. An LLM judge shares the first model&rsquo;s blind spots and will bless its mistakes, so a single unvalidated judge is a rumour with a confidence interval. <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">SG-LegalClarify</a> did it properly: it enumerated all 969 possible three-judge panels and ranked them by Cohen&rsquo;s kappa against the human reference.</p>
 
 <p class="leading-relaxed mb-4">The best panel &mdash; DeepSeek-V4 Flash, GPT-5.6 Sol, Kimi K3 &mdash; scored &kappa; = 0.697 with 84.8% agreement. Then came the check that matters: grouped five-fold cross-validation gave held-out &kappa; = 0.690 &mdash; barely lower, which is the point. The panel was not overfit to the reference. Single-judge selection scored &kappa; = 0.678 held-out. Three judges beat one, and the held-out check proves it.</p>
 
@@ -277,7 +277,7 @@ tailwind.config = {theme:{extend:{colors:{ink:'#1a1a1a','ink-light':'#4a4a4a','i
 <li>Landis, J. R. &amp; Koch, G. G. (1977), <a class="underline hover:text-red" href="https://doi.org/10.2307/2529310">&ldquo;The Measurement of Observer Agreement for Categorical Data,&rdquo;</a> <em>Biometrics</em> 33(1), 159&ndash;174 &mdash; the &kappa; interpretation scale used in this episode.</li>
 <li>Krippendorff, K. (2018), <em><a class="underline hover:text-red" href="https://www.sagepub.com/shop/buy-a-book/content-analysis-4-258450">Content Analysis: An Introduction to Its Methodology</a></em>, 4th ed. &mdash; Krippendorff&rsquo;s &alpha;, its difference functions, and its reliability conventions.</li>
 <li>Shrout, P. E. &amp; Fleiss, J. L. (1979), <a class="underline hover:text-red" href="https://doi.org/10.1037/0033-2909.86.2.420">&ldquo;Intraclass Correlations: Uses in Assessing Rater Reliability,&rdquo;</a> <em>Psychological Bulletin</em> 86(2), 420&ndash;428 &mdash; the ICC forms, including ICC(1,1).</li>
-<li>SG-LegalClarify &mdash; Gu et al., <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">arXiv:2611.19643</a>. 80.4% human agreement, Fleiss &kappa; 0.607 (95% CI 0.569&ndash;0.643), and the three-judge panel at &kappa; 0.697, held-out 0.690. Findings discussed; questions not reproduced.</li>
+<li><a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">SG-LegalClarify</a> &mdash; Gu et al., <a class="underline hover:text-red" href="https://arxiv.org/abs/2611.19643">arXiv:2611.19643</a>. 80.4% human agreement, Fleiss &kappa; 0.607 (95% CI 0.569&ndash;0.643), and the three-judge panel at &kappa; 0.697, held-out 0.690. Findings discussed; questions not reproduced.</li>
 </ol>
 
     </main>
